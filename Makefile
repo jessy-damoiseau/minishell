@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pgueugno <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/21 14:58:12 by pgueugno          #+#    #+#              #
-#    Updated: 2021/06/08 16:32:06 by pgueugno         ###   ########.fr        #
+#    Updated: 2021/06/14 18:06:08 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,6 +133,11 @@ fclean: clean
 
 re:	fclean all
 
+
+#TEMP A SUPPRIMER ENSUITE
+rej: fclean vj
+
+rep: fclean vp
 .SILENT:
 		all
 .PHONY: all clean fclean re bonus
