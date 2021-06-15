@@ -5,5 +5,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <readline/readline.h>
 
 #endif
