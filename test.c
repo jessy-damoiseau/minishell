@@ -3,6 +3,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+int	go_malloc(char **str, int len)
+{
+	(*str) = malloc(len);
+	if (!str)
+		return (1);
+	return (0);
+}
+
+
 void	get_path2(char **path, char *buff, char *color, int i)
 {
 	int	k;
@@ -39,13 +48,13 @@ void	get_path(char **path, char *buff, char *color)
 		i++;
 	}
 	i--;
-	if (!((*path) = malloc(sizeof(char) * (strlen(buff) - i + 5
-		+ strlen(color)))))
+	if (go_malloc(path,
+			(sizeof(char) * (strlen(buff) - i + 5 + strlen(color)))))
 		return ;
 	get_path2(path, buff, color, i);
 }
 
-int	main()
+int	main(void)
 {
 	char	*buff;
 	char	*line;
@@ -53,22 +62,23 @@ int	main()
 	int		i;
 
 	buff = 0;
-    while (1)
+	while (1)
 	{
 		i = 13;
 		while (!buff)
+			buff = getcwd(buff, i++);
+		get_path(&path, buff, "\033[1;35m|\033[0m");
+		line = readline(path);
+		if (!line)
 		{
-			buff = malloc(sizeof(char) * i + 1);
-			if (!(buff = getcwd(buff, i)))
-				free(buff);
-			i++;
+			printf("\n");
+			break ;
 		}
-		get_path(&path, buff, "\033[1;31m|\033[0m");
-    	if (!(line = readline(path)))
-			break;
 		printf("%s\n", line);
 		free(line);
 		free(buff);
 		buff = 0;
 	}
+	free(buff);
+	return (0);
 }
