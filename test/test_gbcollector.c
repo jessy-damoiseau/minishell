@@ -74,7 +74,7 @@ void	lstclear(t_lst **lst)
 
 void	clearmaillon(t_gbc *lst)
 {
-	if (lst->type == FD)
+	if (lst->type == FD && lst->fd > 0)
 		close(lst->fd);
 	else if (lst->type == STR)
 		free(lst->str);
