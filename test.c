@@ -37,7 +37,7 @@ void	get_path(char **path, char *buff, char *color)
 {
 	int	i;
 	int	nb_bslash;
-	int	j;
+	//int	j;
 
 	i = 0;
 	nb_bslash = 0;
