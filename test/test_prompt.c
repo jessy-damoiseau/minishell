@@ -21,7 +21,6 @@ void	get_path2(char **path, char *buff, char *color, int i)
 	j = 0;
 	while (color[k] != '|')
 		(*path)[j++] = color[k++];
-	(*path)[j++] = '~';
 	while (buff[i])
 		(*path)[j++] = buff[i++];
 	(*path)[j++] = ' ';
@@ -37,19 +36,16 @@ void	get_path(char **path, char *buff, char *color)
 {
 	int	i;
 	int	nb_bslash;
-	//int	j;
 
 	i = 0;
 	nb_bslash = 0;
-	while (buff[i] && nb_bslash < 3)
-	{
-		if (buff[i] == '/')
-			nb_bslash++;
+	while (buff[i])
 		i++;
-	}
-	i--;
+	while (i > 0 && buff[i]!= '/')
+		i--;
+	i++;
 	if (go_malloc(path,
-			(sizeof(char) * (strlen(buff) - i + 5 + strlen(color)))))
+			(sizeof(char) * (strlen(buff) - i + 4 + strlen(color)))))
 		return ;
 	get_path2(path, buff, color, i);
 }
