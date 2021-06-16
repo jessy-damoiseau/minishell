@@ -146,6 +146,7 @@ int main(int ac, char **av)
         tmp = tmp->next;
     }
     gbcclear_one(&lst, 6, 7);
+	//gbcclear(&lst);
 	printf("\nclear done\n\n");
 	printf("------------\n");
     tmp = lst;
