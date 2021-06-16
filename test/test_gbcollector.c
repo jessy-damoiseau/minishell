@@ -95,6 +95,7 @@ void	gbcclear(t_gbc **alst)
 		*alst = (*alst)->next;
 		clearmaillon(tmp);
 	}
+	*alst = 0;
 }
 
 void gbcclear_one(t_gbc **alst, int maillon, int size)
@@ -155,5 +156,6 @@ int main(int ac, char **av)
         printf("type: |%d|\nfd:   |%d|\nstr:  |%s|\n------------\n", tmp->type, tmp->fd, tmp->str);
         tmp = tmp->next;
     }
+	gbcclear(&lst);
     return (0);
 }
