@@ -67,7 +67,7 @@ int	main(void)
 		line = readline(path);
 		if (!line)
 		{
-			printf("\n");
+			// printf("\n");
 			break ;
 		}
 		printf("%s\n", line);
