@@ -1,16 +1,4 @@
-#include <stdio.h>
-#include <readline/readline.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-int	go_malloc(char **str, int len)
-{
-	(*str) = malloc(len);
-	if (!str)
-		return (1);
-	return (0);
-}
-
+#include "utils/test.h"
 
 void	get_path2(char **path, char *buff, char *color, int i)
 {
@@ -35,10 +23,8 @@ void	get_path2(char **path, char *buff, char *color, int i)
 void	get_path(char **path, char *buff, char *color)
 {
 	int	i;
-	int	nb_bslash;
 
 	i = 0;
-	nb_bslash = 0;
 	while (buff[i])
 		i++;
 	while (i > 0 && buff[i]!= '/')
@@ -50,8 +36,9 @@ void	get_path(char **path, char *buff, char *color)
 	get_path2(path, buff, color, i);
 }
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
+	(void)ac, (void)av;
 	char	*buff;
 	char	*line;
 	char	*path;
@@ -70,7 +57,9 @@ int	main(void)
 			printf("\n");
 			break ;
 		}
-		printf("%s\n", line);
+		if (check_command(line, env))
+			printf("%s\n", line);
+		add_history(line);
 		free(line);
 		free(buff);
 		buff = 0;
