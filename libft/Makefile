@@ -40,7 +40,8 @@ SRCS		=	ft_atoi.c ft_lst_append.c ft_lstsize.c ft_putchar_fd.c\
 				ft_memmove.c ft_putstr_fd.c ft_strncmp.c ft_isdigit.c\
 				ft_lstlast.c ft_memset.c ft_split.c ft_strnstr.c ft_isprint.c\
 				ft_lstmap.c ft_numlen.c ft_strchr.c ft_strrchr.c ft_itoa.c\
-				ft_lstnew.c ft_putchar.c ft_strdup.c ft_strstr.c ft_atol.c
+				ft_lstnew.c ft_putchar.c ft_strdup.c ft_strstr.c ft_atol.c\
+				ft_memdel.c ft_strncpy.c
 
 ###############################################################################
 #							Commands and arguments						      #

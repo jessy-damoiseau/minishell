@@ -36,11 +36,11 @@ LIB_LIBFT_DIR	= $(LIBS_DIR)/libft.a
 #                               Sources filenames                              #
 ################################################################################
 
-SRCS_MINISHELL		=	main.c
+SRCS_MINISHELL		=	#main.c
 
 #TEMP A SUPPRIMER ENSUITE
 SRCS_J	=	main.c
-SRCS_P	=	main.c
+SRCS_P	=	main.c prompt.c tokenize.c utils.c exit.c
 
 ################################################################################
 #                              Commands and arguments                          #
@@ -97,7 +97,7 @@ jessy:
 		fi
 
 pierre:
-		if test -f $(NAME_SWAP);\
+		if test -f $(NAME_P);\
 		then echo "$(_CYAN)[vp program already created]";\
 		else echo "$(_YELLOW)[Initialize vp program]";\
 		fi

@@ -77,6 +77,7 @@ void				ft_putnbr(long int n);
 void				ft_putstr(char *s);
 int					ft_numlen(int n);
 char				*ft_strstr(char *haystack, char *needle);
+void				ft_memdel(void *content);
 t_list				*ft_lst_append(t_list *list, void *content);
 
 #endif
