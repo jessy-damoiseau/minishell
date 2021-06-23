@@ -36,11 +36,11 @@ LIB_LIBFT_DIR	= $(LIBS_DIR)/libft.a
 #                               Sources filenames                              #
 ################################################################################
 
-SRCS_MINISHELL		=	main.c
+SRCS_MINISHELL		=	#main.c
 
 #TEMP A SUPPRIMER ENSUITE
 SRCS_J	=	main.c
-SRCS_P	=	main.c
+SRCS_P	=	main.c prompt.c tokenize.c utils.c exit.c
 
 ################################################################################
 #                              Commands and arguments                          #
@@ -73,7 +73,8 @@ OBJS_P	=	$(addprefix $(OBJS_DIR)/, $(SRCS_P:.c=.o))
 all:	install_pkg init_libft init_m $(NAME_MINISHELL)
 
 install_pkg:
-			if dpkg -s libreadline-dev | grep -oq installed;\
+			#if dpkg -s libreadline-dev | grep -oq installed; # A corriger ne marche pas avec VM vierge
+			if dpkg --get-selections | grep -oq libreadline-dev;\
 			then echo "$(_CYAN)[readline function dependancies already installed]";\
 			else @ echo "user42" | sudo -S apt install libreadline-dev;\
 				echo "$(_YELLOW)[Installing readline function dependancies]";\
@@ -96,7 +97,7 @@ jessy:
 		fi
 
 pierre:
-		if test -f $(NAME_SWAP);\
+		if test -f $(NAME_P);\
 		then echo "$(_CYAN)[vp program already created]";\
 		else echo "$(_YELLOW)[Initialize vp program]";\
 		fi

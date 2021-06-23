@@ -1,6 +1,6 @@
-#include "utils/test.h"
+#include "minishell.h"
 
-void	get_path2(char **path, char *buff, char *color, int i)
+static void	ft_get_path2(char **path, char *buff, char *color, int i)
 {
 	int	k;
 	int	j;
@@ -20,7 +20,7 @@ void	get_path2(char **path, char *buff, char *color, int i)
 	(*path)[j] = '\0';
 }
 
-void	get_path(char **path, char *buff, char *color)
+static int	ft_get_path(char **path, char *buff, char *color)
 {
 	int	i;
 
@@ -30,40 +30,32 @@ void	get_path(char **path, char *buff, char *color)
 	while (i > 0 && buff[i]!= '/')
 		i--;
 	i++;
-	if (go_malloc(path,
+	if (ft_go_malloc(path,
 			(sizeof(char) * (strlen(buff) - i + 4 + strlen(color)))))
-		return ;
-	get_path2(path, buff, color, i);
+		return (0);
+	ft_get_path2(path, buff, color, i);
+	return (1);
 }
 
-int	main(int ac, char **av, char **env)
+void    ft_prompt(t_info *info)
 {
-	(void)ac, (void)av;
 	char	*buff;
 	char	*line;
 	char	*path;
 	int		i;
 
-	buff = 0;
+	buff = NULL;
 	while (1)
 	{
 		i = 13;
 		while (!buff)
 			buff = getcwd(buff, i++);
-		get_path(&path, buff, "\033[1;35m|\033[0m");
+		if (!ft_get_path(&path, buff, "\033[1;35m|\033[0m"))
+			ft_exit(info, err_malloc);
 		line = readline(path);
-		if (!line)
-		{
-			// printf("\n");
-			break ;
-		}
-		if (check_command(line, env))
-			printf("%s\n", line);
-		add_history(line);
-		free(line);
+		ft_create_token(line, info);
 		free(buff);
-		buff = 0;
+		buff = NULL;
 	}
-	free(buff);
-	return (0);
+	return ;
 }

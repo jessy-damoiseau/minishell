@@ -16,6 +16,8 @@ t_list	*ft_lst_append(t_list *list, void *content)
 {
 	t_list	**plist;
 
+	if (!list || !content)
+		return (NULL);
 	plist = &list;
 	while (*plist)
 		plist = &(*plist)->next;

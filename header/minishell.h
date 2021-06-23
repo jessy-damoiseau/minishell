@@ -6,5 +6,25 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <readline/readline.h>
+# include "libft.h"
+# include "struct.h"
+
+# define STR 0
+# define FD 1
+# define LST 2
+# define GBC 3
+
+/* UTILS */
+int	ft_go_malloc(char **str, int len);
+
+/* TOKENIZE */
+t_token_type	ft_define_token(char charset);
+void	ft_create_token(char *s, t_info *info);
+t_token	*ft_malloc_token(char *input, t_token_type type, int i, int j);
+void    ft_prompt(t_info *info);
+
+/* EXIT */
+void	ft_clear_token(t_list **lst, void (*del)(void *));
+void    ft_exit(t_info *info, t_err_code err_code);
 
 #endif
