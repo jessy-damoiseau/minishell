@@ -39,23 +39,32 @@ static int	ft_get_path(char **path, char *buff, char *color)
 
 void    ft_prompt(t_info *info)
 {
-	char	*buff;
 	char	*line;
 	char	*path;
 	int		i;
 
-	buff = NULL;
 	while (1)
 	{
 		i = 13;
-		while (!buff)
-			buff = getcwd(buff, i++);
-		if (!ft_get_path(&path, buff, "\033[1;35m|\033[0m"))
+		while (!info->pwd)
+			info->pwd = getcwd(info->pwd, i++);
+		if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
 			ft_exit(info, err_malloc);
 		line = readline(path);
+		add_history(line);
 		ft_create_token(line, info);
-		free(buff);
-		buff = NULL;
+		//t_list *tmp;
+		//tmp = info->cmd;
+		//while (tmp)
+		//{
+			//t_token *testtok;
+			//testtok = tmp->content;
+			//printf("value : |%s|, type: |%d|\n", (char *)testtok->value, testtok->type);
+		//	tmp = tmp->next;
+		//}
+		exec_command(info);
+		free(info->pwd);
+		info->pwd = 0;
 	}
 	return ;
 }
