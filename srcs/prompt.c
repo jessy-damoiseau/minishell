@@ -51,7 +51,13 @@ void    ft_prompt(t_info *info)
 		if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
 			ft_exit(info, err_malloc);
 		line = readline(path);
+		free(path);
 		add_history(line);
+		if (!line)
+		{
+			printf("\n");
+			return ;
+		}
 		ft_create_token(line, info);
 		//t_list *tmp;
 		//tmp = info->cmd;

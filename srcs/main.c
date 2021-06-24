@@ -21,6 +21,8 @@ void	init_struct(t_info *info, char **envp)
 {
 	info->pwd = 0;
 	info->gbc = 0;
+	info->path = 0;
+	info->cmd = 0;
 	info->evrm = dbl_chardup(envp);
 }
 

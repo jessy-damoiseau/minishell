@@ -39,6 +39,7 @@ typedef struct  s_info
 {
 	t_list  *env;
 	t_list  *cmd;
+	t_list	*path; 
 	t_gbc	*gbc;
 	char	**evrm;
 	char	*pwd;
