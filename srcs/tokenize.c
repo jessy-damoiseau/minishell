@@ -62,13 +62,38 @@ t_token	*ft_malloc_token(char *input, t_token_type type, int i, int j)
 	return (token);
 }
 
+int	ft_is_it_double_redir(char *s, int i)
+{
+	if ((unsigned int)i < strlen(s))
+	{
+		if (s[i] == s[i + 1])
+		{
+			if (ft_define_token(s[i]) == redir_left)
+				return (dble_redir_left);
+			if (ft_define_token(s[i]) == redir_right)
+				return (dble_redir_right);
+		}
+	}
+	return (0);
+}
+
 t_token	*ft_find_token(char *s, int *i)
 {
 	t_token *token;
 	int j;
 
 	if (literal != ft_define_token(s[*i]))
-		token = ft_malloc_token(s + *i, ft_define_token(s[*i]), *i, 0);
+	{
+		j = *i;
+		if (ft_is_it_double_redir(s, *i))
+		{
+			token = ft_malloc_token(s + *i, 
+				ft_is_it_double_redir(s, *i), *i, j + 1);
+			(*i)++;
+		}
+		else
+			token = ft_malloc_token(s + *i, ft_define_token(s[*i]), *i, 0);
+	}
 	else
 	{
 		j = *i;

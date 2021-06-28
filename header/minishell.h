@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <signal.h>
 # include "libft.h"
 # include "struct.h"

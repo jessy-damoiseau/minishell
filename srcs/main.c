@@ -8,6 +8,7 @@ static void    ft_get_env(t_info *info, char **envp)
 
     i = 0;
     info->env = NULL;
+    info->cmd = NULL; // sauf si on cree fonction init ailleurs autant le faire ici
     while(envp[i])
     {
         str = ft_strdup(envp[i]);
