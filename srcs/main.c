@@ -23,6 +23,7 @@ int main(int ac, char **av, char **envp)
 
     (void)ac;
     (void)av;
+	// signal(SIGINT, ft_sighandler); // gestion ctrl C - ne fonctionne pas encore
     ft_get_env(&info, envp);
     ft_prompt(&info);
     ft_exit(&info, no_err);

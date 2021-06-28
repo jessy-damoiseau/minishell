@@ -98,15 +98,15 @@ void	ft_create_token(char *s, t_info *info)
 		i++;
 	}
 	// @Jessy si tu veux tester l'output
-	// t_list *test;
-	// test = info->cmd;
-	// t_token *testtok;
-	// while (test)
-	// {
-	// 	testtok = test->content;
-	// 	printf("check token.value %s\n", (char *)testtok->value);
-	// 	test = test->next;
-	// }
+	t_list *test;
+	test = info->cmd;
+	t_token *testtok;
+	while (test)
+	{
+		testtok = test->content;
+		printf("check token.value %s\n", (char *)testtok->value);
+		test = test->next;
+	}
 	// ft_exit(info, no_err);
 	return ;
 }

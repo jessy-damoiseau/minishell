@@ -7,15 +7,17 @@ void	ft_clear_token(t_list **lst, void (*del)(void *))
 
 	tmp = NULL;
 	token = NULL;
-
-	while (*lst)
+	if (*lst)
 	{
-		tmp = *lst;
-		token = tmp->content;
-		*lst = (*lst)->next;
-		del(token->value);
-		del(tmp->content);
-		free(tmp);
+		while (*lst)
+		{
+			tmp = *lst;
+			token = tmp->content;
+			*lst = (*lst)->next;
+			del(token->value);
+			del(tmp->content);
+			free(tmp);
+		}
 	}
 	*lst = NULL;
 }

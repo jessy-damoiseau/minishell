@@ -37,6 +37,33 @@ static int	ft_get_path(char **path, char *buff, char *color)
 	return (1);
 }
 
+int	ft_intercept_signal(char *line, char *buff, t_info *info)
+{
+	int i;
+
+	i = 0;
+	(void)info;
+	while (line[i])
+	{
+		if (line[0] == EOF && line[1] == 0)
+		{
+			free(line);
+			free(buff);
+			// ft_exit(info, no_err);
+		}
+		if (line[i] == 3)
+			return (0);
+	}
+	return (1);
+}
+
+void	ft_sighandler(int signum)
+{
+	if (signum == SIGINT)
+		printf("check\n");
+	return ;
+}
+
 void    ft_prompt(t_info *info)
 {
 	char	*buff;

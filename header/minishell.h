@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include "libft.h"
 # include "struct.h"
 
@@ -21,7 +22,10 @@ int	ft_go_malloc(char **str, int len);
 t_token_type	ft_define_token(char charset);
 void	ft_create_token(char *s, t_info *info);
 t_token	*ft_malloc_token(char *input, t_token_type type, int i, int j);
+
+/* PROMPT */
 void    ft_prompt(t_info *info);
+void    ft_sighandler(int signum);
 
 /* EXIT */
 void	ft_clear_token(t_list **lst, void (*del)(void *));
