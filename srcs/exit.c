@@ -1,18 +1,20 @@
 #include "minishell.h"
 
-void	ft_clear_token(t_list **lst, void (*del)(void *))
+void	ft_clear_token(t_dlist **lst, void (*del)(void *))
 {
-	t_list	*tmp;
+	t_dlist	*tmp;
 	t_token	*token;
 
 	tmp = NULL;
 	token = NULL;
+	// printf("check 2\n");
 	if (*lst)
 	{
 		while (*lst)
 		{
 			tmp = *lst;
 			token = tmp->content;
+			// printf("%s\n", (char *)token->value);
 			*lst = (*lst)->next;
 			del(token->value);
 			del(tmp->content);

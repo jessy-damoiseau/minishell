@@ -37,11 +37,12 @@ static int	ft_get_path(char **path, char *buff, char *color)
 	return (1);
 }
 
-int	ft_eof_signal(char *line, char *buff, t_info *info)
+int	catch_eof_signal(char *line, char *buff, char *path, t_info *info)
 {
 	(void)info;
 	if (!line)
 	{
+		free(path);
 		free(line);
 		free(buff);
 		ft_exit(info, no_err);
@@ -49,12 +50,12 @@ int	ft_eof_signal(char *line, char *buff, t_info *info)
 	return (1);
 }
 
-void	ft_sighandler(int signum)
-{
-	if (signum == SIGINT)
-		printf("check\n");
-	return ;
-}
+// void	ft_sighandler(int signum)
+// {
+// 	if (signum == SIGINT)
+// 		printf("check\n");
+// 	return ;
+// }
 
 void    ft_prompt(t_info *info)
 {
@@ -72,11 +73,12 @@ void    ft_prompt(t_info *info)
 		if (!ft_get_path(&path, buff, "\033[1;35m|\033[0m"))
 			ft_exit(info, err_malloc);
 		line = readline(path);
-		ft_eof_signal(line, buff, info);
+		catch_eof_signal(line, buff, path, info);
 		// add_history(line); // cree des leaks - non traite pour le moment
 		ft_create_token(line, info);
 		free(line);
 		free(buff);
+		free(path);
 		buff = NULL;
 	}
 	return ;

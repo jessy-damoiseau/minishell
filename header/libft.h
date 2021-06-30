@@ -22,6 +22,13 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct	s_dlist
+{
+	void			*content;
+	struct s_dlist	*next;
+	struct s_dlist	*prev;
+}				t_dlist;
+
 size_t				ft_strlen(const char *s);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
@@ -79,5 +86,15 @@ int					ft_numlen(int n);
 char				*ft_strstr(char *haystack, char *needle);
 void				ft_memdel(void *content);
 t_list				*ft_lst_append(t_list *list, void *content);
+t_dlist				*dlst_end(t_dlist *list);
+t_dlist				*dlstnew(void *content);
+void				dlstadd_back(t_dlist **alst, t_dlist *new);
+void				dlstadd_front(t_dlist **alst, t_dlist *new);
+void				dlstclear(t_dlist **lst, void (*del)(void *));
+void				dlstdelone(t_dlist *lst, void (*del)(void *));
+int					dlstsize(t_dlist *lst);
+t_dlist				*dlstfind_node(t_dlist *list, void *content);
+void				dlst_insert_node(t_dlist **alst, t_dlist *pos,
+						t_dlist *new);
 
 #endif

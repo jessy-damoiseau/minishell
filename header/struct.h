@@ -38,7 +38,7 @@ typedef struct	s_token
 typedef struct  s_info
 {
 	t_list  *env;
-	t_list  *cmd;
+	t_dlist  *cmd;
 }               t_info;
 
 #endif

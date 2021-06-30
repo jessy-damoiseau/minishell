@@ -109,7 +109,7 @@ void	ft_create_token(char *s, t_info *info)
 {
 	int		i;
 	t_token	*token;
-	t_list	*new;
+	t_dlist	*new;
 
 	i = 0;
 	info->cmd = NULL;
@@ -118,12 +118,12 @@ void	ft_create_token(char *s, t_info *info)
 		token = ft_find_token(s, &i);
 		if (!token)
 			ft_exit(info, err_malloc);
-		new = ft_lstnew(token);
-		ft_lstadd_back(&info->cmd, new);
+		new = dlstnew(token);
+		dlstadd_back(&info->cmd, new);
 		i++;
 	}
 	// @Jessy si tu veux tester l'output
-	t_list *test;
+	t_dlist *test;
 	test = info->cmd;
 	t_token *testtok;
 	while (test)
@@ -133,5 +133,6 @@ void	ft_create_token(char *s, t_info *info)
 		test = test->next;
 	}
 	// ft_exit(info, no_err);
+	ft_clear_token(&info->cmd, &ft_memdel); // @Jessy -> attention a bien clean apres chaque exec sinon leak ac ptr perdu
 	return ;
 }
