@@ -38,20 +38,17 @@ typedef struct	s_token
 typedef struct  s_info
 {
 	t_list  *env;
-<<<<<<< HEAD
 	t_dlist  *cmd;
 	t_list  *cmd;
 	t_list	*path; 
 	t_gbc	*gbc;
 	char	**evrm;
 	char	*pwd;
-=======
 	t_list  *cmd;
 	t_list	*path; 
 	t_gbc	*gbc;
 	char	**evrm;
 	char	*pwd;
->>>>>>> execve
 }               t_info;
 
 #endif

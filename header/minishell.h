@@ -32,7 +32,6 @@ char	*strpthjoin(char *s1, char *s2);
 
 /* TOKENIZE */
 t_token_type	ft_define_token(char charset);
-<<<<<<< HEAD
 void	ft_create_token(char *s, t_info *info);
 t_token	*ft_malloc_token(char *input, t_token_type type, int i, int j);
 
@@ -65,7 +64,6 @@ void	exec_command(t_info *info);
 
 /* BUILTINS */
 void    pwd(char *str, int fd);
-=======
 void			ft_create_token(char *s, t_info *info);
 t_token			*ft_malloc_token(char *input, t_token_type type, int i, int j);
 void			ft_prompt(t_info *info);
@@ -87,7 +85,6 @@ void	exec_command(t_info *info);
 
 /* BUILTINS */
 void    pwd(char *str, int fd);
->>>>>>> execve
 
 /* QUOTE */
 void    parse_quote(t_info *info);
