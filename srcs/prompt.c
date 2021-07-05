@@ -74,7 +74,7 @@ void    ft_prompt(t_info *info)
 			ft_exit(info, err_malloc);
 		line = readline(path);
 		catch_eof_signal(line, buff, path, info);
-		// add_history(line); // cree des leaks - non traite pour le moment
+		add_history(line);
 		ft_create_token(line, info);
 		free(line);
 		free(buff);

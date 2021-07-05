@@ -4,6 +4,8 @@ t_dlist	*dlstnew(void *content)
 {
 	t_dlist	*l_init;
 
+	if (!content)
+		return (0);
 	l_init	= malloc(sizeof(t_dlist));
 	if (!l_init)
 		return (0);

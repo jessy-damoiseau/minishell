@@ -29,7 +29,11 @@ void    ft_prompt(t_info *info);
 void    ft_sighandler(int signum);
 
 /* EXIT */
-void	ft_clear_token(t_dlist **lst, void (*del)(void *));
+void	clear_token(t_dlist *lst, t_token *token);
+void	clear_cmd_lst(t_dlist **lst);
 void    ft_exit(t_info *info, t_err_code err_code);
+
+/* QUOTE */
+void    parse_quote(t_info *info);
 
 #endif

@@ -71,10 +71,10 @@ int					ft_lstsize(t_list *lst);
 t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_back(t_list **alst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
-void				ft_lstclear(t_list **lst, void (*del)(void *));
+void				ft_lstclear(t_list **lst, void (*del)(void **));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
-						void (*del)(void *));
+						void (*del)(void **));
 int					ft_what_is_read(char **tmp, char **line);
 char				*ft_read_it(char **tmp, int fd);
 int					get_next_line(int fd, char **line);
@@ -84,7 +84,7 @@ void				ft_putnbr(long int n);
 void				ft_putstr(char *s);
 int					ft_numlen(int n);
 char				*ft_strstr(char *haystack, char *needle);
-void				ft_memdel(void *content);
+void				ft_memdel(void **content);
 t_list				*ft_lst_append(t_list *list, void *content);
 t_dlist				*dlst_end(t_dlist *list);
 t_dlist				*dlstnew(void *content);
@@ -94,7 +94,7 @@ void				dlstclear(t_dlist **lst, void (*del)(void *));
 void				dlstdelone(t_dlist *lst, void (*del)(void *));
 int					dlstsize(t_dlist *lst);
 t_dlist				*dlstfind_node(t_dlist *list, void *content);
-void				dlst_insert_node(t_dlist **alst, t_dlist *pos,
+void				dlstinsert_node(t_dlist **alst, t_dlist *pos,
 						t_dlist *new);
 
 #endif

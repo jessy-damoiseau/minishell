@@ -1,24 +1,34 @@
 #include "minishell.h"
 
-void	ft_clear_token(t_dlist **lst, void (*del)(void *))
+void 	clear_token(t_dlist *list, t_token *token)
+{
+	ft_memdel(&token->value);
+	ft_memdel(&list->content);
+	ft_memdel((void *)&list);
+	// free(list);
+}
+
+void	clear_cmd_lst(t_dlist **lst)
 {
 	t_dlist	*tmp;
 	t_token	*token;
 
 	tmp = NULL;
 	token = NULL;
-	// printf("check 2\n");
 	if (*lst)
 	{
 		while (*lst)
 		{
 			tmp = *lst;
 			token = tmp->content;
-			// printf("%s\n", (char *)token->value);
 			*lst = (*lst)->next;
-			del(token->value);
-			del(tmp->content);
-			free(tmp);
+			// free(token->value);
+			// free(tmp->content);
+			// ft_memdel(&token->value);
+			// ft_memdel(&tmp->content);
+			// free(tmp);
+			// ft_memdel((void *)tmp);
+			clear_token(tmp, token);
 		}
 	}
 	*lst = NULL;
@@ -30,14 +40,14 @@ void    ft_exit(t_info *info, t_err_code err_code)
 {
     if (err_code)
     {
-		ft_clear_token(&info->cmd, &ft_memdel);
+		clear_cmd_lst(&info->cmd);
 		ft_lstclear(&info->env, &ft_memdel);
 		ft_putstr_fd("Error : Malloc failed\n", 2);
 		exit (1);
     }
     else
     {
-		ft_clear_token(&info->cmd, &ft_memdel);
+		clear_cmd_lst(&info->cmd);
 		ft_lstclear(&info->env, &ft_memdel);
 		ft_putstr_fd("You exited minishell prog\n", 1);
 		exit (0);

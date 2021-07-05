@@ -40,7 +40,7 @@ SRCS_MINISHELL		=	#main.c
 
 #TEMP A SUPPRIMER ENSUITE
 SRCS_J	=	main.c
-SRCS_P	=	main.c prompt.c tokenize.c utils.c exit.c
+SRCS_P	=	main.c prompt.c tokenize.c utils.c exit.c quote.c
 
 ################################################################################
 #                              Commands and arguments                          #

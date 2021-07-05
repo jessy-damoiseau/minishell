@@ -62,7 +62,7 @@ t_token	*ft_malloc_token(char *input, t_token_type type, int i, int j)
 	return (token);
 }
 
-int	ft_is_it_double_redir(char *s, int i)
+int	is_it_double_redir(char *s, int i)
 {
 	if ((unsigned int)i < strlen(s))
 	{
@@ -85,10 +85,10 @@ t_token	*ft_find_token(char *s, int *i)
 	if (literal != ft_define_token(s[*i]))
 	{
 		j = *i;
-		if (ft_is_it_double_redir(s, *i))
+		if (is_it_double_redir(s, *i))
 		{
 			token = ft_malloc_token(s + *i, 
-				ft_is_it_double_redir(s, *i), *i, j + 1);
+				is_it_double_redir(s, *i), *i, j + 1);
 			(*i)++;
 		}
 		else
@@ -122,6 +122,7 @@ void	ft_create_token(char *s, t_info *info)
 		dlstadd_back(&info->cmd, new);
 		i++;
 	}
+	parse_quote(info);
 	// @Jessy si tu veux tester l'output
 	t_dlist *test;
 	test = info->cmd;
@@ -130,9 +131,10 @@ void	ft_create_token(char *s, t_info *info)
 	{
 		testtok = test->content;
 		printf("check token.value %s\n", (char *)testtok->value);
+		// printf("check token.type %d\n", testtok->type);
 		test = test->next;
 	}
 	// ft_exit(info, no_err);
-	ft_clear_token(&info->cmd, &ft_memdel); // @Jessy -> attention a bien clean apres chaque exec sinon leak ac ptr perdu
+	clear_cmd_lst(&info->cmd); // @Jessy -> attention a bien clean apres chaque exec sinon leak ac ptr perdu
 	return ;
 }
