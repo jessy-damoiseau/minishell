@@ -7,9 +7,9 @@ void	clearmaillon(t_gbc *lst)
 	else if (lst->type == STR)
 		free(lst->str);
 	else if (lst->type == LST)
-		ft_lstclear((t_list **)&lst->str, 0);
+		dlstclear((t_dlist **)&lst->str, 0);
 	else if (lst->type == TOKEN)
-		ft_clear_token((t_list **)&lst->str, &ft_memdel);
+		clear_cmd_lst((t_dlist **)&lst->str);
 	else
 		gbcclear((t_gbc **)&lst->str);
 	free(lst);

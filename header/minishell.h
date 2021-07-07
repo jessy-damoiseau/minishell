@@ -7,10 +7,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-<<<<<<< HEAD
 # include <signal.h>
-=======
->>>>>>> execve
 # include "libft.h"
 # include "struct.h"
 # include <errno.h>

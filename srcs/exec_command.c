@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-void	check_end(t_list **alst)
+void	check_end(t_dlist **alst)
 {
 	t_token *token;
-	t_list *tmp1;
-	t_list *tmp2;
+	t_dlist *tmp1;
+	t_dlist *tmp2;
 
 	tmp1 = *alst;
 	if (!tmp1->next)
@@ -22,11 +22,11 @@ void	check_end(t_list **alst)
 	}
 }
 
-t_list	*fill_gbc(t_list *lst, t_info *info)
+t_dlist	*fill_gbc(t_dlist *lst, t_info *info)
 {
 	t_token *token;
-	t_list *tmp;
-	t_list *forgbc;
+	t_dlist *tmp;
+	t_dlist *forgbc;
 	int i;
 
 	token = lst->content;
@@ -46,7 +46,7 @@ t_list	*fill_gbc(t_list *lst, t_info *info)
 		tmp = tmp->next;
 	lst = tmp->next;
 	tmp->next = 0;
-	check_end((t_list **)&forgbc);
+	check_end((t_dlist **)&forgbc);
 	lstaddback_gbc(&info->gbc, newgbc(TOKEN, -1, (void *)forgbc));
 	if (lst)
 	{
@@ -90,23 +90,27 @@ int check_path(char *tmp1, t_info *info)
 int	check_command(t_info *info)
 {
 	t_token	*token;
-	t_list	*tmp;
-	t_list *tmp2;
-	char *tmp1;
+	t_dlist	*tmp;
+	t_dlist	*tmp2;
+	char	*tmp1;
 
 	tmp = info->cmd;
+	printf("check4\n");
 	while (tmp->next)
 		tmp = tmp->next;
 	token = tmp->content;
+	printf("check5\n");
 	if (token->type == 0
 	|| (token->type >= 3 && token->type <= 6))
 	{
 		errno = 1;
 		return (1);
 	}
+	printf("check5\n");
 	tmp = info->cmd;
 	while (tmp)
 	{
+		printf("check6\n");
 		token = tmp->content;
 		tmp1 = token->value;
 		//printf ("VALUE : |%s|\n", tmp1);
@@ -121,7 +125,6 @@ int	check_command(t_info *info)
 		|| !check_path(tmp1, info)
 		|| (info->gbc && token->type != 2))
 			tmp = fill_gbc(tmp, info);
-		
 		else if (!ft_strcmp(tmp1, " "))
 		{
 			//printf("check\n");
@@ -140,10 +143,10 @@ int	check_command(t_info *info)
 	return (0);
 }
 
-void	joincmd(char **cmd, t_list *lst)
+void	joincmd(char **cmd, t_dlist *lst)
 {
 	t_token *tmp;
-	t_list *tmp1;
+	t_dlist *tmp1;
 	int i;
 	int j;
 
@@ -179,7 +182,7 @@ int	check_builtins(t_info *info)
 	cmd = 0;
 	if (info->path)
 		return (1);
-	joincmd(&cmd, (t_list *)info->gbc->str);
+	joincmd(&cmd, (t_dlist *)info->gbc->str);
 	while (cmd[i] && cmd[i] != ' ')
 		i++;
 	// if (ft_strncmp(cmd, "echo", i))
@@ -213,7 +216,7 @@ int check_exec(t_info *info)
 	cmd = 0;
 	if (!info->path)
 		return (1);
-	joincmd(&tmp, (t_list *)info->gbc->str);
+	joincmd(&tmp, (t_dlist *)info->gbc->str);
 	cmd = ft_split(tmp, ' ');
 	pid = fork();
 	if (!pid)
@@ -227,23 +230,24 @@ int check_exec(t_info *info)
 void	exec_command(t_info *info)
 {
 	t_gbc *tmp;
-	t_list *tmp2;
 	int i = 0;
+	printf("check3\n");
 	if (!check_command(info))
 	{
+		printf("check4\n");
 		tmp = info->gbc;
 		while (tmp)
 		{
 			printf ("%d:\n", i);
 			if (tmp->type == STR)
 			{
-				t_list *tmp2;
+				t_dlist *tmp2;
 				tmp2 = tmp->str;
 				printf("|%s|\n", (char *)tmp2->content);
 			}
 			else if (tmp->type == TOKEN)
 			{
-				t_list *tmp2;
+				t_dlist *tmp2;
 				tmp2 = tmp->str;
 				while (tmp2)
 				{
@@ -257,11 +261,12 @@ void	exec_command(t_info *info)
 			i++;
 		}
 		printf("\npath:\n");
-		tmp2 = info->path;
-		while (tmp2)
+		t_list *tmppth;
+		tmppth = info->path;
+		while (tmppth)
 		{
-			printf("-> |%s|\n", (char *)tmp2->content);
-			tmp2 = tmp2->next;
+			printf("-> |%s|\n", (char *)tmppth->content);
+			tmppth = tmppth->next;
 		}
 		printf("\n");
 			//if (check_pipe_rdct(info))

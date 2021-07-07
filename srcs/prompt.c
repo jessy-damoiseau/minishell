@@ -61,8 +61,10 @@ void    ft_prompt(t_info *info)
 {
 	char	*line;
 	char	*path;
+	char	*buff;
 	int		i;
 
+	buff = 0;
 	while (1)
 	{
 		i = 13;
@@ -71,36 +73,18 @@ void    ft_prompt(t_info *info)
 		if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
 			ft_exit(info, err_malloc);
 		line = readline(path);
-<<<<<<< HEAD
 		catch_eof_signal(line, buff, path, info);
 		add_history(line);
 		ft_create_token(line, info);
+		printf("check\n");
+		exec_command(info);
+		printf("check2\n");
 		free(line);
 		free(buff);
 		free(path);
-		buff = NULL;
-=======
-		free(path);
-		add_history(line);
-		if (!line)
-		{
-			printf("\n");
-			return ;
-		}
-		ft_create_token(line, info);
-		//t_list *tmp;
-		//tmp = info->cmd;
-		//while (tmp)
-		//{
-			//t_token *testtok;
-			//testtok = tmp->content;
-			//printf("value : |%s|, type: |%d|\n", (char *)testtok->value, testtok->type);
-		//	tmp = tmp->next;
-		//}
-		exec_command(info);
 		free(info->pwd);
 		info->pwd = 0;
->>>>>>> execve
+		buff = NULL;
 	}
 	return ;
 }
