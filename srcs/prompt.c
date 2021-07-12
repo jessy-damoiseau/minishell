@@ -39,7 +39,7 @@ static int	ft_get_path(char **path, char *buff, char *color)
 
 int	catch_eof_signal(char *line, char *buff, char *path, t_info *info)
 {
-	(void)info;
+	// (void)info;
 	if (!line)
 	{
 		free(path);

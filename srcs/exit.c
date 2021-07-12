@@ -22,12 +22,6 @@ void	clear_cmd_lst(t_dlist **lst)
 			tmp = *lst;
 			token = tmp->content;
 			*lst = (*lst)->next;
-			// free(token->value);
-			// free(tmp->content);
-			// ft_memdel(&token->value);
-			// ft_memdel(&tmp->content);
-			// free(tmp);
-			// ft_memdel((void *)tmp);
 			clear_token(tmp, token);
 		}
 	}

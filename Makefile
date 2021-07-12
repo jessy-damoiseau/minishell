@@ -39,8 +39,10 @@ LIB_LIBFT_DIR	= $(LIBS_DIR)/libft.a
 SRCS_MINISHELL		=	#main.c
 
 #TEMP A SUPPRIMER ENSUITE
-SRCS_J	=	main.c prompt.c tokenize.c utils.c exit.c exec_command.c gbcollector.c builtins.c quote.c
-SRCS_P	=	main.c prompt.c tokenize.c utils.c exit.c quote.c
+SRCS_J	=	main.c prompt.c tokenize.c utils.c exit.c exec_command.c\
+			gbcollector.c builtins.c quote.c
+SRCS_P	=	main.c prompt.c tokenize.c utils.c exit.c exec_command.c\
+			gbcollector.c builtins.c quote.c
 
 ################################################################################
 #                              Commands and arguments                          #

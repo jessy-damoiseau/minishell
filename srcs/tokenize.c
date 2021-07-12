@@ -122,9 +122,12 @@ void	ft_create_token(char *s, t_info *info)
 		dlstadd_back(&info->cmd, new);
 		i++;
 	}
+
 	parse_quote(info);
 	// @Jessy si tu veux tester l'output
 	t_dlist *test;
+	// test = dlst_end(info->cmd);
+	// printf("%p\n", test);
 	test = info->cmd;
 	t_token *testtok;
 	while (test)
@@ -135,6 +138,6 @@ void	ft_create_token(char *s, t_info *info)
 		test = test->next;
 	}
 	// ft_exit(info, no_err);
-	clear_cmd_lst(&info->cmd); // @Jessy -> attention a bien clean apres chaque exec sinon leak ac ptr perdu
+	// clear_cmd_lst(&info->cmd); // @Jessy -> attention a bien clean apres chaque exec sinon leak ac ptr perdu
 	return ;
 }

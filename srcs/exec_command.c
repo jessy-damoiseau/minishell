@@ -95,8 +95,8 @@ int	check_command(t_info *info)
 	char	*tmp1;
 
 	tmp = info->cmd;
-	printf("check4\n");
-	while (tmp->next)
+	printf("check42\n");
+	while (tmp->next) // ici utiliser dlstend
 		tmp = tmp->next;
 	token = tmp->content;
 	printf("check5\n");
