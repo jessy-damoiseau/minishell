@@ -164,6 +164,17 @@ void	ft_del(void *content)
 	free(content);
 }
 
+void	exec_child(t_dlist *iter, int *fd, int cfd)
+{
+	dup2(cfd, 0);
+	if (iter->next != NULL)
+		dup2(fd[1], 1);
+	close(fd[0]);
+	close(fd[1]);
+	execlp(iter->content, iter->content, NULL);
+	exit (1);
+}
+
 void	test_pipe5(t_dlist *list)
 {
 	int fd[2];
@@ -184,14 +195,14 @@ void	test_pipe5(t_dlist *list)
 		}
 		else if (pid == 0) // child
 		{
-			dup2(cfd, 0); // je copie cfd (par defaut fd read) dans stdin = entree => redirige le read du processus precedent
-			// close(fd[1]);
-			if (iter->next != NULL)
-				dup2(fd[1], 1); // je copie le fd write child dans stdout = sortie => redirige le flux vers stdout
-			close(fd[0]); // je ferme le fd read child = fermeture de l'entree
-			close(fd[1]); // une fois le fd write child copie dans stdout - je peux le fermer
-			execlp(iter->content, iter->content, NULL); // cmd qui part dans stdout directement
-			exit (1); // je quitte le process child qd j'ai fini
+			exec_child(iter, fd, cfd);
+			// dup2(cfd, 0); // je copie cfd (par defaut fd read) dans stdin = entree => redirige le read du processus precedent
+			// if (iter->next != NULL)
+			// 	dup2(fd[1], 1); // je copie le fd write child dans stdout = sortie => redirige le flux vers stdout
+			// close(fd[0]); // je ferme le fd read child = fermeture de l'entree
+			// close(fd[1]); // une fois le fd write child copie dans stdout - je peux le fermer
+			// execlp(iter->content, iter->content, NULL); // cmd qui part dans stdout directement
+			// exit (1); // je quitte le process child qd j'ai fini
 		}
 		else
 		{

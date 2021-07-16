@@ -1,76 +1,53 @@
 #include "minishell.h"
 
-void	clear_unwanted_quotes(t_dlist **lst, t_info *info)
+static void	replace_node_value(char *evar, t_dlist **iter)
 {
-	t_dlist *tmp;
+	t_token	*token;
 
-	tmp = *lst;
-	if (!(*lst)->prev)
+	token = (*iter)->content;
+	ft_memdel(&token->value);
+	while (*evar)
 	{
-		*lst = (*lst)->next;
-		(*lst)->prev = NULL;
-		info->cmd = *lst;
+		if (*evar == '=')
+		{
+			evar++;
+			token->value = ft_strdup(evar);
+		}
+		if (*evar != '\0')
+			evar++;
 	}
-	else if (!(*lst)->next)
-	{
-		*lst = (*lst)->prev;
-		tmp->prev->next = NULL;
-	}
-	else if ((*lst)->prev && (*lst)->next)
-	{
-		*lst = (*lst)->next;
-		(*lst)->prev = tmp->prev;
-		tmp->prev->next = *lst;
-
-	}
-	clear_token(tmp, tmp->content);
 }
 
-int	find_quotes(t_dlist **iter, t_dlist *node, t_info *info)
+static int	find_env_var(t_dlist **iter, t_info *info)
 {
-	int flag;
-	t_dlist *tmp;
+	t_dlist	*tmp;
+	t_list	*env;
 	t_token	*token;
 
 	tmp = *iter;
-	flag = 1;
-	if ((*iter)->next)
-		*iter = (*iter)->next;
-	while (*iter)
+	*iter = (*iter)->next;
+	token = (*iter)->content;
+	if (info->env)
 	{
-		token = (*iter)->content;
-		if (*iter == node)
-			flag = 0;
-		if (token->type == dble_quote && !flag)
+		env = info->env;
+		while (env)
 		{
-			clear_unwanted_quotes(iter, info);
-			clear_unwanted_quotes(&tmp, info);
-			return (1);
+			if (!ft_strncmp(env->content, token->value,
+					ft_strlen(token->value)))
+			{
+				replace_node_value(env->content, iter);
+				clear_cmd_node(&tmp, info);
+				return (1);
+			}
+			env = env->next;
 		}
-		else if (token->type == dble_quote && flag)
-			return (0);
-		*iter = (*iter)->next;
 	}
+	clear_cmd_node(&tmp, info);
+	clear_cmd_node(iter, info);
 	return (0);
 }
 
-void	delete_dble_quotes(t_info *info, t_dlist *node)
-{
-	t_dlist *iter;
-
-	iter = info->cmd;
-	while (iter && iter != node)
-	{
-		if (find_token_type(dble_quote, iter->content))
-		{
-			 find_quotes(&iter, node, info);
-		}
-		if (iter)
-			iter = iter->next;
-	}
-}
-
-void	parse_env(t_info *info)
+void	expand_env(t_info *info)
 {
 	t_dlist *iter;
 
@@ -78,13 +55,11 @@ void	parse_env(t_info *info)
 	while (iter)
 	{
 		if (find_token_type(dollar, iter->content))
-			delete_dble_quotes(info, iter);
-		iter = iter->next;
+		{
+			find_env_var(&iter, info);
+		}
+		if (iter)
+			iter = iter->next;
 	}
+	return ;
 }
-
-// void	expand_env(t_info *info)
-// {
-
-// 	return ;
-// }

@@ -68,6 +68,7 @@ void			ft_prompt(t_info *info);
 /* EXIT */
 void	ft_clear_token(t_list **lst, void (*del)(void *));
 void	ft_exit(t_info *info, t_err_code err_code);
+void	clear_cmd_node(t_dlist **lst, t_info *info);
 void	free_dbl(char **str);
 
 /* GBCOLLECTOR */
@@ -93,10 +94,10 @@ void	parse_token(t_info *info);
 /* PIPELINE */
 void    create_pipeline(t_info *info, int pipe);
 
-/* EXPAND ENV */
+/* PARSE ENV */
 void	parse_env(t_info *info);
 
-
-// void    ft_nothing(void);
+/* EXPAND ENV */
+void	expand_env(t_info *info);
 
 #endif

@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-// parse if token | ou $ = literal = OK
-// eliminer dble quote avant $
-// parse if pipe => stocker le debut de chaque sequence de pipe (chainon pipe etant le debut)
-// puis open env
-// puis concat quote
-// puis exec
-
 int	next_identical_token(t_dlist **iter, t_dlist *node, t_token *src)
 {
 	t_token *token;
@@ -42,13 +35,15 @@ int is_it_literal(t_info *info, t_dlist *node, t_token *token)
 	iter = info->cmd;
 	while (iter && iter != node)
 	{
-		if (token->type != dollar && (find_token_type(sgle_quote, iter->content)
+		if (token->type != dollar &&
+			(find_token_type(sgle_quote, iter->content)
 			|| find_token_type(dble_quote, iter->content)))
 		{
 			if (next_identical_token(&iter, node, node->content))
 				return (1);
 		}
-		if (token->type == dollar && find_token_type(sgle_quote, iter->content))
+		if (token->type == dollar &&
+			find_token_type(sgle_quote, iter->content))
 		{
 			if (next_identical_token(&iter, node, node->content))
 				return (1);
@@ -59,24 +54,15 @@ int is_it_literal(t_info *info, t_dlist *node, t_token *token)
 	return (0);
 }
 
-
-// test
-void	print_tokv(t_token *token)
-{
-	printf("%s\n", (char *)token->value);
-}
-
 void	parse_token(t_info *info)
 {
 	t_dlist *iter;
-	// t_dlist *tmp;
 	int pipe;
 
 	iter = info->cmd;
 	pipe = 0;
 	while (iter)
 	{
-		// tmp = iter;
 		if (find_token_type(pipeline, iter->content))
 		{
 			if (!is_it_literal(info, iter, iter->content))
@@ -86,11 +72,13 @@ void	parse_token(t_info *info)
 			is_it_literal(info, iter, iter->content);
 		iter = iter->next;
 	}
-	parse_env(info);
-	// expand_env(info);
-	parse_quote(info);
+	parse_env(info); // gere les $ entre sgle quote
+	parse_quote(info); // concat les quote
+
 	printf("nb de pipe = %d\n", pipe);
+	 // si pipe => il faut d'abord creer la pipeline de commande puis pipe par pipe expand_env + exec cmd
 	// if (pipe)
 	// 	create_pipeline(info, pipe);
+	expand_env(info); // si pas de pipe => expand directement les valeurs puis exec
 	return ;
 }

@@ -71,7 +71,6 @@ void    ft_prompt(t_info *info)
 	buff = 0;
 	while (1)
 	{
-		signal(SIGINT, ft_sighandler);
 		i = 13;
 		while (!info->pwd)
 			info->pwd = getcwd(info->pwd, i++);
@@ -83,7 +82,7 @@ void    ft_prompt(t_info *info)
 		catch_eof_signal(line, buff, path, info);
 		add_history(line);
 		ft_create_token(line, info);
-		// exec_command(info);
+		// exec_command(info); // @Jessy a deplacer dans la fonction pipeline et juste apres expand_env
 		free(line);
 		free(buff);
 		free(path);

@@ -27,11 +27,6 @@ void	init_struct(t_info *info, char **envp)
 	info->evrm = dbl_chardup(envp);
 }
 
-void	ft_nothing(void)
-{
-	return ;
-}
-
 int main(int ac, char **av, char **envp)
 {
 	t_info  info;
@@ -40,6 +35,8 @@ int main(int ac, char **av, char **envp)
 	(void)av;
 	init_struct(&info, envp);
 	ft_get_env(&info, envp);
+	signal(SIGINT, ft_sighandler);
+	signal(SIGQUIT, SIG_IGN);
 	ft_prompt(&info);
 	ft_exit(&info, no_err);
 	return (0);

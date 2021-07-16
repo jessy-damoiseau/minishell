@@ -122,24 +122,27 @@ void	ft_create_token(char *s, t_info *info)
 		dlstadd_back(&info->cmd, new);
 		i++;
 	}
-
-	parse_token(info);
+	parse_token(info); // entree parsing $ et | puis concat quote
 
 	// parse_quote(info);
 	// @Jessy si tu veux tester l'output
 	t_dlist *test;
-	// test = dlst_end(info->cmd);
-	// printf("%p\n", test);
 	test = info->cmd;
 	t_token *testtok;
-	while (test)
+	if (!test)
+		printf("NULL cmd\n");
+	if (test)
 	{
-		testtok = test->content;
-		// printf("check token.value %s\n", (char *)testtok->value);
-		printf("check token.value %s\t token.type %d\n", (char *)testtok->value, testtok->type);
-		// printf("check token.type %d\n", testtok->type);
-		test = test->next;
+		while (test)
+		{
+			testtok = test->content;
+			// printf("check token.value %s\n", (char *)testtok->value);
+			printf("check token.value %s\t token.type %d\n", (char *)testtok->value, testtok->type);
+			// printf("check token.type %d\n", testtok->type);
+			test = test->next;
+		}
 	}
+
 	// ft_exit(info, no_err);
 	clear_cmd_lst(&info->cmd); // @Jessy -> attention a bien clean apres chaque exec sinon leak ac ptr perdu
 	return ;

@@ -5,7 +5,6 @@ void 	clear_token(t_dlist *list, t_token *token)
 	ft_memdel(&token->value);
 	ft_memdel(&list->content);
 	ft_memdel((void *)&list);
-	// free(list);
 }
 
 void	clear_cmd_lst(t_dlist **lst)
@@ -26,6 +25,32 @@ void	clear_cmd_lst(t_dlist **lst)
 		}
 	}
 	*lst = NULL;
+}
+
+void	clear_cmd_node(t_dlist **lst, t_info *info)
+{
+	t_dlist *tmp;
+
+	tmp = *lst;
+	if (!(*lst)->prev)
+	{
+		*lst = (*lst)->next;
+		if (*lst) // exception pour cas ou prev et next == NULL
+			(*lst)->prev = NULL;
+		info->cmd = *lst;
+	}
+	else if (!(*lst)->next)
+	{
+		*lst = (*lst)->prev;
+		(*lst)->next = NULL;
+	}
+	else if ((*lst)->prev && (*lst)->next)
+	{
+		*lst = (*lst)->next;
+		(*lst)->prev = tmp->prev;
+		tmp->prev->next = *lst;
+	}
+	clear_token(tmp, tmp->content);
 }
 
 void	free_dbl(char **str)
