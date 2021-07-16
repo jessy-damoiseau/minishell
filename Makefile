@@ -42,7 +42,7 @@ SRCS_MINISHELL		=	#main.c
 SRCS_J	=	main.c prompt.c tokenize.c utils.c exit.c exec_command.c\
 			gbcollector.c builtins.c quote.c
 SRCS_P	=	main.c prompt.c tokenize.c utils.c exit.c exec_command.c\
-			gbcollector.c builtins.c quote.c
+			gbcollector.c builtins.c quote.c parse.c pipeline.c expand_env.c
 
 ################################################################################
 #                              Commands and arguments                          #

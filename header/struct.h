@@ -43,6 +43,9 @@ typedef struct  s_info
 	t_gbc	*gbc;
 	char	**evrm;
 	char	*pwd;
+	t_dlist	**pipe;
 }               t_info;
+
+// t_info			g_info;
 
 #endif

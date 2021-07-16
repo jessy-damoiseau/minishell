@@ -184,18 +184,21 @@ void	test_pipe5(t_dlist *list)
 		}
 		else if (pid == 0) // child
 		{
-			dup2(cfd, 0); // je copie cfd (par defaut fd read) dans stdin = entree
+			dup2(cfd, 0); // je copie cfd (par defaut fd read) dans stdin = entree => redirige le read du processus precedent
+			// close(fd[1]);
 			if (iter->next != NULL)
 				dup2(fd[1], 1); // je copie le fd write child dans stdout = sortie => redirige le flux vers stdout
 			close(fd[0]); // je ferme le fd read child = fermeture de l'entree
-			execlp(iter->content, iter->content, NULL); // cmd qui part dans stdout 
+			close(fd[1]); // une fois le fd write child copie dans stdout - je peux le fermer
+			execlp(iter->content, iter->content, NULL); // cmd qui part dans stdout directement
 			exit (1); // je quitte le process child qd j'ai fini
 		}
 		else
 		{
 			wait(NULL); // j'attend que le child se termine
 			close(fd[1]); // je ferme le fd read
-			cfd = fd[0]; // cfd devient le fd read
+			cfd = fd[0]; // cfd devient le fd read du processus enfant suivant
+			// close(fd[0]);
 			iter = iter->next;
 		}
 	}
@@ -217,8 +220,12 @@ int main(int argc, char **argv)
 
 	dlstadd_back(&list , dlstnew(ft_strdup("echo")));
 	dlstadd_back(&list , dlstnew(ft_strdup("ls")));
-	// dlstadd_back(&list , dlstnew(ft_strdup("echo")));
+	dlstadd_back(&list , dlstnew(ft_strdup("echo")));
+	dlstadd_back(&list , dlstnew(ft_strdup("cat")));
+	dlstadd_back(&list , dlstnew(ft_strdup("ls")));
 	dlstadd_back(&list , dlstnew(ft_strdup("wc")));
+	// dlstadd_back(&list , dlstnew(ft_strdup("yes")));
+	// dlstadd_back(&list , dlstnew(ft_strdup("cat")));
 	// t_dlist *iter;
 
 	// iter = list;
@@ -229,7 +236,7 @@ int main(int argc, char **argv)
 	// }
 
 	test_pipe5(list);
-	dlstclear(&list, &ft_del);
+	dlstclear(&list, &ft_memdel);
 
 
 	return 0;

@@ -50,12 +50,16 @@ int	catch_eof_signal(char *line, char *buff, char *path, t_info *info)
 	return (1);
 }
 
-// void	ft_sighandler(int signum)
-// {
-// 	if (signum == SIGINT)
-// 		printf("check\n");
-// 	return ;
-// }
+void	ft_sighandler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line(); // indique qu'on vient de passer a une nouvelle ligne
+		rl_replace_line("", 0); // modifie le contenu de ce que readline lit par le texte en param
+		rl_redisplay(); // modifie ce qui est indique sur le prompt pour afficher la nouvelle ligne
+	}
+}
 
 void    ft_prompt(t_info *info)
 {
@@ -67,18 +71,19 @@ void    ft_prompt(t_info *info)
 	buff = 0;
 	while (1)
 	{
+		signal(SIGINT, ft_sighandler);
 		i = 13;
 		while (!info->pwd)
 			info->pwd = getcwd(info->pwd, i++);
 		if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
 			ft_exit(info, err_malloc);
 		line = readline(path);
+		// if (!line) // NB = equivalent a catch_eof_signal
+		// 	ft_exit(info, no_err);
 		catch_eof_signal(line, buff, path, info);
 		add_history(line);
 		ft_create_token(line, info);
-		printf("check\n");
-		exec_command(info);
-		printf("check2\n");
+		// exec_command(info);
 		free(line);
 		free(buff);
 		free(path);

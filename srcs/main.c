@@ -27,6 +27,11 @@ void	init_struct(t_info *info, char **envp)
 	info->evrm = dbl_chardup(envp);
 }
 
+void	ft_nothing(void)
+{
+	return ;
+}
+
 int main(int ac, char **av, char **envp)
 {
 	t_info  info;

@@ -33,7 +33,7 @@ void	ft_create_token(char *s, t_info *info);
 t_token	*ft_malloc_token(char *input, t_token_type type, int i, int j);
 
 /* PROMPT */
-void    ft_prompt(t_info *info);
+void    ft_prompt(t_info *t_info);
 void    ft_sighandler(int signum);
 
 /* EXIT */
@@ -85,5 +85,18 @@ void    pwd(char *str, int fd);
 
 /* QUOTE */
 void    parse_quote(t_info *info);
+int    find_token_type(t_token_type type, t_token *token);
+
+/* PARSE */
+void	parse_token(t_info *info);
+
+/* PIPELINE */
+void    create_pipeline(t_info *info, int pipe);
+
+/* EXPAND ENV */
+void	parse_env(t_info *info);
+
+
+// void    ft_nothing(void);
 
 #endif

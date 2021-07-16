@@ -90,8 +90,8 @@ t_dlist				*dlst_end(t_dlist *list);
 t_dlist				*dlstnew(void *content);
 void				dlstadd_back(t_dlist **alst, t_dlist *new);
 void				dlstadd_front(t_dlist **alst, t_dlist *new);
-void				dlstclear(t_dlist **lst, void (*del)(void *));
-void				dlstdelone(t_dlist *lst, void (*del)(void *));
+void				dlstclear(t_dlist **lst, void (*del)(void **));
+void				dlstdelone(t_dlist **lst, void (*del)(void **));
 int					dlstsize(t_dlist *lst);
 t_dlist				*dlstfind_node(t_dlist *list, void *content);
 void				dlstinsert_node(t_dlist **alst, t_dlist *pos,
