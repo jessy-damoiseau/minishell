@@ -39,7 +39,26 @@ void    ft_sighandler(int signum);
 /* EXIT */
 void	clear_token(t_dlist *lst, t_token *token);
 void	clear_cmd_lst(t_dlist **lst);
-void    ft_exit(t_info *info, t_err_code err_code);
+void	ft_exit(t_info *info, t_err_code err_code);
+void			ft_create_token(char *s, t_info *info);
+t_token			*ft_malloc_token(char *input, t_token_type type, int i, int j);
+void			ft_prompt(t_info *info);
+
+/* EXIT */
+void	ft_clear_token(t_list **lst, void (*del)(void *));
+void	ft_exit(t_info *info, t_err_code err_code);
+void	free_dbl(char **str);
+
+/* GBCOLLECTOR */
+t_gbc	*newgbc(int type, int fd, void *str);
+void	gbcclear_one(t_gbc **alst, int maillon, int size);
+void	gbcclear(t_gbc **alst);
+void	clearmaillon(t_gbc *lst);
+void	lstaddback_gbc(t_gbc **alst, t_gbc *new);
+
+/* EXEC_COMMAND */
+void	exec_command(t_info *info);
+
 void			ft_create_token(char *s, t_info *info);
 t_token			*ft_malloc_token(char *input, t_token_type type, int i, int j);
 void			ft_prompt(t_info *info);
@@ -60,30 +79,14 @@ void	lstaddback_gbc(t_gbc **alst, t_gbc *new);
 void	exec_command(t_info *info);
 
 /* BUILTINS */
-void    pwd(char *str, int fd);
-void			ft_create_token(char *s, t_info *info);
-t_token			*ft_malloc_token(char *input, t_token_type type, int i, int j);
-void			ft_prompt(t_info *info);
-
-/* EXIT */
-void	ft_clear_token(t_list **lst, void (*del)(void *));
-void	ft_exit(t_info *info, t_err_code err_code);
-void	free_dbl(char **str);
-
-/* GBCOLLECTOR */
-t_gbc	*newgbc(int type, int fd, void *str);
-void	gbcclear_one(t_gbc **alst, int maillon, int size);
-void	gbcclear(t_gbc **alst);
-void	clearmaillon(t_gbc *lst);
-void	lstaddback_gbc(t_gbc **alst, t_gbc *new);
-
-/* EXEC_COMMAND */
-void	exec_command(t_info *info);
-
-/* BUILTINS */
-void    pwd(char *str, int fd);
+void	pwd(t_info *info, char *cmd, int fd);
+void	cd(char *cmd);
+void    env(char *cmd, t_info *info, int fd);
+void	unset(char *cmd, t_info *info);
+void	echo(char *cmd, int fd);
+void	ft_export(char *cmd, t_info *info, int fd);
 
 /* QUOTE */
-void    parse_quote(t_info *info);
+void	parse_quote(t_info *info);
 
 #endif

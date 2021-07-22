@@ -135,6 +135,6 @@ void	ft_create_token(char *s, t_info *info)
 		test = test->next;
 	}
 	// ft_exit(info, no_err);
-	clear_cmd_lst(&info->cmd); // @Jessy -> attention a bien clean apres chaque exec sinon leak ac ptr perdu
+	//clear_cmd_lst(&info->cmd); // @Jessy -> attention a bien clean apres chaque exec sinon leak ac ptr perdu
 	return ;
 }

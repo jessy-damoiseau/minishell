@@ -76,9 +76,7 @@ void    ft_prompt(t_info *info)
 		catch_eof_signal(line, buff, path, info);
 		add_history(line);
 		ft_create_token(line, info);
-		printf("check\n");
 		exec_command(info);
-		printf("check2\n");
 		free(line);
 		free(buff);
 		free(path);
