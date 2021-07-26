@@ -95,22 +95,18 @@ int	check_command(t_info *info)
 	char	*tmp1;
 
 	tmp = info->cmd;
-	printf("check42\n");
-	while (tmp->next) // ici utiliser dlstend
+	while (tmp->next)
 		tmp = tmp->next;
 	token = tmp->content;
-	printf("check5\n");
 	if (token->type == 0
 	|| (token->type >= 3 && token->type <= 6))
 	{
 		errno = 1;
 		return (1);
 	}
-	printf("check5\n");
 	tmp = info->cmd;
 	while (tmp)
 	{
-		printf("check6\n");
 		token = tmp->content;
 		tmp1 = token->value;
 		//printf ("VALUE : |%s|\n", tmp1);
@@ -183,27 +179,28 @@ int	check_builtins(t_info *info)
 	if (info->path)
 		return (1);
 	joincmd(&cmd, (t_dlist *)info->gbc->str);
+	printf("cmd: |%s|\n", cmd);
 	while (cmd[i] && cmd[i] != ' ')
 		i++;
-	// if (ft_strncmp(cmd, "echo", i))
-	// 	echo();
-	// else if (ft_strncmp(cmd, "cd", i))
-	// 	cd();
-	if (!ft_strncmp(cmd, "pwd", i))
-		pwd(info->pwd, 1);
-	// else if (ft_strncmp(cmd, "export", i))
-	// 	export();
-	// else if (ft_strncmp(cmd, "unset", i))
-	// 	unset();
-	// else if (ft_strncmp(cmd, "env", i))
-	// 	env();
-	// else if (ft_strncmp(cmd, "exit", i))
-	// 	exit();
-	// else
-	// {
-	// 	free(cmd);
-	// 	return (1);
-	// }
+	if (!ft_strncmp(cmd, "echo", i))
+	 	echo(cmd, 1);
+	else if (!ft_strncmp(cmd, "cd", i))
+		cd(cmd);
+	else if (!ft_strncmp(cmd, "pwd", i))
+		pwd(info, cmd, 1);
+	else if (!ft_strncmp(cmd, "export", i))
+		ft_export(cmd, info, 1);
+	else if (!ft_strncmp(cmd, "unset", i))
+	 	unset(cmd, info);
+	else if (!ft_strncmp(cmd, "env", i))
+	 	env(cmd, info, 1);
+	else if (!ft_strncmp(cmd, "exit", i))
+		ft_exit(cmd, info, 0);
+	else
+	{
+		free(cmd);
+		return (1);
+	}
 	free(cmd);
 	return (0);
 }
@@ -231,10 +228,8 @@ void	exec_command(t_info *info)
 {
 	t_gbc *tmp;
 	int i = 0;
-	printf("check3\n");
 	if (!check_command(info))
 	{
-		printf("check4\n");
 		tmp = info->gbc;
 		while (tmp)
 		{

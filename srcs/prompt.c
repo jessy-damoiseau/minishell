@@ -45,7 +45,7 @@ int	catch_eof_signal(char *line, char *buff, char *path, t_info *info)
 		free(path);
 		free(line);
 		free(buff);
-		ft_exit(info, no_err);
+		ft_exit(0, info, no_err);
 	}
 	return (1);
 }
@@ -69,20 +69,21 @@ void    ft_prompt(t_info *info)
 	int		i;
 
 	buff = 0;
+	errno = 0;
 	while (1)
 	{
 		i = 13;
 		while (!info->pwd)
 			info->pwd = getcwd(info->pwd, i++);
 		if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
-			ft_exit(info, err_malloc);
+			ft_exit(0, info, err_malloc);
 		line = readline(path);
 		// if (!line) // NB = equivalent a catch_eof_signal
 		// 	ft_exit(info, no_err);
 		catch_eof_signal(line, buff, path, info);
 		add_history(line);
 		ft_create_token(line, info);
-		// exec_command(info); // @Jessy a deplacer dans la fonction pipeline et juste apres expand_env
+		exec_command(info);
 		free(line);
 		free(buff);
 		free(path);

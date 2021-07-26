@@ -38,6 +38,6 @@ int main(int ac, char **av, char **envp)
 	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, SIG_IGN);
 	ft_prompt(&info);
-	ft_exit(&info, no_err);
+	ft_exit(0, &info, no_err);
 	return (0);
 }

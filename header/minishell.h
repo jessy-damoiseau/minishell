@@ -26,6 +26,7 @@ char	**dbl_chardup(char **envp);
 void	error_dbl(char **ret, int size);
 int		ft_strcmp(char *s1, char *s2);
 char	*strpthjoin(char *s1, char *s2);
+long long int	ft_atoll(char *str, int *error);
 
 /* TOKENIZE */
 t_token_type	ft_define_token(char charset);
@@ -37,16 +38,14 @@ void    ft_prompt(t_info *t_info);
 void    ft_sighandler(int signum);
 
 /* EXIT */
-void	clear_token(t_dlist *lst, t_token *token);
-void	clear_cmd_lst(t_dlist **lst);
-void    ft_exit(t_info *info, t_err_code err_code);
+void			clear_token(t_dlist *lst, t_token *token);
+void			clear_cmd_lst(t_dlist **lst);
 void			ft_create_token(char *s, t_info *info);
 t_token			*ft_malloc_token(char *input, t_token_type type, int i, int j);
 void			ft_prompt(t_info *info);
 
 /* EXIT */
 void	ft_clear_token(t_list **lst, void (*del)(void *));
-void	ft_exit(t_info *info, t_err_code err_code);
 void	free_dbl(char **str);
 
 /* GBCOLLECTOR */
@@ -59,16 +58,17 @@ void	lstaddback_gbc(t_gbc **alst, t_gbc *new);
 /* EXEC_COMMAND */
 void	exec_command(t_info *info);
 
-/* BUILTINS */
-void    pwd(char *str, int fd);
 void			ft_create_token(char *s, t_info *info);
 t_token			*ft_malloc_token(char *input, t_token_type type, int i, int j);
 void			ft_prompt(t_info *info);
 
 /* EXIT */
 void	ft_clear_token(t_list **lst, void (*del)(void *));
+<<<<<<< HEAD
 void	ft_exit(t_info *info, t_err_code err_code);
 void	clear_cmd_node(t_dlist **lst, t_info *info);
+=======
+>>>>>>> builtins
 void	free_dbl(char **str);
 
 /* GBCOLLECTOR */
@@ -82,7 +82,13 @@ void	lstaddback_gbc(t_gbc **alst, t_gbc *new);
 void	exec_command(t_info *info);
 
 /* BUILTINS */
-void    pwd(char *str, int fd);
+void	pwd(t_info *info, char *cmd, int fd);
+void	cd(char *cmd);
+void    env(char *cmd, t_info *info, int fd);
+void	unset(char *cmd, t_info *info);
+void	echo(char *cmd, int fd);
+void	ft_export(char *cmd, t_info *info, int fd);
+void	ft_exit(char *cmd, t_info *info, t_err_code err_code);
 
 /* QUOTE */
 void    parse_quote(t_info *info);

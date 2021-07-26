@@ -44,7 +44,8 @@ typedef struct  s_info
 	char	**evrm;
 	char	*pwd;
 	t_dlist	**pipe;
-}               t_info;
+	int		tmperrno;
+}				t_info;
 
 // t_info			g_info;
 
