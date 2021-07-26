@@ -86,3 +86,31 @@ char	*strpthjoin(char *s1, char *s2)
 	c[i] = 0;
 	return (c);
 }
+
+long long int	ft_atoll(char *str, int *error)
+{
+	int				i;
+	int				s;
+	long long int	r;
+
+	i = 0;
+	s = 1;
+	r = 0;
+	while (str[i] && ((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
+		i++;
+	if (str[i] == '-')
+	{
+		s *= -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	while (str[i] && (str[i] >= 48 && str[i] <= 57))
+	{
+		r = r * 10 + str[i] - 48;
+		i++;
+	}
+	if (r < 0)
+		*error = 1;
+	return (r * s);
+}

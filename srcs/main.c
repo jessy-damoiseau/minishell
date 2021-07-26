@@ -36,6 +36,6 @@ int main(int ac, char **av, char **envp)
 	init_struct(&info, envp);
 	ft_get_env(&info, envp);
 	ft_prompt(&info);
-	ft_exit(&info, no_err);
+	ft_exit(0, &info, no_err);
 	return (0);
 }

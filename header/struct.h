@@ -43,6 +43,7 @@ typedef struct  s_info
 	t_gbc	*gbc;
 	char	**evrm;
 	char	*pwd;
-}               t_info;
+	int		tmperrno;
+}				t_info;
 
 #endif

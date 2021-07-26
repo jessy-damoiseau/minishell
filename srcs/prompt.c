@@ -45,7 +45,7 @@ int	catch_eof_signal(char *line, char *buff, char *path, t_info *info)
 		free(path);
 		free(line);
 		free(buff);
-		ft_exit(info, no_err);
+		ft_exit(0, info, no_err);
 	}
 	return (1);
 }
@@ -65,13 +65,14 @@ void    ft_prompt(t_info *info)
 	int		i;
 
 	buff = 0;
+	errno = 0;
 	while (1)
 	{
 		i = 13;
 		while (!info->pwd)
 			info->pwd = getcwd(info->pwd, i++);
 		if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
-			ft_exit(info, err_malloc);
+			ft_exit(0, info, err_malloc);
 		line = readline(path);
 		catch_eof_signal(line, buff, path, info);
 		add_history(line);

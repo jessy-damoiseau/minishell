@@ -194,8 +194,8 @@ int	check_builtins(t_info *info)
 	 	unset(cmd, info);
 	else if (!ft_strncmp(cmd, "env", i))
 	 	env(cmd, info, 1);
-	// else if (ft_strncmp(cmd, "exit", i))
-	// 	exit();
+	else if (!ft_strncmp(cmd, "exit", i))
+		ft_exit(cmd, info, 0);
 	else
 	{
 		free(cmd);

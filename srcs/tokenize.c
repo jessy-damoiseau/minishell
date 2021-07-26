@@ -117,7 +117,7 @@ void	ft_create_token(char *s, t_info *info)
 	{
 		token = ft_find_token(s, &i);
 		if (!token)
-			ft_exit(info, err_malloc);
+			ft_exit(0, info, err_malloc);
 		new = dlstnew(token);
 		dlstadd_back(&info->cmd, new);
 		i++;

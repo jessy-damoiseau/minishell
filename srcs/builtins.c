@@ -47,12 +47,16 @@ void	cd(char *cmd)
 				ft_putstr_fd("cd: ", 2);
 				ft_putstr_fd(cmd, 2);
 				ft_putstr_fd(": No such file or directory\n", 2);
+				errno = 1;
 			}
 		}
 	}
 	else
+	{
 		chdir(str);
-	errno = 0;
+		errno = 0;
+	}
+	printf("errno :|%d|\n", errno);
 }
 
 void	env(char *cmd, t_info *info, int fd)
@@ -192,4 +196,59 @@ void	ft_export(char *cmd, t_info *info, int fd)
 	}
 	ft_lstadd_back(&info->env, ft_lstnew(ft_strdup(&cmd[i])));
 	errno = 0;
+}
+
+void	ft_exit(char *cmd, t_info *info, t_err_code err_code)
+{
+	int i;
+	int j;
+	int error;
+	long long int ret;
+
+	i = 4;
+	j = -1;
+	error = 0;
+	ret = errno;
+	printf("check\n");
+	if (cmd)
+	{
+		while (cmd[i] && cmd[i] == ' ')
+			i++;
+		if (!cmd[i])
+		{
+			printf("errno :|%d|\n", errno);
+			exit(ret);
+		}
+		while (cmd[i + ++j])
+		{
+			if (cmd[i + j] == '-')
+				j++;
+			if (cmd[i + j] < '0' || cmd[i] > '9')
+			{
+				errno = 1;
+				ft_putstr_fd("exit: too many arguments\n", 2);
+				return ;
+			}
+
+		}
+		error = 0;
+
+		ret = ft_atoll(&cmd[i], &error) % 256;
+		if (error)
+		{
+			ft_putstr_fd("exit: ", 2);
+			ft_putstr_fd(&cmd[i], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			ret = 2;
+		}
+	}
+	if (err_code)
+		{
+			ft_putstr_fd("Error : Malloc failed\n", 2);
+			ret = 1;
+		}
+	clear_cmd_lst(&info->cmd);
+	ft_lstclear(&info->env, &ft_memdel);
+	ft_putstr_fd("exit\n", 1);
+	exit(ret);
 }

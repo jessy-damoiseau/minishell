@@ -70,7 +70,7 @@ void	clear_buffer(char *buf, char *tmp, t_info *info)
 {
 	ft_memdel((void *)&tmp);
 	ft_memdel((void *)&buf);
-	ft_exit(info, err_malloc);
+	ft_exit(0, info, err_malloc);
 }
 
 char	*concate_node(t_dlist **sub, t_token_type type, t_info *info)

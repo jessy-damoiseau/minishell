@@ -50,20 +50,3 @@ void	free_dbl(char **str)
 
 // cette fonction peut etre amelioree avec un tab msg erreur vs enum code
 // et une fonction qui fait la correspondance comme ft_define_token
-void	ft_exit(t_info *info, t_err_code err_code)
-{
-    if (err_code)
-    {
-		clear_cmd_lst(&info->cmd);
-		ft_lstclear(&info->env, &ft_memdel);
-		ft_putstr_fd("Error : Malloc failed\n", 2);
-		exit (1);
-    }
-    else
-    {
-		clear_cmd_lst(&info->cmd);
-		ft_lstclear(&info->env, &ft_memdel);
-		ft_putstr_fd("You exited minishell prog\n", 1);
-		exit (0);
-	}
-}
