@@ -64,11 +64,7 @@ void			ft_prompt(t_info *info);
 
 /* EXIT */
 void	ft_clear_token(t_list **lst, void (*del)(void *));
-<<<<<<< HEAD
-void	ft_exit(t_info *info, t_err_code err_code);
-void	clear_cmd_node(t_dlist **lst, t_info *info);
-=======
->>>>>>> builtins
+void    clear_cmd_node(t_dlist **lst, t_info *info);
 void	free_dbl(char **str);
 
 /* GBCOLLECTOR */

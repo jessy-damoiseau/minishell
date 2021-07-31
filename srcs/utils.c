@@ -110,7 +110,7 @@ long long int	ft_atoll(char *str, int *error)
 		r = r * 10 + str[i] - 48;
 		i++;
 	}
-	if (r < 0)
+	if (r < 0 || str[i])
 		*error = 1;
 	return (r * s);
 }

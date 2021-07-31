@@ -34,7 +34,7 @@ void	exec_pipeline(t_dlist *list, t_info *info)
 		pipe(fd);
 		pid = fork();
 		if (pid == -1)
-			ft_exit(info, err_malloc); // code err a modifier ou adapter quand @Jessy aura cree exit
+			ft_exit(0, info, err_malloc); // code err a modifier ou adapter quand @Jessy aura cree exit
 		else if (pid == 0)
 			exec_child(iter, fd, cfd);
 		else

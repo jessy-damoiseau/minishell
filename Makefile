@@ -40,7 +40,8 @@ SRCS_MINISHELL		=	#main.c
 
 #TEMP A SUPPRIMER ENSUITE
 SRCS_J	=	main.c prompt.c tokenize.c utils.c exit.c exec_command.c\
-			gbcollector.c builtins.c quote.c
+			gbcollector.c builtins.c quote.c parse.c pipeline.c expand_env.c\
+			parse_env.c
 SRCS_P	=	main.c prompt.c tokenize.c utils.c exit.c exec_command.c\
 			gbcollector.c builtins.c quote.c parse.c pipeline.c expand_env.c\
 			parse_env.c
