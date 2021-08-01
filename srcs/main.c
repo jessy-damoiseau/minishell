@@ -33,6 +33,7 @@ int main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	printf("prog lancer\n");
 	init_struct(&info, envp);
 	ft_get_env(&info, envp);
 	signal(SIGINT, ft_sighandler);

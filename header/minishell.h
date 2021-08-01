@@ -102,4 +102,7 @@ void	parse_env(t_info *info);
 /* EXPAND ENV */
 void	expand_env(t_info *info);
 
+/* REDIRECT */
+void	redirection(t_info *info);
+
 #endif

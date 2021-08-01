@@ -28,33 +28,40 @@ t_dlist	*fill_gbc(t_dlist *lst, t_info *info)
 	t_dlist *tmp;
 	t_dlist *forgbc;
 	int i;
+	int check;
 
 	token = lst->content;
 	tmp = lst;
 	i = 0;
-	while (tmp && (token->type != 0
-	&& !(token->type >= 3 && token->type <= 6)))
+	check = 0;
+	while (tmp && (!(token->type >= 3 && token->type <= 6)))
 	{
 		tmp = tmp->next;
 		if (tmp)
 			token = tmp->content;
 		i++;
+		check = 1;
 	}
+
+
 	tmp = lst;
 	forgbc = tmp;
-	while (i-- > 1)
-		tmp = tmp->next;
-	lst = tmp->next;
-	tmp->next = 0;
-	check_end((t_dlist **)&forgbc);
-	lstaddback_gbc(&info->gbc, newgbc(TOKEN, -1, (void *)forgbc));
+
+	if (check)
+	{
+		while (i-- > 1)
+			tmp = tmp->next;
+		lst = tmp->next;
+		tmp->next = 0;
+		check_end((t_dlist **)&forgbc);
+		lstaddback_gbc(&info->gbc, newgbc(TOKEN, -1, (void *)forgbc));
+	}
 	if (lst)
 	{
 		if (lst->next)
 			tmp = lst->next;
 		lst->next = 0;
 		lstaddback_gbc(&info->gbc, newgbc(STR, -1, lst->content));
-		free(lst);
 		return (tmp);
 	}
 	return (0);
@@ -85,6 +92,11 @@ int check_path(char *tmp1, t_info *info)
 	}
 	free_dbl(path);
 	return (1);
+}
+
+int check_command(t_info *info)
+{
+	
 }
 
 int	check_command(t_info *info)
@@ -130,11 +142,13 @@ int	check_command(t_info *info)
 		}
 		else
 		{
-			printf ("heyy\n");
+			ft_putstr_fd(tmp1, 2);
+			ft_putstr_fd(": command not found\n", 2);
 			errno = 127;
 			return (1);
 		}
 	}
+	printf("checkdone\n");
 	info->cmd = 0;
 	return (0);
 }
@@ -180,6 +194,7 @@ int	check_builtins(t_info *info)
 		return (1);
 	joincmd(&cmd, (t_dlist *)info->gbc->str);
 	printf("cmd: |%s|\n", cmd);
+	printf("return cmd: -> \n");
 	while (cmd[i] && cmd[i] != ' ')
 		i++;
 	if (!ft_strncmp(cmd, "echo", i))
@@ -211,15 +226,30 @@ int check_exec(t_info *info)
 	pid_t pid;
 
 	cmd = 0;
-	if (!info->path)
-		return (1);
+	printf("return cmd: -> \n");
 	joincmd(&tmp, (t_dlist *)info->gbc->str);
+	if (!info->path && tmp[0] != '.' && tmp[1] != '/')
+	{
+		free(tmp);
+		return (1);
+	}
 	cmd = ft_split(tmp, ' ');
-	pid = fork();
-	if (!pid)
-		execve((char *)info->path->content, cmd, info->evrm);
+	if (tmp[0] == '.' && tmp[1] == '/')
+	{
+		pid = fork();
+		if (!pid)
+			execve(tmp, cmd, info->evrm);
+		else
+			wait(0);
+	}
 	else
-		wait(0);
+	{
+		pid = fork();
+		if (!pid)
+			execve((char *)info->path->content, cmd, info->evrm);
+		else
+			wait(0);
+	}
 	free(cmd);
 	return (0);
 }
@@ -236,12 +266,14 @@ void	exec_command(t_info *info)
 			printf ("%d:\n", i);
 			if (tmp->type == STR)
 			{
+				printf("OUAIIIIII\n");
 				t_dlist *tmp2;
 				tmp2 = tmp->str;
 				printf("|%s|\n", (char *)tmp2->content);
 			}
 			else if (tmp->type == TOKEN)
 			{
+				printf("NYYYYYAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
 				t_dlist *tmp2;
 				tmp2 = tmp->str;
 				while (tmp2)
@@ -258,15 +290,16 @@ void	exec_command(t_info *info)
 		printf("\npath:\n");
 		t_list *tmppth;
 		tmppth = info->path;
+		tmp = info->gbc;
 		while (tmppth)
 		{
 			printf("-> |%s|\n", (char *)tmppth->content);
 			tmppth = tmppth->next;
 		}
 		printf("\n");
-			//if (check_pipe_rdct(info))
-			//	printf("il y a une merde ( | > < >> << ) dans la ligne --'\n");
-			if (check_builtins(info))
+			if (info->gbc->next)
+				redirection(info);
+			else if (check_builtins(info))
 			{
 				if (check_exec(info))
 				{

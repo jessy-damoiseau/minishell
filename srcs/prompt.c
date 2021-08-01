@@ -80,10 +80,14 @@ void    ft_prompt(t_info *info)
 		line = readline(path);
 		// if (!line) // NB = equivalent a catch_eof_signal
 		// 	ft_exit(info, no_err);
+		printf("line :|%s|\n", line);
 		catch_eof_signal(line, buff, path, info);
-		add_history(line);
-		ft_create_token(line, info);
-		exec_command(info);
+		if (line[0])
+		{
+			add_history(line);
+			ft_create_token(line, info);
+			exec_command(info);
+		}
 		free(line);
 		free(buff);
 		free(path);

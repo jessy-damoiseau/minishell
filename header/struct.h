@@ -27,6 +27,7 @@ typedef enum	e_error_code
 {
 	no_err,
 	err_malloc,
+	err_pid,
 }				t_err_code;
 
 typedef struct	s_token
