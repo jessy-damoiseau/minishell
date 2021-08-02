@@ -102,7 +102,9 @@ int check_command(t_info *info)
 	t_dlist	*dlsttmp1;
 	t_dlist	*dlsttmp2;
 	char	*chrtmp1;
+	int i;
 
+	i = 2;
 	dlsttmp1 = info->cmd;
 	while (dlsttmp1->next)
 		dlsttmp1 = dlsttmp1->next;
@@ -119,13 +121,15 @@ int check_command(t_info *info)
 		token1 = dlsttmp1->content;
 		if (token1->type >= 3 && token1->type <= 6)
 		{
-			printf("check-------------------------\n");
 			token2 = dlsttmp1->next->content;
-			printf ("token: |%d|\n", token2->type);
-			if (token2->type == 9)
-				dlsttmp1 = fill_gbc(dlsttmp1, info, 2);
-			if (token2->type == 2)
-				dlsttmp1 = fill_gbc(dlsttmp1, info, 3);
+			dlsttmp2 = dlsttmp1->next;
+			while (token2->type != 9)
+			{
+				dlsttmp2 = dlsttmp2->next;
+				token2 = dlsttmp2->content;
+				i++;
+			}
+			dlsttmp1 = fill_gbc(dlsttmp1, info, i);
 		}
 		else
 		{
@@ -140,12 +144,9 @@ int check_command(t_info *info)
 				dlsttmp1 = fill_gbc(dlsttmp1, info, 0);
 			else
 			{
-				printf("check/////////////////////////////////\n");
 				if (!check_exist(chrtmp1))
 				{
-					printf("check((((((((((((((((((((((((((((((((((\n");
 					dlsttmp1 = fill_gbc(dlsttmp1, info, 0);
-					printf("check((((((((((((((((((((((((((((((((((\n");
 				}
 				else if ((chrtmp1[0] == '.' && chrtmp1[1] == '/') || chrtmp1[0] == '/')
 				{

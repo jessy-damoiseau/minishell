@@ -2,20 +2,25 @@
 
 int		check_redirecterr(t_gbc *allcmd)
 {
-	t_list *tmp;
-	//t_gbc *tmp2;
+	t_dlist	*tmp;
+	t_token	*token;
 
 	while (allcmd)
 	{
-		if (allcmd->type == STR)
-			if (allcmd->next->type == STR)
+		tmp = allcmd->str;
+		token = tmp->content;
+		if (token->type >= 3 && token->type <= 6)
+		{
+			token = tmp->next->content;
+			if (token->type >= 3 && token->type <= 6)
 			{
-				tmp = allcmd->next->str;
 				ft_putstr_fd("bash: syntax error near unexpected token `", 2);
-				ft_putstr_fd((char *)tmp->content, 2);
+				ft_putstr_fd((char *)token->value, 2);
 				ft_putstr_fd("'\n", 2);
+				errno = 2;
 				return (1);
 			}
+		}
 		allcmd = allcmd->next;
 	}
 	return (0);
@@ -23,8 +28,33 @@ int		check_redirecterr(t_gbc *allcmd)
 
 void	redirection(t_info *info)
 {
+	t_dlist	*cmd;
+	t_gbc	*tmpgbc;
+	t_dlist	*stock_rdrct;
+	t_token	*token;
+
 	if (!check_redirecterr(info->gbc))
 	{
-
+		tmpgbc = info->gbc;
+		cmd = tmpgbc->str;
+		token = cmd->content;
+		if (token->type >= 3 && token->type <= 6)
+		{
+			stock_rdrct = cmd;
+			cmd = cmd->next;
+		}
+		else
+		{
+			stock_rdrct = cmd->next;
+		}
+		token = stock_rdrct->content;
+		if (token->type == 3)
+			rdrctsglr();
+		else if(token->type == 4)
+			rdrctsgll();
+		else if (token->type == 5)
+			rdrctdblr();
+		else
+			rdrctdbll();
 	}
 }
