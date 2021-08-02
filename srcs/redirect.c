@@ -25,6 +25,26 @@ int		check_redirecterr(t_gbc *allcmd)
 	}
 	return (0);
 }
+/* > */
+void	rdrctsglr(t_dlist *cmd, t_dlist *stock_rdrct, t_info *info)
+{
+
+}
+/* < */
+void	rdrctsgll(t_dlist *cmd, t_dlist *stock_rdrct, t_info *info)
+{
+
+}
+/* >> */
+void	rdrctdblr(t_dlist *cmd, t_dlist *stock_rdrct, t_info *info)
+{
+
+}
+/* << */
+void	rdrctdbll(t_dlist *cmd, t_dlist *stock_rdrct, t_info *info)
+{
+
+}
 
 void	redirection(t_info *info)
 {
@@ -49,12 +69,12 @@ void	redirection(t_info *info)
 		}
 		token = stock_rdrct->content;
 		if (token->type == 3)
-			rdrctsglr();
+			rdrctsglr(cmd, stock_rdrct, info);
 		else if(token->type == 4)
-			rdrctsgll();
+			rdrctsgll(cmd, stock_rdrct, info);
 		else if (token->type == 5)
-			rdrctdblr();
+			rdrctdblr(cmd, stock_rdrct, info);
 		else
-			rdrctdbll();
+			rdrctdbll(cmd, stock_rdrct, info);
 	}
 }

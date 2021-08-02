@@ -1,15 +1,15 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
-typedef struct  s_gbcollector
+typedef struct	s_gbcollector
 {
 	int type;
 	int fd;
 	void *str;
 	struct s_gbcollector *next;
-}               t_gbc;
+}				t_gbc;
 
-typedef enum    e_token_type
+typedef enum	e_token_type
 {
 	pipeline,
 	dollar,
@@ -36,7 +36,7 @@ typedef struct	s_token
 	t_token_type type;
 }				t_token;
 
-typedef struct  s_info
+typedef struct	s_info
 {
 	t_list  *env;
 	t_dlist  *cmd;
@@ -47,7 +47,5 @@ typedef struct  s_info
 	t_dlist	**pipe;
 	int		tmperrno;
 }				t_info;
-
-// t_info			g_info;
 
 #endif
