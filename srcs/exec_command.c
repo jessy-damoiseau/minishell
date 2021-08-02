@@ -22,31 +22,31 @@ void	check_end(t_dlist **alst)
 	}
 }
 
-t_dlist	*fill_gbc(t_dlist *lst, t_info *info)
+t_dlist	*fill_gbc(t_dlist *lst, t_info *info, int i)
 {
 	t_token *token;
 	t_dlist *tmp;
 	t_dlist *forgbc;
-	int i;
 	int check;
 
 	token = lst->content;
 	tmp = lst;
-	i = 0;
 	check = 0;
-	while (tmp && (!(token->type >= 3 && token->type <= 6)))
+	if (!i)
 	{
-		tmp = tmp->next;
-		if (tmp)
-			token = tmp->content;
-		i++;
-		check = 1;
+		while (tmp && (!(token->type >= 3 && token->type <= 6)))
+		{
+			tmp = tmp->next;
+			if (tmp)
+				token = tmp->content;
+			i++;
+			check = 1;
+		}
 	}
-
-
+	else 
+		check = 1;
 	tmp = lst;
 	forgbc = tmp;
-
 	if (check)
 	{
 		while (i-- > 1)
@@ -56,15 +56,7 @@ t_dlist	*fill_gbc(t_dlist *lst, t_info *info)
 		check_end((t_dlist **)&forgbc);
 		lstaddback_gbc(&info->gbc, newgbc(TOKEN, -1, (void *)forgbc));
 	}
-	if (lst)
-	{
-		if (lst->next)
-			tmp = lst->next;
-		lst->next = 0;
-		lstaddback_gbc(&info->gbc, newgbc(STR, -1, lst->content));
-		return (tmp);
-	}
-	return (0);
+	return (lst);
 }
 
 int check_path(char *tmp1, t_info *info)
@@ -88,68 +80,99 @@ int check_path(char *tmp1, t_info *info)
 			return (0);
 		}
 		free(checkpth);
-
 	}
 	free_dbl(path);
 	return (1);
 }
 
-int check_command(t_info *info)
+int	check_exist(char *str)
 {
-	
+
+	struct stat sb;
+
+	if (stat(str, &sb))
+		return (1);
+	return (0);
 }
 
-int	check_command(t_info *info)
+int check_command(t_info *info)
 {
-	t_token	*token;
-	t_dlist	*tmp;
-	t_dlist	*tmp2;
-	char	*tmp1;
+	t_token	*token1;
+	t_token	*token2;
+	t_dlist	*dlsttmp1;
+	t_dlist	*dlsttmp2;
+	char	*chrtmp1;
 
-	tmp = info->cmd;
-	while (tmp->next)
-		tmp = tmp->next;
-	token = tmp->content;
-	if (token->type == 0
-	|| (token->type >= 3 && token->type <= 6))
+	dlsttmp1 = info->cmd;
+	while (dlsttmp1->next)
+		dlsttmp1 = dlsttmp1->next;
+	token1 = dlsttmp1->content;
+	if (token1->type >= 3 && token1->type <= 6)
 	{
+		ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
 		errno = 1;
 		return (1);
 	}
-	tmp = info->cmd;
-	while (tmp)
+	dlsttmp1 = info->cmd;
+	while (dlsttmp1)
 	{
-		token = tmp->content;
-		tmp1 = token->value;
-		//printf ("VALUE : |%s|\n", tmp1);
-		if (!ft_strcmp(tmp1, "echo")
-		|| !ft_strcmp(tmp1, "cd")
-		|| !ft_strcmp(tmp1, "pwd")
-		|| !ft_strcmp(tmp1, "export")
-		|| !ft_strcmp(tmp1, "unset")
-		|| !ft_strcmp(tmp1, "env")
-		|| !ft_strcmp(tmp1, "exit")
-		|| !ft_strncmp(tmp1, "./", 2)
-		|| !check_path(tmp1, info)
-		|| (info->gbc && token->type != 2))
-			tmp = fill_gbc(tmp, info);
-		else if (!ft_strcmp(tmp1, " "))
+		token1 = dlsttmp1->content;
+		if (token1->type >= 3 && token1->type <= 6)
 		{
-			//printf("check\n");
-			tmp2 = tmp;
-			tmp = tmp->next;
-			free(tmp2);
+			printf("check-------------------------\n");
+			token2 = dlsttmp1->next->content;
+			printf ("token: |%d|\n", token2->type);
+			if (token2->type == 9)
+				dlsttmp1 = fill_gbc(dlsttmp1, info, 2);
+			if (token2->type == 2)
+				dlsttmp1 = fill_gbc(dlsttmp1, info, 3);
 		}
 		else
 		{
-			ft_putstr_fd(tmp1, 2);
-			ft_putstr_fd(": command not found\n", 2);
-			errno = 127;
-			return (1);
+			chrtmp1 = token1->value;
+			if (!ft_strcmp(chrtmp1, "echo")
+			|| !ft_strcmp(chrtmp1, "cd")
+			|| !ft_strcmp(chrtmp1, "pwd")
+			|| !ft_strcmp(chrtmp1, "export")
+			|| !ft_strcmp(chrtmp1, "unset")
+			|| !ft_strcmp(chrtmp1, "env")
+			|| !ft_strcmp(chrtmp1, "exit"))
+				dlsttmp1 = fill_gbc(dlsttmp1, info, 0);
+			else
+			{
+				printf("check/////////////////////////////////\n");
+				if (!check_exist(chrtmp1))
+				{
+					printf("check((((((((((((((((((((((((((((((((((\n");
+					dlsttmp1 = fill_gbc(dlsttmp1, info, 0);
+					printf("check((((((((((((((((((((((((((((((((((\n");
+				}
+				else if ((chrtmp1[0] == '.' && chrtmp1[1] == '/') || chrtmp1[0] == '/')
+				{
+					ft_putstr_fd("bash: ", 2);
+					ft_putstr_fd(chrtmp1, 2);
+					ft_putstr_fd(": No such file or directory\n", 2);
+					errno = 127;
+					return (1);
+				}
+				else if (!check_path(chrtmp1, info) || (info->gbc && token1->type != 2))
+					dlsttmp1 = fill_gbc(dlsttmp1, info, 0);
+				else if (!ft_strcmp(chrtmp1, " "))
+				{
+					dlsttmp2 = dlsttmp1;
+					dlsttmp1 = dlsttmp1->next;
+					free(dlsttmp2);
+				}
+				else
+				{
+					ft_putstr_fd(chrtmp1, 2);
+					ft_putstr_fd(": command not found\n", 2);
+					errno = 127;
+					return (1);
+				}
+			}
 		}
 	}
-	printf("checkdone\n");
-	info->cmd = 0;
 	return (0);
 }
 
@@ -228,13 +251,8 @@ int check_exec(t_info *info)
 	cmd = 0;
 	printf("return cmd: -> \n");
 	joincmd(&tmp, (t_dlist *)info->gbc->str);
-	if (!info->path && tmp[0] != '.' && tmp[1] != '/')
-	{
-		free(tmp);
-		return (1);
-	}
 	cmd = ft_split(tmp, ' ');
-	if (tmp[0] == '.' && tmp[1] == '/')
+	if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
 	{
 		pid = fork();
 		if (!pid)
