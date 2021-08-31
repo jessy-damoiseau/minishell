@@ -48,34 +48,49 @@ void	rdrctdbll(t_dlist *cmd, t_dlist *stock_rdrct, t_info *info)
 	(void)cmd, (void)stock_rdrct, (void)info;
 }
 
-void	createfile(t_dlist *allfile)
+int	createfile(t_dlist *allfile)
 {
 	t_token	*token;
 	t_dlist *tmp;
 	int fd;
+	struct stat sb;
 
 	while (allfile)
 	{
 		tmp = allfile->content;
-		while (tmp)
+		token = tmp->content;
+		printf("type ->: %d\n", token->type);
+		if (token->type != 4 && token->type != 6)
 		{
-			token = tmp->content;
-			printf("file ->: %s\n", (char *)token->value);
-			tmp = tmp->next;
-		}
-		if (check_exist((char *)token->value))
+			while (tmp)
 			{
-				fd = open((char *)token->value, O_CREAT | O_RDWR);
-				printf("file fd: -> %d\n", fd);
-				if (fd < 0)
-					return ;
-				close(fd);
-				fd = open ((char *)token->value, O_RDONLY);
-				printf("file fd: -> %d\n", fd);
+				token = tmp->content;
+				printf("file ->: %s\n", (char *)token->value);
+				tmp = tmp->next;
 			}
+			printf("\n");
+			if (stat((char *)token->value, &sb))
+				{
+					fd = open((char *)token->value, O_CREAT, 0664);
+					if (fd < 0)
+						return (1);
+					close(fd);
+				}
+			else
+			{
+				if (opendir((char *)token->value))
+				{
+					ft_putstr_fd("bash: ", 2);
+					ft_putstr_fd((char *)token->value, 2);
+					ft_putstr_fd(": Is a directory", 2);
+					errno = 1;
+					return (1);
+				}
+			}
+		}
 		allfile = allfile->next;
 	}
-	//while (1);
+	return (0);
 }
 
 void	redirection(t_info *info)
@@ -101,7 +116,14 @@ void	redirection(t_info *info)
 				dlstadd_back(&stockcmd, dlstnew(cmd));
 			tmpgbc = tmpgbc->next;
 		}
-		createfile(stock_rdrct);
+		printf("check\n");
+		if (createfile(stock_rdrct))
+		{
+			//all free;
+			return ;
+		}
+		printf("check2\n");
+
 		token = stock_rdrct->content;
 		if (token->type == 3)
 			rdrctsglr(cmd, stock_rdrct, info);

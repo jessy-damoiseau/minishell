@@ -13,6 +13,8 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+#include <sys/types.h>
+#include <dirent.h>
 
 # define STR 0
 # define FD 1

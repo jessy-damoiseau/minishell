@@ -255,6 +255,7 @@ int	check_builtins(t_info *info, t_dlist *mcmd)
 	free(cmd);
 	return (0);
 }
+
 int check_exec(t_info *info, t_dlist *mcmd)
 {
 	char *tmp;
@@ -270,7 +271,7 @@ int check_exec(t_info *info, t_dlist *mcmd)
 	cmd = ft_split(tmp, ' ');
 	if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
 	{
-		pid = fork();
+		pid = fork();	
 		if (!pid)
 			execve(tmp, cmd, info->evrm);
 		else
@@ -308,7 +309,7 @@ void	exec_command(t_info *info)
 			}
 			else if (tmp->type == TOKEN)
 			{
-				printf("NYYYYYAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
+				//printf("NYYYYYAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
 				t_dlist *tmp2;
 				tmp2 = tmp->str;
 				while (tmp2)
@@ -334,6 +335,7 @@ void	exec_command(t_info *info)
 		printf("\n");
 			if (info->gbc->next)
 				//printf("prob\n");
+
 				redirection(info);
 			else if (check_builtins(info, 0))
 			{
