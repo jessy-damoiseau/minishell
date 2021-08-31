@@ -86,7 +86,8 @@ void    ft_prompt(t_info *info)
 		{
 			add_history(line);
 			ft_create_token(line, info);
-			exec_command(info);
+			if (!info->nbpipe)
+				exec_command(info);
 		}
 		free(line);
 		free(buff);

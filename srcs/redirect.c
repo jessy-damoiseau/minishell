@@ -28,45 +28,80 @@ int		check_redirecterr(t_gbc *allcmd)
 /* > */
 void	rdrctsglr(t_dlist *cmd, t_dlist *stock_rdrct, t_info *info)
 {
-
+	//int fd;
+	//int pfd[2];
+	(void)cmd, (void)stock_rdrct, (void)info;
 }
 /* < */
 void	rdrctsgll(t_dlist *cmd, t_dlist *stock_rdrct, t_info *info)
 {
-
+	(void)cmd, (void)stock_rdrct, (void)info;
 }
 /* >> */
 void	rdrctdblr(t_dlist *cmd, t_dlist *stock_rdrct, t_info *info)
 {
-
+	(void)cmd, (void)stock_rdrct, (void)info;
 }
 /* << */
 void	rdrctdbll(t_dlist *cmd, t_dlist *stock_rdrct, t_info *info)
 {
+	(void)cmd, (void)stock_rdrct, (void)info;
+}
 
+void	createfile(t_dlist *allfile)
+{
+	t_token	*token;
+	t_dlist *tmp;
+	int fd;
+
+	while (allfile)
+	{
+		tmp = allfile->content;
+		while (tmp)
+		{
+			token = tmp->content;
+			printf("file ->: %s\n", (char *)token->value);
+			tmp = tmp->next;
+		}
+		if (check_exist((char *)token->value))
+			{
+				fd = open((char *)token->value, O_CREAT | O_RDWR);
+				printf("file fd: -> %d\n", fd);
+				if (fd < 0)
+					return ;
+				close(fd);
+				fd = open ((char *)token->value, O_RDONLY);
+				printf("file fd: -> %d\n", fd);
+			}
+		allfile = allfile->next;
+	}
+	//while (1);
 }
 
 void	redirection(t_info *info)
 {
-	t_dlist	*cmd;
+	t_dlist *cmd;
+	t_dlist	*stockcmd;
 	t_gbc	*tmpgbc;
 	t_dlist	*stock_rdrct;
 	t_token	*token;
 
+	stockcmd = 0;
+	stock_rdrct = 0;
 	if (!check_redirecterr(info->gbc))
 	{
 		tmpgbc = info->gbc;
-		cmd = tmpgbc->str;
-		token = cmd->content;
-		if (token->type >= 3 && token->type <= 6)
+		while (tmpgbc)
 		{
-			stock_rdrct = cmd;
-			cmd = cmd->next;
+			cmd = tmpgbc->str;
+			token = cmd->content;
+			if (token->type >= 3 && token->type <= 6)
+				dlstadd_back(&stock_rdrct, dlstnew(cmd));
+			else
+				dlstadd_back(&stockcmd, dlstnew(cmd));
+			tmpgbc = tmpgbc->next;
 		}
-		else
-		{
-			stock_rdrct = cmd->next;
-		}
+		createfile(stock_rdrct);
 		token = stock_rdrct->content;
 		if (token->type == 3)
 			rdrctsglr(cmd, stock_rdrct, info);

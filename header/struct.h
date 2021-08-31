@@ -40,12 +40,14 @@ typedef struct	s_info
 {
 	t_list  *env;
 	t_dlist  *cmd;
+	t_dlist	*cmdpipe;
 	t_list	*path; 
 	t_gbc	*gbc;
 	char	**evrm;
 	char	*pwd;
 	t_dlist	**pipe;
 	int		tmperrno;
+	int 	nbpipe;
 }				t_info;
 
 #endif

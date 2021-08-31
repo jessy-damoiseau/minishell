@@ -51,7 +51,10 @@ void	expand_env(t_info *info)
 {
 	t_dlist *iter;
 
-	iter = info->cmd;
+	if (info->nbpipe)
+		iter = info->cmdpipe->content;
+	else
+		iter = info->cmd;
 	while (iter)
 	{
 		if (find_token_type(dollar, iter->content))

@@ -104,8 +104,13 @@ int check_command(t_info *info)
 	char	*chrtmp1;
 	int i;
 
-	i = 2;
-	dlsttmp1 = info->cmd;
+	if (info->nbpipe)
+		dlsttmp1 = info->cmdpipe->content;
+	else
+	{
+		printf("check\n");
+		dlsttmp1 = info->cmd;
+	}
 	while (dlsttmp1->next)
 		dlsttmp1 = dlsttmp1->next;
 	token1 = dlsttmp1->content;
@@ -115,9 +120,13 @@ int check_command(t_info *info)
 		errno = 1;
 		return (1);
 	}
-	dlsttmp1 = info->cmd;
+	if (info->nbpipe)
+		dlsttmp1 = info->cmdpipe->content;
+	else
+		dlsttmp1 = info->cmd;
 	while (dlsttmp1)
 	{
+		i = 2;
 		token1 = dlsttmp1->content;
 		if (token1->type >= 3 && token1->type <= 6)
 		{
@@ -207,7 +216,7 @@ void	joincmd(char **cmd, t_dlist *lst)
 	(*cmd)[j] = '\0';
 }
 
-int	check_builtins(t_info *info)
+int	check_builtins(t_info *info, t_dlist *mcmd)
 {
 	char *cmd;
 	int i;
@@ -216,7 +225,10 @@ int	check_builtins(t_info *info)
 	cmd = 0;
 	if (info->path)
 		return (1);
-	joincmd(&cmd, (t_dlist *)info->gbc->str);
+	if (!mcmd)
+		joincmd(&cmd, (t_dlist *)info->gbc->str);
+	else
+		joincmd(&cmd, (t_dlist *)mcmd);
 	printf("cmd: |%s|\n", cmd);
 	printf("return cmd: -> \n");
 	while (cmd[i] && cmd[i] != ' ')
@@ -243,7 +255,7 @@ int	check_builtins(t_info *info)
 	free(cmd);
 	return (0);
 }
-int check_exec(t_info *info)
+int check_exec(t_info *info, t_dlist *mcmd)
 {
 	char *tmp;
 	char **cmd;
@@ -251,7 +263,10 @@ int check_exec(t_info *info)
 
 	cmd = 0;
 	printf("return cmd: -> \n");
-	joincmd(&tmp, (t_dlist *)info->gbc->str);
+	if (!mcmd)
+		joincmd(&tmp, (t_dlist *)info->gbc->str);
+	else
+		joincmd(&tmp, (t_dlist *)mcmd);
 	cmd = ft_split(tmp, ' ');
 	if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
 	{
@@ -275,10 +290,11 @@ int check_exec(t_info *info)
 
 void	exec_command(t_info *info)
 {
-	t_gbc *tmp;
-	int i = 0;
+
 	if (!check_command(info))
 	{
+		t_gbc *tmp;
+		int i = 0;
 		tmp = info->gbc;
 		while (tmp)
 		{
@@ -317,10 +333,11 @@ void	exec_command(t_info *info)
 		}
 		printf("\n");
 			if (info->gbc->next)
+				//printf("prob\n");
 				redirection(info);
-			else if (check_builtins(info))
+			else if (check_builtins(info, 0))
 			{
-				if (check_exec(info))
+				if (check_exec(info, 0))
 				{
 					printf("mdr faut check autre chose ah ah AHHH AHHH AHHH\n");
 					//check_other();

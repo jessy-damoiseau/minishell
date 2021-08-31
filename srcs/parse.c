@@ -57,16 +57,15 @@ int is_it_literal(t_info *info, t_dlist *node, t_token *token)
 void	parse_token(t_info *info)
 {
 	t_dlist *iter;
-	int pipe;
 
 	iter = info->cmd;
-	pipe = 0;
+	info->nbpipe = 0;
 	while (iter)
 	{
 		if (find_token_type(pipeline, iter->content))
 		{
 			if (!is_it_literal(info, iter, iter->content))
-				pipe++;
+				info->nbpipe++;
 		}
 		if (find_token_type(dollar, iter->content))
 			is_it_literal(info, iter, iter->content);
@@ -75,10 +74,10 @@ void	parse_token(t_info *info)
 	parse_env(info); // gere les $ entre sgle quote
 	parse_quote(info); // concat les quote
 
-	printf("nb de pipe = %d\n", pipe);
+	printf("nb de pipe = %d\n", info->nbpipe);
 	 // si pipe => il faut d'abord creer la pipeline de commande puis pipe par pipe expand_env + exec cmd
-	// if (pipe)
-	// 	create_pipeline(info, pipe);
+	if (info->nbpipe)
+	 	create_pipeline(info, info->nbpipe);
 	expand_env(info); // si pas de pipe => expand directement les valeurs puis exec
 	return ;
 }

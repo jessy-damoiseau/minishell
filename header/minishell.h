@@ -76,6 +76,8 @@ void	lstaddback_gbc(t_gbc **alst, t_gbc *new);
 
 /* EXEC_COMMAND */
 void	exec_command(t_info *info);
+void	check_end(t_dlist **alst);
+int	check_exist(char *str);
 
 /* BUILTINS */
 void	pwd(t_info *info, char *cmd, int fd);
@@ -104,5 +106,7 @@ void	expand_env(t_info *info);
 
 /* REDIRECT */
 void	redirection(t_info *info);
+
+void	exec_pipeline(t_dlist *list, t_info *info);
 
 #endif
