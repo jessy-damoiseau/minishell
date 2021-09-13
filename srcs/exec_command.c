@@ -59,7 +59,7 @@ t_dlist	*fill_gbc(t_dlist *lst, t_info *info, int i)
 	return (lst);
 }
 
-int check_path(char *tmp1, t_info *info)
+int		check_path(char *tmp1, t_info *info)
 {
 	char	*env_path;
 	char	**path;
@@ -68,6 +68,7 @@ int check_path(char *tmp1, t_info *info)
 	int		i;
 
 	i = 0;
+	//printf("checkpath tmp1: |%s|\n", tmp1);
 	env_path = getenv("PATH");
 	path = ft_split(env_path, ':');
 	while (path[i++])
@@ -85,7 +86,7 @@ int check_path(char *tmp1, t_info *info)
 	return (1);
 }
 
-int	check_exist(char *str)
+int		check_exist(char *str)
 {
 
 	struct stat sb;
@@ -95,7 +96,7 @@ int	check_exist(char *str)
 	return (0);
 }
 
-int check_command(t_info *info)
+int		check_command(t_info *info)
 {
 	t_token	*token1;
 	t_token	*token2;
@@ -108,7 +109,7 @@ int check_command(t_info *info)
 		dlsttmp1 = info->cmdpipe->content;
 	else
 	{
-		printf("check\n");
+		//printf("check\n");
 		dlsttmp1 = info->cmd;
 	}
 	while (dlsttmp1->next)
@@ -216,7 +217,7 @@ void	joincmd(char **cmd, t_dlist *lst)
 	(*cmd)[j] = '\0';
 }
 
-int	check_builtins(t_info *info, t_dlist *mcmd)
+int		check_builtins(t_info *info, t_dlist *mcmd)
 {
 	char *cmd;
 	int i;
@@ -225,12 +226,30 @@ int	check_builtins(t_info *info, t_dlist *mcmd)
 	cmd = 0;
 	if (info->path)
 		return (1);
+
+
+	t_dlist *tmp;
+	t_token *token;
+	if (mcmd)
+		tmp = mcmd->content;
+	else
+		tmp = info->gbc->str;
+	printf("mcmd:\n");
+	while (tmp)
+	{
+		token = tmp->content;
+		printf("%s", (char*)token->value);
+		tmp = tmp->next;
+	}
+	printf("\n");
+
+
 	if (!mcmd)
 		joincmd(&cmd, (t_dlist *)info->gbc->str);
 	else
-		joincmd(&cmd, (t_dlist *)mcmd);
+		joincmd(&cmd, (t_dlist *)mcmd->content);
 	printf("cmd: |%s|\n", cmd);
-	printf("return cmd: -> \n");
+	//printf("return cmd: -> \n");
 	while (cmd[i] && cmd[i] != ' ')
 		i++;
 	if (!ft_strncmp(cmd, "echo", i))
@@ -256,7 +275,7 @@ int	check_builtins(t_info *info, t_dlist *mcmd)
 	return (0);
 }
 
-int check_exec(t_info *info, t_dlist *mcmd)
+int		check_exec(t_info *info, t_dlist *mcmd)
 {
 	char *tmp;
 	char **cmd;
@@ -268,10 +287,12 @@ int check_exec(t_info *info, t_dlist *mcmd)
 		joincmd(&tmp, (t_dlist *)info->gbc->str);
 	else
 		joincmd(&tmp, (t_dlist *)mcmd);
+	//printf("execve tmp: %s\n", tmp);
 	cmd = ft_split(tmp, ' ');
 	if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
 	{
-		pid = fork();	
+		//printf("check execve\n");
+		pid = fork();
 		if (!pid)
 			execve(tmp, cmd, info->evrm);
 		else
@@ -279,6 +300,7 @@ int check_exec(t_info *info, t_dlist *mcmd)
 	}
 	else
 	{
+		//printf("check execve2\n");
 		pid = fork();
 		if (!pid)
 			execve((char *)info->path->content, cmd, info->evrm);
