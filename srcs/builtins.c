@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    pwd(t_info *info, char *cmd, int fd)
+void	pwd(t_info *info, char *cmd, int fd)
 {
 	if (!ft_strcmp(cmd, "pwd"))
 	{
@@ -15,14 +15,21 @@ void    pwd(t_info *info, char *cmd, int fd)
 	}
 }
 
-void	cd(char *cmd)
+void	cd(char *cmd, t_info *info)
 {
 	int i;
 	int j;
 	char *str;
+	t_list 	*tmp;
 
 	i = 2;
 	j = 0;
+	tmp = info->env;
+	str = info->pwd;
+	while (tmp && ft_strncmp(tmp->content, "OLDPWD", 6))
+		tmp = tmp->next;
+	free(tmp->content);
+	tmp->content = ft_strjoin("OLDPWD=", str);
 	str = getenv("HOME");
 	if (cmd[2] != '\0')
 	{
@@ -56,7 +63,6 @@ void	cd(char *cmd)
 		chdir(str);
 		errno = 0;
 	}
-	printf("errno :|%d|\n", errno);
 }
 
 void	env(char *cmd, t_info *info, int fd)

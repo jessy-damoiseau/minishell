@@ -1,0 +1,5 @@
+env -i (recup env si yen a pas)
+<<
+pipe
+errno
+export += -=

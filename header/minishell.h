@@ -85,7 +85,7 @@ int check_exec(t_info *info, t_dlist *mcmd);
 
 /* BUILTINS */
 void	pwd(t_info *info, char *cmd, int fd);
-void	cd(char *cmd);
+void	cd(char *cmd, t_info *info);
 void    env(char *cmd, t_info *info, int fd);
 void	unset(char *cmd, t_info *info);
 void	echo(char *cmd, int fd);

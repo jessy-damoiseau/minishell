@@ -255,7 +255,7 @@ int		check_builtins(t_info *info, t_dlist *mcmd)
 	if (!ft_strncmp(cmd, "echo", i))
 	 	echo(cmd, 1);
 	else if (!ft_strncmp(cmd, "cd", i))
-		cd(cmd);
+		cd(cmd, info);
 	else if (!ft_strncmp(cmd, "pwd", i))
 		pwd(info, cmd, 1);
 	else if (!ft_strncmp(cmd, "export", i))

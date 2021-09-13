@@ -37,7 +37,7 @@ static int	ft_get_path(char **path, char *buff, char *color)
 	return (1);
 }
 
-int	catch_eof_signal(char *line, char *buff, char *path, t_info *info)
+int			catch_eof_signal(char *line, char *buff, char *path, t_info *info)
 {
 	// (void)info;
 	if (!line)
@@ -50,7 +50,7 @@ int	catch_eof_signal(char *line, char *buff, char *path, t_info *info)
 	return (1);
 }
 
-void	ft_sighandler(int signum)
+void		ft_sighandler(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -61,12 +61,13 @@ void	ft_sighandler(int signum)
 	}
 }
 
-void    ft_prompt(t_info *info)
+void		ft_prompt(t_info *info)
 {
 	char	*line;
 	char	*path;
 	char	*buff;
 	int		i;
+	t_list	*tmp;
 
 	buff = 0;
 	errno = 0;
@@ -75,6 +76,11 @@ void    ft_prompt(t_info *info)
 		i = 13;
 		while (!info->pwd)
 			info->pwd = getcwd(info->pwd, i++);
+	 	tmp = info->env;
+		while (tmp && ft_strncmp(tmp->content, "PWD", 3))
+		tmp = tmp->next;
+		free(tmp->content);
+		tmp->content = ft_strjoin("PWD=", info->pwd);
 		if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
 			ft_exit(0, info, err_malloc);
 		line = readline(path);
