@@ -248,12 +248,24 @@ void	ft_exit(char *cmd, t_info *info, t_err_code err_code)
 			ret = 2;
 		}
 	}
-	if (err_code)
+	if (err_code == 1)
 		{
 			ft_putstr_fd("exit\n", 1);
 			ft_putstr_fd("Error : Malloc failed\n", 2);
 			ret = 1;
 		}
+	if (err_code == 2)
+	{
+		ft_putstr_fd("exit\n", 1);
+		ft_putstr_fd("Error : fork failed\n", 2);
+		ret = 1;
+	}
+	if (err_code == 3)
+	{
+		ft_putstr_fd("exit\n", 1);
+		ft_putstr_fd("Error : open failed\n", 2);
+		ret = 1;
+	}
 	clear_cmd_lst(&info->cmd);
 	ft_lstclear(&info->env, &ft_memdel);
 	exit(ret);

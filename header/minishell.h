@@ -80,6 +80,8 @@ void	lstaddback_gbc(t_gbc **alst, t_gbc *new);
 void	exec_command(t_info *info);
 void	check_end(t_dlist **alst);
 int	check_exist(char *str);
+int	check_builtins(t_info *info, t_dlist *mcmd);
+int check_exec(t_info *info, t_dlist *mcmd);
 
 /* BUILTINS */
 void	pwd(t_info *info, char *cmd, int fd);

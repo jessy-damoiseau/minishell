@@ -28,6 +28,7 @@ typedef enum	e_error_code
 	no_err,
 	err_malloc,
 	err_pid,
+	err_fd,
 }				t_err_code;
 
 typedef struct	s_token
@@ -46,8 +47,10 @@ typedef struct	s_info
 	char	**evrm;
 	char	*pwd;
 	t_dlist	**pipe;
+	t_list	*dlb_redir_left_str;
 	int		tmperrno;
 	int 	nbpipe;
+	int		redir_left;
 }				t_info;
 
 #endif
