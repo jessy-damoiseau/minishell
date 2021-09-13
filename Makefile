@@ -77,12 +77,9 @@ OBJS_P	=	$(addprefix $(OBJS_DIR)/, $(SRCS_P:.c=.o))
 all:	install_pkg init_libft init_m $(NAME_MINISHELL)
 
 install_pkg:
-			#if dpkg -s libreadline-dev | grep -oq installed; # A corriger ne marche pas avec VM vierge
-			if dpkg --get-selections | grep -oq libreadline-dev;\
-			then echo "$(_CYAN)[readline function dependancies already installed]";\
-			else @ echo "user42" | sudo -S apt install libreadline-dev;\
-				echo "$(_YELLOW)[Installing readline function dependancies]";\
-			fi
+			echo "$(_YELLOW)[Downloading readline function dependancies]";\
+			echo "user42" | sudo -S apt install libreadline-dev >/dev/null 2>&1
+			echo "$(_YELLOW)[Readline function dependancies installed]"
 
 init_m:
 		if test -f $(NAME_MINISHELL);\
@@ -91,8 +88,8 @@ init_m:
 		fi
 
 #TEMP A SUPPRIMER ENSUITE
-vj:		init_libft jessy $(NAME_J)
-vp:		init_libft pierre $(NAME_P)
+vj:		init_libft install_pkg jessy $(NAME_J)
+vp:		init_libft install_pkg pierre $(NAME_P)
 
 jessy:
 		if test -f $(NAME_J);\
