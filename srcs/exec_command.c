@@ -64,13 +64,16 @@ int		check_path(char *tmp1, t_info *info)
 	char	*env_path;
 	char	**path;
 	char	*checkpth;
+	t_list	*tmp;
 	struct stat sb;
 	int		i;
 
 	i = 0;
-	//printf("checkpath tmp1: |%s|\n", tmp1);
-	env_path = getenv("PATH");
-	path = ft_split(env_path, ':');
+	tmp = info->env;
+	while (tmp && ft_strncmp(tmp->content, "PATH=", 5))
+		tmp = tmp->next;
+	env_path = tmp->content;
+	path = ft_split(&env_path[5], ':');
 	while (path[i++])
 	{
 		checkpth = strpthjoin(path[i], tmp1);
@@ -287,11 +290,9 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 		joincmd(&tmp, (t_dlist *)info->gbc->str);
 	else
 		joincmd(&tmp, (t_dlist *)mcmd);
-	//printf("execve tmp: %s\n", tmp);
 	cmd = ft_split(tmp, ' ');
 	if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
 	{
-		//printf("check execve\n");
 		pid = fork();
 		if (!pid)
 			execve(tmp, cmd, info->evrm);
@@ -300,7 +301,6 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 	}
 	else
 	{
-		//printf("check execve2\n");
 		pid = fork();
 		if (!pid)
 			execve((char *)info->path->content, cmd, info->evrm);
@@ -331,7 +331,6 @@ void	exec_command(t_info *info)
 			}
 			else if (tmp->type == TOKEN)
 			{
-				//printf("NYYYYYAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
 				t_dlist *tmp2;
 				tmp2 = tmp->str;
 				while (tmp2)

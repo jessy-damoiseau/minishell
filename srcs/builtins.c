@@ -26,10 +26,15 @@ void	cd(char *cmd, t_info *info)
 	j = 0;
 	tmp = info->env;
 	str = info->pwd;
-	while (tmp && ft_strncmp(tmp->content, "OLDPWD", 6))
+	while (tmp && ft_strncmp(tmp->content, "OLDPWD=", 7))
 		tmp = tmp->next;
-	free(tmp->content);
-	tmp->content = ft_strjoin("OLDPWD=", str);
+	if (!tmp)
+		ft_lstadd_back(&info->env, ft_lstnew(ft_strjoin("OLDPWD=", str)));
+	else
+	{
+		free(tmp->content);
+		tmp->content = ft_strjoin("OLDPWD=", str);
+	}
 	str = getenv("HOME");
 	if (cmd[2] != '\0')
 	{
@@ -172,9 +177,12 @@ void	ft_export(char *cmd, t_info *info, int fd)
 	t_list *tmp;
 	int i;
 	int j;
+	int add;
+	char *str;
 
 	tmp = info->env;
 	i = 6;
+	add = 0;
 	j = 0;
 	while (cmd[i] && cmd[i] == ' ')
 		i++;
@@ -188,20 +196,47 @@ void	ft_export(char *cmd, t_info *info, int fd)
 			tmp = tmp->next;
 		}
 	}
-	while (cmd[i + j] && cmd[i + j] != '=')
+	else
 	{
-		if (!ft_isalnum(cmd[i + j]) && cmd[i + j] != '_')
+		while (cmd[i + j] && cmd[i + j] != '=')
 		{
-			ft_putstr_fd("export: '", 2);
-			ft_putstr_fd(&cmd[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			errno = 1;
-			return ;
+			if (cmd[i + j] == '+' && cmd[i + j + 1] == '=')
+				add++;
+			else if (!ft_isalnum(cmd[i + j]) && cmd[i + j] != '_')
+			{
+				ft_putstr_fd("export: '", 2);
+				ft_putstr_fd(&cmd[i], 2);
+				ft_putstr_fd("': not a valid identifier\n", 2);
+				errno = 1;
+				return ;
+			}
+			j++;
 		}
-		j++;
+		str = supp_add(&cmd[i], info);
+		if (add)
+			j--;
+		while (tmp && ft_strncmp(tmp->content, str, j))
+			tmp = tmp->next;
+		if (!tmp)
+		{
+			ft_lstadd_back(&info->env, ft_lstnew(str));
+		}
+		else
+		{
+			if (add)
+			{
+				str = ft_strjoin(tmp->content, &cmd[i + j + 2]);;
+				free(tmp->content);
+				tmp->content = str;
+			}
+			else
+			{
+				free(tmp->content);
+				tmp->content = ft_strdup(&cmd[i]);
+			}
+		}
+		errno = 0;
 	}
-	ft_lstadd_back(&info->env, ft_lstnew(ft_strdup(&cmd[i])));
-	errno = 0;
 }
 
 void	ft_exit(char *cmd, t_info *info, t_err_code err_code)

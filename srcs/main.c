@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void    ft_get_env(t_info *info, char **envp)
+static void	ft_get_env(t_info *info, char **envp)
 {
 	int     i;
 	char    *str;
@@ -18,7 +18,7 @@ static void    ft_get_env(t_info *info, char **envp)
 	}
 }
 
-char **duplst(t_list *env ,t_info *info)
+char 		**duplst(t_list *env ,t_info *info)
 {
 	char **ret;
 	int i;
@@ -36,7 +36,7 @@ char **duplst(t_list *env ,t_info *info)
 	return (ret);
 }
 
-void	init_struct(t_info *info)
+void		init_struct(t_info *info)
 {
 	info->pwd = 0;
 	info->gbc = 0;
@@ -46,7 +46,7 @@ void	init_struct(t_info *info)
 	info->evrm = duplst(info->env, info);
 }
 
-void change_shlv(t_list **env)
+void		change_shlv(t_list **env)
 {
 	t_list *tmp;
 	char *str;
@@ -61,13 +61,40 @@ void change_shlv(t_list **env)
 	tmp->content = ft_strjoin("SHLVL=", ft_itoa(i));
 }
 
+char		**fill_nullenv(t_info *info)
+{
+	char **ret;
+	char *pwd;
+	int	i;
+
+	i = 13;
+	while (!pwd)
+		pwd = getcwd(pwd, i++);
+	ret = malloc(sizeof(char *) * 8);
+	i = 0;
+	if (!ret)
+		ft_exit(0, info, err_malloc);
+	ret[i++] = ft_strdup("LS_COLORS=");
+	ret[i++] = ft_strdup("LESSCLOSE=/usr/bin/lesspipe %s %s");
+	ret[i++] = ft_strjoin("PWD=", pwd);
+	ret[i++] = ft_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin");
+	ret[i++] = ft_strdup("SHLVL=0");
+	ret[i++] = ft_strdup("LESSOPEN=| /usr/bin/lesspipe %s");
+	ret[i++] = ft_strdup("_=/usr/bin/env");
+	ret[i] = 0;
+	free(pwd);
+	return (ret);
+}
+
 int main(int ac, char **av, char **envp)
 {
-	t_info  info;
+	t_info	info;
 
 	(void)ac;
 	(void)av;
 	printf("prog lancer\n");
+	if (!envp[0])
+		envp = fill_nullenv(&info);
 	ft_get_env(&info, envp);
 	change_shlv(&info.env);
 	init_struct(&info);

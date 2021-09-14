@@ -68,16 +68,18 @@ void		ft_prompt(t_info *info)
 	char	*buff;
 	int		i;
 	t_list	*tmp;
-
-	buff = 0;
 	errno = 0;
+	buff = 0;
 	while (1)
 	{
+		info->tmperrno = errno;
 		i = 13;
 		while (!info->pwd)
 			info->pwd = getcwd(info->pwd, i++);
+		errno = info->tmperrno;
+		printf("errno : |%d|\n", errno);
 	 	tmp = info->env;
-		while (tmp && ft_strncmp(tmp->content, "PWD", 3))
+		while (tmp && ft_strncmp(tmp->content, "PWD=", 4))
 		tmp = tmp->next;
 		free(tmp->content);
 		tmp->content = ft_strjoin("PWD=", info->pwd);

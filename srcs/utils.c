@@ -114,3 +114,31 @@ long long int	ft_atoll(char *str, int *error)
 		*error = 1;
 	return (r * s);
 }
+
+char *supp_add(char *str, t_info *info)
+{
+	int i;
+	int j;
+	char *ret;
+
+	i = 0;
+	j = 0;
+	while (str[i] && str[i] != '+')
+		i++;
+	if (str[i] == '+')
+	{
+		if (ft_go_malloc(&ret, (sizeof(char) + ft_strlen(str))))
+			ft_exit(0, info, err_malloc);
+		i = 0;
+		while (str[i])
+		{
+			if (str[i] != '+')
+				ret[j++] = str[i];
+			i++;
+		}
+		ret[j] = 0;
+		return (ret);
+	}
+	return (ft_strdup(str));
+	
+}
