@@ -43,13 +43,11 @@ int		createfile(t_dlist *allfile, t_info *info)
 	{
 		tmp = allfile->content;
 		token = tmp->content;
-		//printf("type ->: %d\n", token->type);
 		if (token->type != 4 && token->type != 6)
 		{
 			while (tmp)
 			{
 				token = tmp->content;
-				//printf("file ->: %s\n", (char *)token->value);
 				tmp = tmp->next;
 			}
 			printf("\n");
@@ -81,7 +79,6 @@ int		createfile(t_dlist *allfile, t_info *info)
 			while (tmp->next)
 				tmp = tmp->next;
 			token = tmp->content;
-			//printf("token->value ->: %s\n", (char *)token->value);
 			if (check_exist((char *)token->value))
 			{
 				ft_putstr_fd("bash: ", 2);
@@ -114,7 +111,6 @@ int		createfile(t_dlist *allfile, t_info *info)
 			while (tmp->next)
 				tmp = tmp->next;
 			token = tmp->content;
-			//printf(">: token->value ->: %s\n", (char *)token->value);
 			fd = open((char *)token->value, O_TRUNC);
 			close(fd);
 		}
@@ -122,7 +118,6 @@ int		createfile(t_dlist *allfile, t_info *info)
 		i++;
 		allfile = allfile->next;
 	}
-	printf("redir_left ->: %d\n", info->redir_left);
 	return (0);
 }
 
@@ -136,11 +131,9 @@ t_dlist	*clear_struct(t_dlist **lst, t_info *info)
 
 	i = 0;
 	tmp = 0;
-	//printf("checkclear1\n");
 	len = dlstsize(*lst);
 	if (info->redir_left)
 	{
-		//printf("check < || <<\n");
 		while (++i < info->redir_left)
 			*lst = (*lst)->next;
 		tmp2 = (*lst)->content;
@@ -152,7 +145,6 @@ t_dlist	*clear_struct(t_dlist **lst, t_info *info)
 	token = tmp2->content;
 	if (!info->redir_left || len >= 2)
 	{
-		//printf("check > || >>\n");
 		while ((token->type == 4 || token->type == 6))
 		{
 			*lst = (*lst)->prev;
@@ -163,7 +155,6 @@ t_dlist	*clear_struct(t_dlist **lst, t_info *info)
 	}
 	while ((*lst)->prev)
 		*lst = (*lst)->prev;
-	//printf("checkclear2\n");
 	return (tmp);
 
 }
@@ -174,8 +165,10 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 	int fdout;
 	int fd1;
 	int fd0;
+	int	fd[2];
 	t_dlist *tmp;
 	t_token	*token;
+	t_list	*dblrleft;
 
 	fd1 = dup(1);
 	fd0 = dup(0);
@@ -210,16 +203,23 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 	}
 	else
 	{
-		//printf("check0\n");
 		tmp = rdrct->content;
 		token = tmp->content;
 		if (token->type == 6)
 		{
-			
+			pipe(fd);
+			dblrleft = info->dlb_redir_left_str;
+			while (dblrleft)
+			{
+				ft_putstr_fd(dblrleft->content, fd[1]);
+				ft_putstr_fd("\n", fd[1]);
+				dblrleft = dblrleft->next;
+			}
+			dup2(fd[0], 0);
+			close(fd[1]);
 		}
 		else if (token->type == 4)
 		{
-			//printf("check1\n");
 			while (tmp->next)
 				tmp = tmp->next;
 			token = tmp->content;
@@ -228,7 +228,6 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 		}
 		else
 		{
-			//printf("check2\n");
 			while (tmp->next)
 				tmp = tmp->next;
 			token = tmp->content;
@@ -237,13 +236,14 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 				printf("probleme\n");
 			dup2(fdout, 1);
 		}
-		//printf("check3\n");
 		if (check_builtins(info, mcmd))
-		{
-			//printf("check4\n");
 			check_exec(info, mcmd);
+		else
+		{
+			printf("test\n");
+			close(fd[0]);
 		}
-		//printf("check05\n");
+		
 	}
 	dup2(fd1, 1);
 	dup2(fd0, 0);

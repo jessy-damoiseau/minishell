@@ -229,30 +229,10 @@ int		check_builtins(t_info *info, t_dlist *mcmd)
 	cmd = 0;
 	if (info->path)
 		return (1);
-
-
-	t_dlist *tmp;
-	t_token *token;
-	if (mcmd)
-		tmp = mcmd->content;
-	else
-		tmp = info->gbc->str;
-	printf("mcmd:\n");
-	while (tmp)
-	{
-		token = tmp->content;
-		printf("%s", (char*)token->value);
-		tmp = tmp->next;
-	}
-	printf("\n");
-
-
 	if (!mcmd)
 		joincmd(&cmd, (t_dlist *)info->gbc->str);
 	else
 		joincmd(&cmd, (t_dlist *)mcmd->content);
-	printf("cmd: |%s|\n", cmd);
-	//printf("return cmd: -> \n");
 	while (cmd[i] && cmd[i] != ' ')
 		i++;
 	if (!ft_strncmp(cmd, "echo", i))
@@ -285,7 +265,6 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 	pid_t pid;
 
 	cmd = 0;
-	printf("return cmd: -> \n");
 	if (!mcmd)
 		joincmd(&tmp, (t_dlist *)info->gbc->str);
 	else
