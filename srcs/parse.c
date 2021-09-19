@@ -74,7 +74,7 @@ void	parse_token(t_info *info)
 	parse_env(info); // gere les $ entre sgle quote
 	parse_quote(info); // concat les quote
 
-	printf("nb de pipe = %d\n", info->nbpipe);
+	//printf("nb de pipe = %d\n", info->nbpipe);
 	 // si pipe => il faut d'abord creer la pipeline de commande puis pipe par pipe expand_env + exec cmd
 	if (info->nbpipe)
 	 	create_pipeline(info, info->nbpipe);

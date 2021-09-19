@@ -65,8 +65,8 @@ void    create_pipeline(t_info *info, int pipe) // a refaire
 
 void	exec_child(t_info *info, t_dlist *iter, int *fd, int cfd)
 {
-	t_dlist *tmp;
-
+	//t_dlist *tmp;
+	(void)info;
 	dup2(cfd, 0);
 	if (iter->next != NULL)
 		dup2(fd[1], 1);

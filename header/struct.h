@@ -51,6 +51,7 @@ typedef struct	s_info
 	int		tmperrno;
 	int 	nbpipe;
 	int		redir_left;
+	int		redir_right;
 }				t_info;
 
 #endif

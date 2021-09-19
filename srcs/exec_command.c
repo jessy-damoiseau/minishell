@@ -282,6 +282,7 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 		else
 			wait(0);
 	}
+	free(tmp);
 	free_dbl(cmd);
 	/* @Jessy tu ne clean pas correctement la sortie de split => tab a 2 dimensions ! 
 	cf correction ci-dessous */
@@ -292,7 +293,7 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 	// 	i++;
 	// }
 	// free(cmd);
-	// return (0);
+	return (0);
 }
 
 void	exec_command(t_info *info)

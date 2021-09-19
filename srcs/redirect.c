@@ -38,6 +38,7 @@ int		createfile(t_dlist *allfile, t_info *info)
 	int i;
 	info->dlb_redir_left_str = 0;
 	info->redir_left = 0;
+	info->redir_right = 0;
 	i = 1;
 	while (allfile)
 	{
@@ -50,13 +51,14 @@ int		createfile(t_dlist *allfile, t_info *info)
 				token = tmp->content;
 				tmp = tmp->next;
 			}
-			printf("\n");
+			//printf("\n");
 			if (stat((char *)token->value, &sb))
 				{
 					fd = open((char *)token->value, O_CREAT, 0664);
 					if (fd < 0)
 						ft_exit(0, info, err_fd);
 					close(fd);
+					info->redir_right = 1;
 				}
 			else
 			{
@@ -123,14 +125,12 @@ int		createfile(t_dlist *allfile, t_info *info)
 t_dlist	*clear_struct(t_dlist **lst, t_info *info)
 {
 	int i;
-	int len;
 	t_dlist *tmp;
 	t_dlist *tmp2;
 	t_token *token;
 
 	i = 0;
 	tmp = 0;
-	len = dlstsize(*lst);
 	if (info->redir_left)
 	{
 		while (++i < info->redir_left)
@@ -142,7 +142,7 @@ t_dlist	*clear_struct(t_dlist **lst, t_info *info)
 		*lst = (*lst)->next;
 	tmp2 = (*lst)->content;
 	token = tmp2->content;
-	if (!info->redir_left || len >= 2)
+	if (info->redir_right)
 	{
 		while ((token->type == 4 || token->type == 6))
 		{
@@ -284,5 +284,7 @@ void	redirection(t_info *info)
 			return ;
 		}
 		go_redirect(clear_struct(&stock_rdrct, info), info, stockcmd);
+		tmplstclear(&stock_rdrct);
+		tmplstclear(&stockcmd);
 	}
 }
