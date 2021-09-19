@@ -48,9 +48,10 @@ void		init_struct(t_info *info)
 
 void		change_shlv(t_list **env)
 {
-	t_list *tmp;
-	char *str;
-	int	i;
+	t_list	*tmp;
+	char	*str;
+	int		i;
+	char	*tmpstr;
 
 	tmp = *env;
 	while (tmp && ft_strncmp(tmp->content, "SHLVL", 5))
@@ -58,7 +59,9 @@ void		change_shlv(t_list **env)
 	str = tmp->content;
 	i = ft_atoi(&str[6]) + 1;
 	free(tmp->content);
-	tmp->content = ft_strjoin("SHLVL=", ft_itoa(i));
+	tmpstr = ft_itoa(i);
+	tmp->content = ft_strjoin("SHLVL=", tmpstr);
+	free(tmpstr); // @ Jessy -> correction ajoutée ici => tu ne cleanes pas la sortie de itoa
 }
 
 char		**fill_nullenv(t_info *info)

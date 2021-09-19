@@ -53,7 +53,7 @@ t_token	*ft_malloc_token(char *input, t_token_type type, int i, int j)
 	}
 	else
 	{
-		if (ft_go_malloc(&s, sizeof(char) * (j - i + 1)))
+		if (ft_go_malloc(&s, sizeof(char) * (j - i + 2))) // correction du invalid write & read of size 1
 			return (0);
 		ft_strncpy(s, input, j - i + 1);
 	}

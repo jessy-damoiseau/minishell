@@ -307,7 +307,9 @@ void	ft_exit(char *cmd, t_info *info, t_err_code err_code)
 		ft_putstr_fd("Error : open failed\n", 2);
 		ret = 1;
 	}
-	clear_cmd_lst(&info->cmd);
+/*  @jessy => mis en commentaire car cause double free avec ctrl + D 
+=> check avec ctrl D et exit sous valgrind => a priori pas leaks => a priori OK du coup */
+	// clear_cmd_lst(&info->cmd);
 	ft_lstclear(&info->env, &ft_memdel);
 	exit(ret);
 }

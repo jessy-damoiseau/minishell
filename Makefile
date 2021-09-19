@@ -36,15 +36,9 @@ LIB_LIBFT_DIR	= $(LIBS_DIR)/libft.a
 #                               Sources filenames                              #
 ################################################################################
 
-SRCS_MINISHELL		=	#main.c
-
-#TEMP A SUPPRIMER ENSUITE
-SRCS_J	=	main.c prompt.c tokenize.c utils.c exit.c exec_command.c\
-			gbcollector.c builtins.c quote.c parse.c pipeline.c expand_env.c\
-			parse_env.c redirect.c
-SRCS_P	=	main.c prompt.c tokenize.c utils.c exit.c exec_command.c\
-			gbcollector.c builtins.c quote.c parse.c pipeline.c expand_env.c\
-			parse_env.c
+SRCS_MINISHELL		=	main.c prompt.c tokenize.c utils.c exit.c exec_command.c\
+						gbcollector.c builtins.c quote.c parse.c pipeline.c\
+						expand_env.c parse_env.c redirect.c
 
 ################################################################################
 #                              Commands and arguments                          #
@@ -87,22 +81,6 @@ init_m:
 		else echo "$(_YELLOW)[Initialize minishell program]";\
 		fi
 
-#TEMP A SUPPRIMER ENSUITE
-vj:		init_libft install_pkg jessy $(NAME_J)
-vp:		init_libft install_pkg pierre $(NAME_P)
-
-jessy:
-		if test -f $(NAME_J);\
-		then echo "$(_CYAN)[Jessy ton programme est deja cree]";\
-		else echo "$(_YELLOW)[Init du programme de Jessy]";\
-		fi
-
-pierre:
-		if test -f $(NAME_P);\
-		then echo "$(_CYAN)[vp program already created]";\
-		else echo "$(_YELLOW)[Initialize vp program]";\
-		fi
-
 init_libft:
 			if test -f $(LIB_LIBFT_DIR); \
 			then echo "$(_CYAN)[libft.a already created]";\
@@ -119,32 +97,17 @@ $(NAME_MINISHELL):	$(OBJS_MINISHELL)
 					$(CC) $(OBJS_MINISHELL) -o $(NAME_MINISHELL) $(LDFLAGS)
 					echo "$(_GREEN)[minishell program created & ready]"
 
-#TEMP A SUPPRIMER ENSUITE
-$(NAME_J):	$(OBJS_J)
-					echo "\t$(_YELLOW)[Creating Jessy's program]"
-					$(CC) $(OBJS_J) -o $(NAME_J) $(LDFLAGS)
-					echo "$(_GREEN)[Jessy ton programme est pret]"
-
-$(NAME_P):	$(OBJS_P)
-				echo "\t$(_YELLOW)[Creating vp program]"
-				$(CC) $(OBJS_P) -o $(NAME_P) $(LDFLAGS)
-				echo "$(_GREEN)[vp program created & ready]"
-
 clean:
 		echo "$(_RED)[cleaning up .out & objects files]"
-		$(RM) $(OBJS_MINISHELL) $(OBJS_J) $(OBJS_P)
+		$(RM) $(OBJS_MINISHELL)
 		make -C $(LIBFT_DIR) -f $(LIBFT_MAKE) clean
 
 fclean: clean
 		echo "$(_RED)[cleaning up .out, objects & library files]"
-		$(RM) $(NAME_MINISHELL) $(NAME_J) $(NAME_P)
+		$(RM) $(NAME_MINISHELL)
 		make -C $(LIBFT_DIR) -f $(LIBFT_MAKE) fclean
 
 re:	fclean all
-
-#TEMP A SUPPRIMER ENSUITE
-rej: fclean vj
-rep: fclean vp
 
 .SILENT:
 		all

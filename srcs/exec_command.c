@@ -286,6 +286,14 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 		else
 			wait(0);
 	}
+	/* @Jessy tu ne clean pas correctement la sortie de split => tab a 2 dimensions ! 
+	cf correction ci-dessous */
+	int i = 0;
+	while (cmd[i] != 0)
+	{
+		free(cmd[i]);
+		i++;
+	}
 	free(cmd);
 	return (0);
 }
