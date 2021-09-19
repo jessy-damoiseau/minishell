@@ -139,6 +139,18 @@ char *supp_add(char *str, t_info *info)
 		ret[j] = 0;
 		return (ret);
 	}
-	return (ft_strdup(str));
-	
+	return (ft_strdup(str));	
+}
+
+void	tmplstclear(t_dlist **lst)
+{
+	t_dlist *tmp;
+
+	while (*lst)
+	{
+		tmp = *lst;
+		*lst = (*lst)->next;
+		free(tmp);
+	}
+	*lst = 0;
 }

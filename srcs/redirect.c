@@ -114,7 +114,6 @@ int		createfile(t_dlist *allfile, t_info *info)
 			fd = open((char *)token->value, O_TRUNC);
 			close(fd);
 		}
-
 		i++;
 		allfile = allfile->next;
 	}
@@ -172,15 +171,27 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 
 	fd1 = dup(1);
 	fd0 = dup(0);
+
 	if (dlstsize(rdrct) == 2)
 	{
+		fdin = -1;
+		fdout = -1;
 		while (rdrct)
 		{
 			tmp = rdrct->content;
 			token = tmp->content;
 			if (token->type == 6)
 			{
-				
+				pipe(fd);
+				dblrleft = info->dlb_redir_left_str;
+				while (dblrleft)
+				{
+					ft_putstr_fd(dblrleft->content, fd[1]);
+					ft_putstr_fd("\n", fd[1]);
+					dblrleft = dblrleft->next;
+				}
+				dup2(fd[0], 0);
+				close(fd[1]);
 			}
 			else
 			{
@@ -232,21 +243,15 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 				tmp = tmp->next;
 			token = tmp->content;
 			fdout = open((char *)token->value, O_WRONLY | O_APPEND);
-			if (fdout < 0)
-				printf("probleme\n");
 			dup2(fdout, 1);
 		}
 		if (check_builtins(info, mcmd))
-			check_exec(info, mcmd);
-		else
-		{
-			printf("test\n");
-			close(fd[0]);
-		}
-		
+			check_exec(info, mcmd);	
 	}
 	dup2(fd1, 1);
 	dup2(fd0, 0);
+	tmplstclear(&rdrct);
+	ft_lstclear(&info->dlb_redir_left_str, &ft_memdel);
 }
 
 void	redirection(t_info *info)
@@ -272,24 +277,10 @@ void	redirection(t_info *info)
 				dlstadd_back(&stockcmd, dlstnew(cmd));
 			tmpgbc = tmpgbc->next;
 		}
-
-
-		t_dlist *tmp;
-		tmp = stockcmd->content;
-		printf("cmd:\n");
-		while (tmp)
-		{
-			token = tmp->content;
-			printf("%s", (char*)token->value);
-			tmp = tmp->next;
-		}
-		printf("\n");
-
-
 		if (createfile(stock_rdrct, info))
 		{
-			dlstclear(&stock_rdrct, &ft_memdel);
-			dlstclear(&stockcmd, &ft_memdel);
+			tmplstclear(&stock_rdrct);
+			tmplstclear(&stockcmd);
 			return ;
 		}
 		go_redirect(clear_struct(&stock_rdrct, info), info, stockcmd);

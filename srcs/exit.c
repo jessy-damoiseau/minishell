@@ -64,7 +64,6 @@ void	free_dbl(char **str)
 		free(str[i]);
 	free(str);
 	str = 0;
-
 }
 
 // cette fonction peut etre amelioree avec un tab msg erreur vs enum code

@@ -91,7 +91,6 @@ int		check_path(char *tmp1, t_info *info)
 
 int		check_exist(char *str)
 {
-
 	struct stat sb;
 
 	if (stat(str, &sb))
@@ -111,10 +110,7 @@ int		check_command(t_info *info)
 	if (info->nbpipe)
 		dlsttmp1 = info->cmdpipe->content;
 	else
-	{
-		//printf("check\n");
 		dlsttmp1 = info->cmd;
-	}
 	while (dlsttmp1->next)
 		dlsttmp1 = dlsttmp1->next;
 	token1 = dlsttmp1->content;
@@ -286,16 +282,17 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 		else
 			wait(0);
 	}
+	free_dbl(cmd);
 	/* @Jessy tu ne clean pas correctement la sortie de split => tab a 2 dimensions ! 
 	cf correction ci-dessous */
-	int i = 0;
-	while (cmd[i] != 0)
-	{
-		free(cmd[i]);
-		i++;
-	}
-	free(cmd);
-	return (0);
+	// int i = 0;
+	// while (cmd[i] != 0)
+	// {
+	// 	free(cmd[i]);
+	// 	i++;
+	// }
+	// free(cmd);
+	// return (0);
 }
 
 void	exec_command(t_info *info)
@@ -303,57 +300,53 @@ void	exec_command(t_info *info)
 
 	if (!check_command(info))
 	{
-		t_gbc *tmp;
-		int i = 0;
-		tmp = info->gbc;
-		while (tmp)
-		{
-			printf ("%d:\n", i);
-			if (tmp->type == STR)
-			{
-				printf("OUAIIIIII\n");
-				t_dlist *tmp2;
-				tmp2 = tmp->str;
-				printf("|%s|\n", (char *)tmp2->content);
-			}
-			else if (tmp->type == TOKEN)
-			{
-				t_dlist *tmp2;
-				tmp2 = tmp->str;
-				while (tmp2)
-				{
-					t_token *tmp3;
-					tmp3 = tmp2->content;
-					printf("|%s|\n", (char *)tmp3->value);
-					tmp2 = tmp2->next;
-				}
-			}
-			tmp = tmp->next;
-			i++;
-		}
-		printf("\npath:\n");
-		t_list *tmppth;
-		tmppth = info->path;
-		tmp = info->gbc;
-		while (tmppth)
-		{
-			printf("-> |%s|\n", (char *)tmppth->content);
-			tmppth = tmppth->next;
-		}
-		printf("\n");
-			if (info->gbc->next)
-				//printf("prob\n");
+		// t_gbc *tmp;
+		// int i = 0;
+		// tmp = info->gbc;
+		// while (tmp)
+		// {
+		// 	printf ("%d:\n", i);
+		// 	if (tmp->type == STR)
+		// 	{
+		// 		printf("OUAIIIIII\n");
+		// 		t_dlist *tmp2;
+		// 		tmp2 = tmp->str;
+		// 		printf("|%s|\n", (char *)tmp2->content);
+		// 	}
+		// 	else if (tmp->type == TOKEN)
+		// 	{
+		// 		t_dlist *tmp2;
+		// 		tmp2 = tmp->str;
+		// 		while (tmp2)
+		// 		{
+		// 			t_token *tmp3;
+		// 			tmp3 = tmp2->content;
+		// 			printf("|%s|\n", (char *)tmp3->value);
+		// 			tmp2 = tmp2->next;
+		// 		}
+		// 	}
+		// 	tmp = tmp->next;
+		// 	i++;
+		// }
+		// printf("\npath:\n");
+		// t_list *tmppth;
+		// tmppth = info->path;
+		// tmp = info->gbc;
+		// while (tmppth)
+		// {
+		// 	printf("-> |%s|\n", (char *)tmppth->content);
+		// 	tmppth = tmppth->next;
+		// }
+		// printf("\n");
 
+
+
+			if (info->gbc->next)
 				redirection(info);
 			else if (check_builtins(info, 0))
-			{
-				if (check_exec(info, 0))
-				{
-					printf("mdr faut check autre chose ah ah AHHH AHHH AHHH\n");
-					//check_other();
-				}
-			}
+				check_exec(info, 0);
 	}
+	//clear info->cmd
 	ft_lstclear(&info->path, &ft_memdel);
 	gbcclear(&info->gbc);
 }

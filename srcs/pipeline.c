@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    create_pipeline(t_info *info, int pipe)
+void    create_pipeline(t_info *info, int pipe) // a refaire
 {
 	(void)info;
 	(void)pipe;
@@ -72,13 +72,13 @@ void	exec_child(t_info *info, t_dlist *iter, int *fd, int cfd)
 		dup2(fd[1], 1);
 	close(fd[0]);
 	close(fd[1]);
-	expand_env(info);
-	exec_command(info);
-	tmp = info->cmdpipe;
-	info->cmdpipe = info->cmdpipe->next;
-	tmp->next = 0;
-	info->cmdpipe->prev = 0;
-	clear_cmd_lst(&tmp);
+	// expand_env(info);
+	// exec_command(info);
+	// tmp = info->cmdpipe;
+	// info->cmdpipe = info->cmdpipe->next;
+	// tmp->next = 0;
+	// info->cmdpipe->prev = 0;
+	// clear_cmd_lst(&tmp);
 	// expand_n_exec() // @Jessy ici il faut expand la var d'env dans le pipe puis exec cmd
 	exit (1);
 }
@@ -98,7 +98,7 @@ void	exec_pipeline(t_dlist *list, t_info *info)
 		pipe(fd);
 		pid = fork();
 		if (pid == -1)
-			ft_exit(0, info, err_malloc); // code err a modifier ou adapter quand @Jessy aura cree exit
+			ft_exit(0, info, err_pid);
 		else if (pid == 0)
 			exec_child(info, iter, fd, cfd);
 		else

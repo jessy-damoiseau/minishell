@@ -39,7 +39,6 @@ static int	ft_get_path(char **path, char *buff, char *color)
 
 int			catch_eof_signal(char *line, char *buff, char *path, t_info *info)
 {
-	// (void)info;
 	if (!line)
 	{
 		free(path);
@@ -77,7 +76,6 @@ void		ft_prompt(t_info *info)
 		while (!info->pwd)
 			info->pwd = getcwd(info->pwd, i++);
 		errno = info->tmperrno;
-		printf("errno : |%d|\n", errno);
 	 	tmp = info->env;
 		while (tmp && ft_strncmp(tmp->content, "PWD=", 4))
 		tmp = tmp->next;
@@ -86,9 +84,6 @@ void		ft_prompt(t_info *info)
 		if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
 			ft_exit(0, info, err_malloc);
 		line = readline(path);
-		// if (!line) // NB = equivalent a catch_eof_signal
-		// 	ft_exit(info, no_err);
-		printf("line :|%s|\n", line);
 		catch_eof_signal(line, buff, path, info);
 		if (line[0])
 		{
