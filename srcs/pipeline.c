@@ -1,65 +1,74 @@
 #include "minishell.h"
 
-void    create_pipeline(t_info *info, int pipe) // a refaire
+void	supp_pipe(t_dlist **pipe)
 {
-	(void)info;
-	(void)pipe;
-	
-	t_dlist *tmp1;
-	t_dlist *tmp2;
-	t_token *token;
+	t_token	*token;
+	token = (*pipe)->content;
+	free(token->value);
+	free(token);
+	free(*pipe);
+	*pipe = 0;
+}
+
+void	create_pipeline(t_info *info)
+{
+	t_dlist	*tmpcmd;
+	t_dlist	*tmp;
+	t_token	*token;
+
+	tmpcmd = info->cmd;
 	info->cmdpipe = 0;
-	while (info->cmd->next)
+	while (tmpcmd->next)
 	{
-		token = info->cmd->content;
-		if (!token->type)
+		token = tmpcmd->content;
+		if (token->type == pipeline)
 		{
-			tmp1 = info->cmd->prev;
-			tmp1->next = 0;
-			info->cmd->prev = 0;
-			while (tmp1->prev)
-				tmp1 = tmp1->prev;
-			check_end((t_dlist**)&tmp1);
-			dlstadd_back(&info->cmdpipe, dlstnew(tmp1));
-			tmp2 = info->cmd;
-			info->cmd = info->cmd->next;
-			info->cmd->prev = 0;
-			tmp2->next = 0;
-			clear_cmd_lst(&tmp2);
-			token = info->cmd->content;
-			while (token->type == 2)
+			tmp = tmpcmd;
+			tmpcmd = tmpcmd->next;
+			token = tmpcmd->content;
+			while (token->type == space)
 			{
-				info->cmd = info->cmd->next;
-				token = info->cmd->content;
+				tmpcmd = tmpcmd->next;
+				token = tmpcmd->content;
+				supp_pipe(&tmpcmd->prev);
 			}
-			if (info->cmd->prev)
-			{
-				tmp2 = info->cmd->prev;
-				info->cmd->prev = 0;
-				tmp2->next = 0;
-				while (tmp2->prev)
-					tmp2 = tmp2->prev;
-				clear_cmd_lst(&tmp2);
-			}
+			tmpcmd->prev = 0;
+			tmp = tmp->prev;
+
+			supp_pipe(&tmp->next);
+			while (tmp->prev)
+				tmp = tmp->prev;
+			check_end((t_dlist **)&tmp);
+			dlstadd_back(&info->cmdpipe, dlstnew(tmp));
 		}
 		else
-			info->cmd = info->cmd->next;
+			tmpcmd = tmpcmd->next;
 	}
-	while (info->cmd->prev)
-		info->cmd = info->cmd->prev;
-	check_end((t_dlist**)&info->cmd);
-	dlstadd_back(&info->cmdpipe, dlstnew(info->cmd));
-	clear_cmd_lst(&info->cmd);
-
-	int i = 0;
-	while (info->cmdpipe)
-	{
-		i++;
-		info->cmdpipe = info->cmdpipe->next;
-	}
-	exec_pipeline(info->cmdpipe, info);
+	while (tmpcmd->prev)
+		tmpcmd = tmpcmd->prev;
+	dlstadd_back(&info->cmdpipe, dlstnew(tmpcmd));
 	
-	return ;
+
+// *test* //
+	// tmpcmd = info->cmdpipe;
+	// int i = 0;
+	// while (tmpcmd)
+	// {
+	// 	printf("%d ->:\n", i++);
+	// 	t_dlist *tmpm;
+	// 	tmpm = tmpcmd->content;
+	// 	while (tmpm)
+	// 	{
+	// 		token = tmpm->content;
+	// 		printf("|%s|\n", (char*)token->value);
+	// 		tmpm = tmpm->next;
+	// 	}
+	// 	tmpcmd = tmpcmd->next;
+	// }
+	// printf("nbpipe:|%d|\n", info->nbpipe);
+// *end_test* //
+
+	exec_pipeline(info->cmdpipe, info);
 }
 
 
@@ -72,15 +81,10 @@ void	exec_child(t_info *info, t_dlist *iter, int *fd, int cfd)
 		dup2(fd[1], 1);
 	close(fd[0]);
 	close(fd[1]);
-	// expand_env(info);
-	// exec_command(info);
-	// tmp = info->cmdpipe;
-	// info->cmdpipe = info->cmdpipe->next;
-	// tmp->next = 0;
-	// info->cmdpipe->prev = 0;
-	// clear_cmd_lst(&tmp);
+	expand_env(info);
+	exec_command(info);
 	// expand_n_exec() // @Jessy ici il faut expand la var d'env dans le pipe puis exec cmd
-	exit (1);
+	//exit (1);
 }
 
 // @Jessy ici remplacer list par la structure / tableau de list qui te convient 

@@ -102,7 +102,7 @@ int				find_token_type(t_token_type type, t_token *token);
 void			parse_token(t_info *info);
 
 /* PIPELINE */
-void			create_pipeline(t_info *info, int pipe);
+void			create_pipeline(t_info *info);
 
 /* PARSE ENV */
 void			parse_env(t_info *info);

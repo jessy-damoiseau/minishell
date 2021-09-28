@@ -347,7 +347,6 @@ void	exec_command(t_info *info)
 			else if (check_builtins(info, 0))
 				check_exec(info, 0);
 	}
-	//clear info->cmd
 	ft_lstclear(&info->path, &ft_memdel);
 	gbcclear(&info->gbc);
 }

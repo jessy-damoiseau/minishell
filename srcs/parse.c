@@ -77,7 +77,8 @@ void	parse_token(t_info *info)
 	//printf("nb de pipe = %d\n", info->nbpipe);
 	 // si pipe => il faut d'abord creer la pipeline de commande puis pipe par pipe expand_env + exec cmd
 	if (info->nbpipe)
-	 	create_pipeline(info, info->nbpipe);
-	expand_env(info); // si pas de pipe => expand directement les valeurs puis exec
+	 	create_pipeline(info);
+	else
+		expand_env(info); // si pas de pipe => expand directement les valeurs puis exec
 	return ;
 }
