@@ -1,7 +1,10 @@
 echo "--- TESTS LS ---"
 
 ls
-#ls -la ~/
 ls -a
+ls khksdhg
 
 /bin/ls
+
+"ls"
+"ls -la"
