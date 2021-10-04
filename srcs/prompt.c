@@ -85,6 +85,7 @@ void		ft_prompt(t_info *info)
 			ft_exit(0, info, err_malloc);
 		line = readline(path);
 		catch_eof_signal(line, buff, path, info);
+		
 		if (line[0])
 		{
 			add_history(line);
@@ -94,6 +95,7 @@ void		ft_prompt(t_info *info)
 		}
 		free(line);
 		free(buff);
+		
 		free(path);
 		free(info->pwd);
 		info->pwd = 0;

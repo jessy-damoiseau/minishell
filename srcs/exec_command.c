@@ -117,6 +117,7 @@ int		check_command(t_info *info)
 	if (token1->type >= 3 && token1->type <= 6)
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
+		clear_cmd_lst(&info->cmd);
 		errno = 1;
 		return (1);
 	}
@@ -162,6 +163,7 @@ int		check_command(t_info *info)
 					ft_putstr_fd("bash: ", 2);
 					ft_putstr_fd(chrtmp1, 2);
 					ft_putstr_fd(": No such file or directory\n", 2);
+					clear_cmd_lst(&info->cmd);
 					errno = 127;
 					return (1);
 				}
@@ -177,6 +179,7 @@ int		check_command(t_info *info)
 				{
 					ft_putstr_fd(chrtmp1, 2);
 					ft_putstr_fd(": command not found\n", 2);
+					clear_cmd_lst(&info->cmd);
 					errno = 127;
 					return (1);
 				}

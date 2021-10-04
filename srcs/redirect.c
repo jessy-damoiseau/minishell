@@ -33,6 +33,7 @@ int		createfile(t_dlist *allfile, t_info *info)
 	int fd;
 	char *str;
 	struct stat sb;
+	DIR *check;
 
 	str = 0;
 	int i;
@@ -51,7 +52,6 @@ int		createfile(t_dlist *allfile, t_info *info)
 				token = tmp->content;
 				tmp = tmp->next;
 			}
-			//printf("\n");
 			if (stat((char *)token->value, &sb))
 				{
 					fd = open((char *)token->value, O_CREAT, 0664);
@@ -62,11 +62,13 @@ int		createfile(t_dlist *allfile, t_info *info)
 				}
 			else
 			{
-				if (opendir((char *)token->value))
+				check = opendir((char *)token->value);
+				if (check)
 				{
 					ft_putstr_fd("bash: ", 2);
 					ft_putstr_fd((char *)token->value, 2);
 					ft_putstr_fd(": Is a directory", 2);
+					closedir(check);
 					errno = 1;
 					return (1);
 				}
@@ -102,9 +104,7 @@ int		createfile(t_dlist *allfile, t_info *info)
 			{
 				ft_putstr_fd(">", 1);
 				get_next_line(1, &str);
-				ft_putstr_fd("\n", 1);
-				if (ft_strcmp(str, (char *)token->value))
-					ft_lstadd_back(&info->dlb_redir_left_str, ft_lstnew(str));
+				ft_lstadd_back(&info->dlb_redir_left_str, ft_lstnew(str));
 			}
 			info->redir_left = i;
 		}
@@ -184,7 +184,7 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 			{
 				pipe(fd);
 				dblrleft = info->dlb_redir_left_str;
-				while (dblrleft)
+				while (dblrleft->next)
 				{
 					ft_putstr_fd(dblrleft->content, fd[1]);
 					ft_putstr_fd("\n", fd[1]);
@@ -211,16 +211,18 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 			dup2(fdout, 1);
 		if (check_builtins(info, mcmd))
 			check_exec(info, mcmd);
+		
 	}
 	else
 	{
+
 		tmp = rdrct->content;
 		token = tmp->content;
 		if (token->type == 6)
 		{
 			pipe(fd);
 			dblrleft = info->dlb_redir_left_str;
-			while (dblrleft)
+			while (dblrleft->next)
 			{
 				ft_putstr_fd(dblrleft->content, fd[1]);
 				ft_putstr_fd("\n", fd[1]);
@@ -234,7 +236,7 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 			while (tmp->next)
 				tmp = tmp->next;
 			token = tmp->content;
-			fdin = open((char *)token->value, O_RDONLY);
+			fdin = open((char *)token ->value, O_RDONLY);
 			dup2(fdin, 0);
 		}
 		else
@@ -246,7 +248,7 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 			dup2(fdout, 1);
 		}
 		if (check_builtins(info, mcmd))
-			check_exec(info, mcmd);	
+			check_exec(info, mcmd);
 	}
 	dup2(fd1, 1);
 	dup2(fd0, 0);

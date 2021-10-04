@@ -103,6 +103,7 @@ int main(int ac, char **av, char **envp)
 	init_struct(&info);
 	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, SIG_IGN);
+	
 	ft_prompt(&info);
 	ft_exit(0, &info, no_err);
 	return (0);

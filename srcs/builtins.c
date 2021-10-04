@@ -134,11 +134,9 @@ void	unset(char *cmd, t_info *info)
 		}
 	while (tmp->next)
 	{
-		printf("i: %d, j: %d, &cmd[i]: %s\n", i, j, &cmd[i]);
 		tfchier = tmp->next->content;
 		if (!ft_strncmp(tmp->next->content, &cmd[i], j) && (tfchier[j] == '=' || !tfchier[j]))
 		{
-			printf("check\n");
 			tmp2 = tmp->next->next;
 			free(tmp->next->content);
 			free(tmp->next);
@@ -212,6 +210,7 @@ void	ft_export(char *cmd, t_info *info, int fd)
 			}
 			j++;
 		}
+		printf("cmd[i]: %s\n", &cmd[i]);
 		str = supp_add(&cmd[i], info);
 		if (add)
 			j--;
@@ -223,6 +222,7 @@ void	ft_export(char *cmd, t_info *info, int fd)
 		}
 		else
 		{
+			free(str);
 			if (add)
 			{
 				str = ft_strjoin(tmp->content, &cmd[i + j + 2]);;
@@ -261,6 +261,7 @@ void	ft_exit(char *cmd, t_info *info, t_err_code err_code)
 			clear_cmd_lst(&info->cmd);
 			ft_lstclear(&info->env, &ft_memdel);
 			ft_putstr_fd("exit\n", 1);
+			free(cmd);
 			exit(ret);
 		}
 		if (cmd[i] == '-')
@@ -288,6 +289,7 @@ void	ft_exit(char *cmd, t_info *info, t_err_code err_code)
 			ft_putstr_fd(": numeric argument required\n", 2);
 			ret = 2;
 		}
+		free(cmd);
 	}
 	if (err_code == 1)
 		{
