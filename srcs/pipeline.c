@@ -75,7 +75,7 @@ void	create_pipeline(t_info *info)
 void	exec_child(t_info *info, t_dlist *iter, int *fd, int cfd)
 {
 	//t_dlist *tmp;
-	(void)info;
+	
 	dup2(cfd, 0);
 	if (iter->next != NULL)
 		dup2(fd[1], 1);
@@ -84,7 +84,7 @@ void	exec_child(t_info *info, t_dlist *iter, int *fd, int cfd)
 	expand_env(info);
 	exec_command(info);
 	// expand_n_exec() // @Jessy ici il faut expand la var d'env dans le pipe puis exec cmd
-	//exit (1);
+	exit (1);
 }
 
 // @Jessy ici remplacer list par la structure / tableau de list qui te convient 
@@ -94,11 +94,17 @@ void	exec_pipeline(t_dlist *list, t_info *info)
 	int pid;
 	int cfd;
 	t_dlist *iter;
+	t_dlist *tmp;
 
 	cfd = 0;
 	iter = list;
 	while (iter)
 	{
+		t_token *t;
+		t_dlist *p;
+		p = iter->content;
+		t = p->content;
+		printf("iter->content: %s\n", (char*)t->value);
 		pipe(fd);
 		pid = fork();
 		if (pid == -1)

@@ -108,9 +108,13 @@ int		check_command(t_info *info)
 	int i;
 
 	if (info->nbpipe)
+	{
+		printf("check\n");
 		dlsttmp1 = info->cmdpipe->content;
+	}		
 	else
 		dlsttmp1 = info->cmd;
+	
 	while (dlsttmp1->next)
 		dlsttmp1 = dlsttmp1->next;
 	token1 = dlsttmp1->content;
