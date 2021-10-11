@@ -108,10 +108,7 @@ int		check_command(t_info *info)
 	int i;
 
 	if (info->nbpipe)
-	{
-		printf("check\n");
 		dlsttmp1 = info->cmdpipe->content;
-	}		
 	else
 		dlsttmp1 = info->cmd;
 	
@@ -261,23 +258,45 @@ int		check_builtins(t_info *info, t_dlist *mcmd)
 	return (0);
 }
 
+char	**dup_env(t_list *env)
+{
+	char **ret;
+	int i;
+
+	ret = malloc(sizeof(char *) * ft_lstsize(env) + 1);
+	i = 0;
+	if (!ret)
+		ret = 0;
+	while (env)
+	{
+		ret[i++] = ft_strdup((char *)env->content);
+		env = env->next;
+	}
+	ret[i - 1] = 0;
+	return (ret);
+}
+
 int		check_exec(t_info *info, t_dlist *mcmd)
 {
 	char *tmp;
 	char **cmd;
+	char **envp;
+	int i;
 	pid_t pid;
 
 	cmd = 0;
+	i = 0;
 	if (!mcmd)
 		joincmd(&tmp, (t_dlist *)info->gbc->str);
 	else
 		joincmd(&tmp, (t_dlist *)mcmd);
-	cmd = ft_split(tmp, ' ');
+	cmd = ft_split(&tmp[i + 1], ' ');
+	envp = dup_env(info->env);
 	if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
 	{
 		pid = fork();
 		if (!pid)
-			execve(tmp, cmd, info->evrm);
+			execve(tmp, cmd, envp);
 		else
 			wait(0);
 	}
@@ -285,21 +304,14 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 	{
 		pid = fork();
 		if (!pid)
-			execve((char *)info->path->content, cmd, info->evrm);
+			execve((char *)info->path->content, cmd, envp);
 		else
 			wait(0);
 	}
 	free(tmp);
+	free_dbl(envp);
 	free_dbl(cmd);
-	/* @Jessy tu ne clean pas correctement la sortie de split => tab a 2 dimensions ! 
-	cf correction ci-dessous */
-	// int i = 0;
-	// while (cmd[i] != 0)
-	// {
-	// 	free(cmd[i]);
-	// 	i++;
-	// }
-	// free(cmd);
+
 	return (0);
 }
 

@@ -75,7 +75,6 @@ void		ft_prompt(t_info *info)
 		i = 13;
 		while (!info->pwd)
 			info->pwd = getcwd(info->pwd, i++);
-		errno = info->tmperrno;
 	 	tmp = info->env;
 		while (tmp && ft_strncmp(tmp->content, "PWD=", 4))
 		tmp = tmp->next;
@@ -85,7 +84,7 @@ void		ft_prompt(t_info *info)
 			ft_exit(0, info, err_malloc);
 		line = readline(path);
 		catch_eof_signal(line, buff, path, info);
-		
+		errno = info->tmperrno;
 		if (line[0])
 		{
 			add_history(line);

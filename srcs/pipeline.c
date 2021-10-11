@@ -76,11 +76,22 @@ void	exec_child(t_info *info, t_dlist *iter, int *fd, int cfd)
 {
 	//t_dlist *tmp;
 	
-	dup2(cfd, 0);
-	if (iter->next != NULL)
+	// dup2(cfd, 0);
+	// if (iter->next != NULL)
+	// 	dup2(fd[1], 1);
+	// close(fd[0]);
+	// close(fd[1]);
+	(void)iter;
+	if (cfd >= 0)
+	{
+		printf("check1\n");
+		dup2(cfd, 0);
+	}
+	if(iter)
+	{	
+		printf("check\n");
 		dup2(fd[1], 1);
-	close(fd[0]);
-	close(fd[1]);
+	}
 	expand_env(info);
 	exec_command(info);
 	// expand_n_exec() // @Jessy ici il faut expand la var d'env dans le pipe puis exec cmd
@@ -93,11 +104,15 @@ void	exec_pipeline(t_dlist *list, t_info *info)
 	int fd[2];
 	int pid;
 	int cfd;
+	int fd1;
+	int fd0;
 	t_dlist *iter;
-	t_dlist *tmp;
+	int i = 0;
 
-	cfd = 0;
+	cfd = -1;
 	iter = list;
+	fd1 = dup(1);
+	fd0 = dup(0);
 	while (iter)
 	{
 		t_token *t;
@@ -110,13 +125,23 @@ void	exec_pipeline(t_dlist *list, t_info *info)
 		if (pid == -1)
 			ft_exit(0, info, err_pid);
 		else if (pid == 0)
-			exec_child(info, iter, fd, cfd);
+		{
+			exec_child(info, iter->next, fd, cfd);
+		}
 		else
 		{
+			i++;
 			wait(NULL);
 			close(fd[1]);
-			cfd = fd[0];
-			iter = iter->next; // @Jessy ici passage au prochain pipe
+			cfd = dup(fd[0]);
+			iter = iter->next;
+			close(fd[0]);
+			dup2(fd1, 1);
+			dup2(fd0, 0);// @Jessy ici passage au prochain pipe
 		}
 	}
+	dup2(fd1, 1);
+	dup2(fd0, 0);
+	printf("nb_exec_child: %d\n", i);
+	//clear_cmdpipe;
 }

@@ -136,9 +136,9 @@ void	ft_create_token(char *s, t_info *info)
 	// 	while (test)
 	// 	{
 	// 		testtok = test->content;
-	// 		// printf("check token.value %s\n", (char *)testtok->value);
+	// 		printf("check token.value %s\n", (char *)testtok->value);
 	// 		printf("check token.value %s\t token.type %d\n", (char *)testtok->value, testtok->type);
-	// 		// printf("check token.type %d\n", testtok->type);
+	// 		printf("check token.type %d\n", testtok->type);
 	// 		test = test->next;
 	// 	}
 	// }

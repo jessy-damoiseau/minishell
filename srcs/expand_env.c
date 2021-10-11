@@ -47,6 +47,39 @@ static int	find_env_var(t_dlist **iter, t_info *info)
 	return (0);
 }
 
+int	find_errno_type(t_dlist *lst)
+{
+	t_token *token;
+
+	token = lst->content;
+	if (token->type == dollar && lst->next)
+	{
+		lst = lst->next;
+		token = lst->content;
+		if (!strcmp((char *)token->value, "?"))
+			return (1);
+	}
+	return (0);
+}
+
+void	replace_errno(char *str, t_dlist **lst)
+{
+	t_dlist *tmp;
+	t_token *token;
+
+
+	tmp = (*lst)->next;
+	(*lst)->next = tmp->next;
+	tmp->prev = 0;
+	tmp->next = 0;
+	clear_cmd_lst(&tmp);
+	token = (*lst)->content;
+	token->type = literal;
+	free(token->value);
+	token->value = ft_strdup(str);
+	free(str);
+}
+
 void	expand_env(t_info *info)
 {
 	t_dlist *iter;
@@ -57,10 +90,10 @@ void	expand_env(t_info *info)
 		iter = info->cmd;
 	while (iter)
 	{
-		if (find_token_type(dollar, iter->content))
-		{
+		if (find_errno_type(iter))
+			replace_errno(ft_itoa(errno), &iter);
+		else if (find_token_type(dollar, iter->content))
 			find_env_var(&iter, info);
-		}
 		if (iter)
 			iter = iter->next;
 	}

@@ -114,6 +114,7 @@ int		createfile(t_dlist *allfile, t_info *info)
 				tmp = tmp->next;
 			token = tmp->content;
 			fd = open((char *)token->value, O_TRUNC);
+			info->redir_right = 1;
 			close(fd);
 		}
 		i++;
@@ -171,7 +172,6 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 
 	fd1 = dup(1);
 	fd0 = dup(0);
-
 	if (dlstsize(rdrct) == 2)
 	{
 		fdin = -1;
@@ -210,12 +210,11 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 		if (fdout >= 0)
 			dup2(fdout, 1);
 		if (check_builtins(info, mcmd))
-			check_exec(info, mcmd);
+			check_exec(info, mcmd->content);
 		
 	}
 	else
 	{
-
 		tmp = rdrct->content;
 		token = tmp->content;
 		if (token->type == 6)
@@ -248,7 +247,7 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 			dup2(fdout, 1);
 		}
 		if (check_builtins(info, mcmd))
-			check_exec(info, mcmd);
+			check_exec(info, mcmd->content);
 	}
 	dup2(fd1, 1);
 	dup2(fd0, 0);
