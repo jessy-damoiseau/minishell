@@ -280,7 +280,7 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 {
 	char *tmp;
 	char **cmd;
-	char **envp;
+	//char **envp;
 	int i;
 	pid_t pid;
 
@@ -291,12 +291,12 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 	else
 		joincmd(&tmp, (t_dlist *)mcmd);
 	cmd = ft_split(&tmp[i + 1], ' ');
-	envp = dup_env(info->env);
+	//envp = dup_env(info->env);
 	if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
 	{
 		pid = fork();
 		if (!pid)
-			execve(tmp, cmd, envp);
+			execve(tmp, cmd, info->evrm);
 		else
 			wait(0);
 	}
@@ -304,12 +304,12 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 	{
 		pid = fork();
 		if (!pid)
-			execve((char *)info->path->content, cmd, envp);
+			execve((char *)info->path->content, cmd, info->evrm);
 		else
 			wait(0);
 	}
 	free(tmp);
-	free_dbl(envp);
+	//free_dbl(envp);
 	free_dbl(cmd);
 
 	return (0);

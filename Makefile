@@ -68,7 +68,7 @@ OBJS_MINISHELL	=	$(addprefix $(OBJS_DIR)/, $(SRCS_MINISHELL:.c=.o))
 OBJS_J		=	$(addprefix $(OBJS_DIR)/, $(SRCS_J:.c=.o))
 OBJS_P	=	$(addprefix $(OBJS_DIR)/, $(SRCS_P:.c=.o))
 
-all:	install_pkg init_libft init_m $(NAME_MINISHELL)
+all: init_libft init_m $(NAME_MINISHELL)
 
 install_pkg:
 			echo "$(_YELLOW)[Downloading readline function dependancies]";\

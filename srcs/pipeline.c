@@ -84,12 +84,12 @@ void	exec_child(t_info *info, t_dlist *iter, int *fd, int cfd)
 	(void)iter;
 	if (cfd >= 0)
 	{
-		printf("check1\n");
+		//printf("check1\n");
 		dup2(cfd, 0);
 	}
 	if(iter)
 	{	
-		printf("check\n");
+		//printf("check\n");
 		dup2(fd[1], 1);
 	}
 	expand_env(info);
@@ -107,19 +107,22 @@ void	exec_pipeline(t_dlist *list, t_info *info)
 	int fd1;
 	int fd0;
 	t_dlist *iter;
+	t_dlist	*tmp;
 	int i = 0;
 
 	cfd = -1;
 	iter = list;
+	tmp = list;
+	(void)tmp;
 	fd1 = dup(1);
 	fd0 = dup(0);
 	while (iter)
 	{
-		t_token *t;
-		t_dlist *p;
-		p = iter->content;
-		t = p->content;
-		printf("iter->content: %s\n", (char*)t->value);
+		//t_token *t;
+		//t_dlist *p;
+		//p = iter->content;
+		//t = p->content;
+		//printf("iter->content: %s\n", (char*)t->value);
 		pipe(fd);
 		pid = fork();
 		if (pid == -1)
@@ -135,6 +138,7 @@ void	exec_pipeline(t_dlist *list, t_info *info)
 			close(fd[1]);
 			cfd = dup(fd[0]);
 			iter = iter->next;
+			info->cmdpipe = info->cmdpipe->next;
 			close(fd[0]);
 			dup2(fd1, 1);
 			dup2(fd0, 0);// @Jessy ici passage au prochain pipe
@@ -142,6 +146,5 @@ void	exec_pipeline(t_dlist *list, t_info *info)
 	}
 	dup2(fd1, 1);
 	dup2(fd0, 0);
-	printf("nb_exec_child: %d\n", i);
 	//clear_cmdpipe;
 }
