@@ -94,7 +94,8 @@ cut_prompt_in_uslog()
 do_diff()
 {
 	sdiff -s "$path"/us.log "$path"/bash.log > "$path"/diff.log
-	sdiff -s "$path"/error_us.log "$path"/error_bash.log > "$path"/diff_error.log
+	# sdiff -s "$path"/error_us.log "$path"/error_bash.log > "$path"/diff_error.log
+	diff "$path"/error_us.log "$path"/error_bash.log > "$path"/diff_error.log
 }
 
 #clean_logs 2>&1 /dev/null

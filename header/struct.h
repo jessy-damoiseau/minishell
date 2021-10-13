@@ -21,6 +21,7 @@ typedef enum	e_token_type
 	sgle_quote,
 	dble_quote,
 	literal,
+	errno_call,
 }				t_token_type;
 
 typedef enum	e_error_code
