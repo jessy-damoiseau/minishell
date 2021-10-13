@@ -210,7 +210,11 @@ void	ft_export(char *cmd, t_info *info, int fd)
 			}
 			j++;
 		}
-		printf("cmd[i]: %s\n", &cmd[i]);
+		if (cmd[i + j] != '=')
+		{
+			errno = 0;
+			return ;
+		}
 		str = supp_add(&cmd[i], info);
 		if (add)
 			j--;

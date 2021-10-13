@@ -54,6 +54,51 @@ int is_it_literal(t_info *info, t_dlist *node, t_token *token)
 	return (0);
 }
 
+void	check_pipe(t_info *info)
+{
+	t_dlist	*tmp;
+	t_token	*token;
+	t_dlist	*tmp1;
+
+	tmp1 = info->cmd;
+	while (info->cmd)
+	{
+		token = info->cmd->content;
+		if (token->type == pipeline)
+		{
+			tmp = info->cmd->next;
+			if (tmp)
+				token = tmp->content;
+			while (tmp && token->type != 0 && token->type != literal)
+			{
+				tmp = tmp->next;
+				if (tmp)
+					token = tmp->content;
+			}
+			if (!tmp)
+			{
+				info->nbpipe--;
+				info->cmd = info->cmd->prev;
+				clear_cmd_lst(&info->cmd->next);
+				info->cmd->next = 0;
+			}
+			else if (token->type == pipeline)
+			{
+				info->nbpipe--;
+				info->cmd->next->prev = 0;
+				info->cmd->next = tmp->next;
+				tmp->next->prev = info->cmd;
+				tmp->next = 0;
+				while (tmp->prev)
+					tmp = tmp->prev;
+				clear_cmd_lst(&tmp);
+			}
+		}
+		info->cmd = info->cmd->next;
+	}
+	info->cmd = tmp1;
+}
+
 void	parse_token(t_info *info)
 {
 	t_dlist *iter;
@@ -94,6 +139,8 @@ void	parse_token(t_info *info)
 
 	//printf("nb de pipe = %d\n", info->nbpipe);
 	 // si pipe => il faut d'abord creer la pipeline de commande puis pipe par pipe expand_env + exec cmd
+	if (info->nbpipe)
+		check_pipe(info);
 	if (info->nbpipe)
 	 	create_pipeline(info);
 	else
