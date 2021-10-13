@@ -71,8 +71,26 @@ void	parse_token(t_info *info)
 			is_it_literal(info, iter, iter->content);
 		iter = iter->next;
 	}
+	//test
+	// t_dlist *test;
+	// test = info->cmd;
+	// t_token *testtok;
+	// if (!test)
+	// 	printf("NULL cmd\n");
+	// if (test)
+	// {
+	// 	while (test)
+	// 	{
+	// 		testtok = test->content;
+	// 		// printf("check token.value %s\n", (char *)testtok->value);
+	// 		printf("check token.value %s\t token.type %d\n", (char *)testtok->value, testtok->type);
+	// 		// printf("check token.type %d\n", testtok->type);
+	// 		test = test->next;
+	// 	}
+	// }
 	parse_env(info); // gere les $ entre sgle quote
 	parse_quote(info); // concat les quote
+
 
 	//printf("nb de pipe = %d\n", info->nbpipe);
 	 // si pipe => il faut d'abord creer la pipeline de commande puis pipe par pipe expand_env + exec cmd

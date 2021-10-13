@@ -62,17 +62,14 @@ int	find_errno_type(t_dlist *lst)
 	return (0);
 }
 
-void	replace_errno(char *str, t_dlist **lst)
+void	replace_errno(char *str, t_dlist **lst, t_info *info)
 {
 	t_dlist *tmp;
 	t_token *token;
 
-
 	tmp = (*lst)->next;
 	(*lst)->next = tmp->next;
-	tmp->prev = 0;
-	tmp->next = 0;
-	clear_cmd_lst(&tmp);
+	clear_cmd_node(&tmp, info);
 	token = (*lst)->content;
 	token->type = literal;
 	free(token->value);
@@ -80,9 +77,20 @@ void	replace_errno(char *str, t_dlist **lst)
 	free(str);
 }
 
-void	expand_env(t_info *info)
+void	concat_node(t_token *atoken, t_token *btoken, t_dlist **iter)
 {
-	t_dlist *iter;
+	t_token	*token;
+
+	token = (*iter)->content;
+	char *tmp = token->value;
+	token->value = ft_strjoin(atoken->value, btoken->value);
+	free(tmp);
+}
+
+void	concat_narrow_litvalue(t_info *info)
+{
+	t_dlist	*iter;
+	t_dlist	*tmp;
 
 	if (info->nbpipe)
 		iter = info->cmdpipe->content;
@@ -90,12 +98,62 @@ void	expand_env(t_info *info)
 		iter = info->cmd;
 	while (iter)
 	{
-		if (find_errno_type(iter))
-			replace_errno(ft_itoa(errno), &iter);
-		else if (find_token_type(dollar, iter->content))
-			find_env_var(&iter, info);
+		if (iter->next)
+		{
+			if (find_token_type(literal, iter->content) &&
+				find_token_type(literal, iter->next->content))
+				{
+					tmp = iter;
+					iter = iter->next;
+					concat_node(tmp->content, iter->content, &iter);
+					clear_cmd_node(&tmp, info);
+				}
+		}
 		if (iter)
 			iter = iter->next;
 	}
+}
+
+int	is_env_literal(t_dlist **iter)
+{
+	t_token	*token;
+
+	if (find_token_type(dollar, (*iter)->content))
+	{
+		if (!(*iter)->next)
+			return (1);
+		if ((*iter)->next)
+		{
+			token = (*iter)->next->content;
+			if (token->type != literal && token->type != errno_call)
+			token = (*iter)->content;
+			token->type = literal;
+		}
+	}
+	return (0);
+}
+
+void	expand_env(t_info *info)
+{
+	t_dlist	*iter;
+
+	if (info->nbpipe)
+		iter = info->cmdpipe->content;
+	else
+		iter = info->cmd;
+	while (iter)
+	{
+		if (is_env_literal(&iter))
+			return ;
+		if (find_errno_type(iter))
+			replace_errno(ft_itoa(errno), &iter, info);
+		else if (find_token_type(dollar, iter->content))
+			find_env_var(&iter, info);
+		if (find_errno_type(iter)) // permet traiter le cas echo $SHLVLs$?
+			replace_errno(ft_itoa(errno), &iter, info);
+		if (iter)
+			iter = iter->next;
+	}
+	concat_narrow_litvalue(info);
 	return ;
 }
