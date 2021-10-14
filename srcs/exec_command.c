@@ -263,16 +263,16 @@ char	**dup_env(t_list *env)
 	char **ret;
 	int i;
 
-	ret = malloc(sizeof(char *) * ft_lstsize(env) + 1);
-	i = 0;
+	ret = malloc(sizeof(char *) * ft_lstsize(env));
+	i = -1;
 	if (!ret)
-		ret = 0;
+		return (0);
 	while (env)
 	{
-		ret[i++] = ft_strdup((char *)env->content);
+		ret[++i] = ft_strdup((char *)env->content);
 		env = env->next;
 	}
-	ret[i - 1] = 0;
+	ret[i] = 0;
 	return (ret);
 }
 
@@ -280,8 +280,9 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 {
 	char *tmp;
 	char **cmd;
-	//char **envp;
+	char **envp;
 	int i;
+	int l;
 	pid_t pid;
 
 	cmd = 0;
@@ -291,25 +292,31 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 	else
 		joincmd(&tmp, (t_dlist *)mcmd);
 	cmd = ft_split(&tmp[i + 1], ' ');
-	//envp = dup_env(info->env);
+	envp = dup_env(info->env);
 	if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
 	{
 		pid = fork();
 		if (!pid)
-			execve(tmp, cmd, info->evrm);
+			execve(tmp, cmd, envp);
 		else
-			wait(0);
+			waitpid(pid, &l, 0);
 	}
 	else
 	{
 		pid = fork();
+		
 		if (!pid)
-			execve((char *)info->path->content, cmd, info->evrm);
+		{
+			execve((char *)info->path->content, cmd, envp);
+			exit (errno);
+		}
 		else
-			wait(0);
+			waitpid(pid, &l, 0);
 	}
+	if (!l)
+			errno = 0;
 	free(tmp);
-	//free_dbl(envp);
+	free_dbl(envp);
 	free_dbl(cmd);
 
 	return (0);
@@ -317,6 +324,8 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 
 void	exec_command(t_info *info)
 {
+	t_dlist	*tmp;
+	t_token	*token;
 
 	if (!check_command(info))
 	{
@@ -360,8 +369,9 @@ void	exec_command(t_info *info)
 		// printf("\n");
 
 
-
-			if (info->gbc->next)
+			tmp = info->gbc->str;
+			token = tmp->content;
+			if (info->gbc->next || (token->type >= 3 && token->type <= 6))
 				redirection(info);
 			else if (check_builtins(info, 0))
 				check_exec(info, 0);

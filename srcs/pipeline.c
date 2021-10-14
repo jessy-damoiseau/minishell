@@ -95,7 +95,7 @@ void	exec_child(t_info *info, t_dlist *iter, int *fd, int cfd)
 	expand_env(info);
 	exec_command(info);
 	// expand_n_exec() // @Jessy ici il faut expand la var d'env dans le pipe puis exec cmd
-	exit (1);
+	exit (errno);
 }
 
 // @Jessy ici remplacer list par la structure / tableau de list qui te convient 

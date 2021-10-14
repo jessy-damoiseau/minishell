@@ -48,9 +48,7 @@ void			ft_create_token(char *s, t_info *info);
 t_token			*ft_malloc_token(char *input, t_token_type type, int i, int j);
 void			ft_prompt(t_info *info);
 
-/* EXIT */
-void			ft_clear_token(t_list **lst, void (*del)(void *));
-void			free_dbl(char **str);
+
 
 /* GBCOLLECTOR */
 t_gbc			*newgbc(int type, int fd, void *str);

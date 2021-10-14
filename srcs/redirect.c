@@ -246,8 +246,9 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 			fdout = open((char *)token->value, O_WRONLY | O_APPEND);
 			dup2(fdout, 1);
 		}
-		if (check_builtins(info, mcmd))
-			check_exec(info, mcmd->content);
+		if (mcmd)
+			if (check_builtins(info, mcmd))
+				check_exec(info, mcmd->content);
 	}
 	dup2(fd1, 1);
 	dup2(fd0, 0);

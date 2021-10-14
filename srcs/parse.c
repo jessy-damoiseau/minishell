@@ -59,44 +59,52 @@ void	check_pipe(t_info *info)
 	t_dlist	*tmp;
 	t_token	*token;
 	t_dlist	*tmp1;
+	int i;
 
+	i = info->nbpipe;
 	tmp1 = info->cmd;
-	while (info->cmd)
+	while (i)
 	{
-		token = info->cmd->content;
-		if (token->type == pipeline)
+		tmp1 = info->cmd;
+		while (info->cmd)
 		{
-			tmp = info->cmd->next;
-			if (tmp)
-				token = tmp->content;
-			while (tmp && token->type != 0 && token->type != literal)
+			token = info->cmd->content;
+			if (token->type == pipeline)
 			{
-				tmp = tmp->next;
+				tmp = info->cmd->next;
 				if (tmp)
 					token = tmp->content;
+				while (tmp && token->type != 0 && token->type != literal)
+				{
+					tmp = tmp->next;
+					if (tmp)
+						token = tmp->content;
+				}
+				if (!tmp || (token->type == pipeline && !tmp->next))
+				{
+					info->nbpipe--;
+					info->cmd = info->cmd->prev;
+					clear_cmd_lst(&info->cmd->next);
+					info->cmd->next = 0;
+				}
+				else if (token->type == pipeline)
+				{
+					info->nbpipe--;
+					info->cmd->next->prev = 0;
+					info->cmd->next = tmp->next;
+					tmp->next->prev = info->cmd;
+					tmp->next = 0;
+					while (tmp->prev)
+						tmp = tmp->prev;
+					clear_cmd_lst(&tmp);
+				}
 			}
-			if (!tmp)
-			{
-				info->nbpipe--;
-				info->cmd = info->cmd->prev;
-				clear_cmd_lst(&info->cmd->next);
-				info->cmd->next = 0;
-			}
-			else if (token->type == pipeline)
-			{
-				info->nbpipe--;
-				info->cmd->next->prev = 0;
-				info->cmd->next = tmp->next;
-				tmp->next->prev = info->cmd;
-				tmp->next = 0;
-				while (tmp->prev)
-					tmp = tmp->prev;
-				clear_cmd_lst(&tmp);
-			}
+			info->cmd = info->cmd->next;
 		}
-		info->cmd = info->cmd->next;
+		info->cmd = tmp1;
+		i--;
 	}
-	info->cmd = tmp1;
+
 }
 
 void	parse_token(t_info *info)
