@@ -138,6 +138,21 @@ int		check_command(t_info *info)
 		errno = 1;
 		return (1);
 	}
+	if (token1->type == 2)
+	{
+		while (token1->type == 2)
+		{
+			dlsttmp1 = dlsttmp1->prev;
+			token1  = dlsttmp1->content;
+		}
+		if (token1->type >= 3 && token1->type <= 6)
+		{
+			ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
+			clear_cmd_lst(&info->cmd);
+			errno = 1;
+			return (1);
+		}
+	}
 	if (info->nbpipe)
 		dlsttmp1 = info->cmdpipe->content;
 	else
@@ -150,11 +165,14 @@ int		check_command(t_info *info)
 		{
 			token2 = dlsttmp1->next->content;
 			dlsttmp2 = dlsttmp1->next;
-			while (token2->type != 9)
+			while (dlsttmp2 && token2->type != 9)
 			{
 				dlsttmp2 = dlsttmp2->next;
-				token2 = dlsttmp2->content;
-				i++;
+				if (dlsttmp2)
+				{
+					token2 = dlsttmp2->content;
+					i++;
+				}
 			}
 			dlsttmp1 = fill_gbc(dlsttmp1, info, i);
 		}
@@ -341,7 +359,7 @@ int		check_exec(t_info *info, t_dlist *mcmd)
 
 void	exec_command(t_info *info)
 {
-	t_dlist	*tmp;
+	t_dlist	*tmp5;
 	t_token	*token;
 
 	if (!check_command(info))
@@ -386,8 +404,8 @@ void	exec_command(t_info *info)
 		// printf("\n");
 
 
-			tmp = info->gbc->str;
-			token = tmp->content;
+			tmp5 = info->gbc->str;
+			token = tmp5->content;
 			if (info->gbc->next || (token->type >= 3 && token->type <= 6))
 				redirection(info);
 			else if (check_builtins(info, 0))

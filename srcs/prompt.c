@@ -87,10 +87,16 @@ void		ft_prompt(t_info *info)
 		errno = info->tmperrno;
 		if (line[0])
 		{
-			add_history(line);
-			ft_create_token(line, info);
-			if (!info->nbpipe)
-				exec_command(info);
+			i = 0;
+			while (line[i] && line[i] == ' ')
+				i++;
+			if (line[i])
+			{
+				add_history(line);
+				ft_create_token(line, info);
+				if (!info->nbpipe)
+					exec_command(info);
+			}
 		}
 		free(line);
 		free(buff);

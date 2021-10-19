@@ -53,6 +53,7 @@ typedef struct	s_info
 	int 	nbpipe;
 	int		redir_left;
 	int		redir_right;
+	int		child;
 }				t_info;
 
 #endif

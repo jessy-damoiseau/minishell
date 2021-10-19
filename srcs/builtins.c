@@ -264,7 +264,8 @@ void	ft_exit(char *cmd, t_info *info, t_err_code err_code)
 		{
 			clear_cmd_lst(&info->cmd);
 			ft_lstclear(&info->env, &ft_memdel);
-			ft_putstr_fd("exit\n", 1);
+			if (!info->child)
+				ft_putstr_fd("exit\n", 1);
 			free(cmd);
 			exit(ret);
 		}
@@ -285,7 +286,9 @@ void	ft_exit(char *cmd, t_info *info, t_err_code err_code)
 		}
 		error = 0;
 		ret = ft_atoll(&cmd[i], &error) % 256;
-		ft_putstr_fd("exit\n", 1);
+
+		if (!info->child)
+				ft_putstr_fd("exit\n", 1);
 		if (error)
 		{
 			ft_putstr_fd("exit: ", 2);
