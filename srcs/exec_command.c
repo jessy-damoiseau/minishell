@@ -98,6 +98,22 @@ int		check_exist(char *str)
 	return (0);
 }
 
+int		check_binaire(char *str)
+{
+	int	fd;
+	char	s[5];
+
+	fd = open(str, O_RDONLY);
+	if (fd < 0)
+		return (1);
+	read(fd, &s[0], 4);
+	s[4] = '\0';
+	if (!ft_strcmp(&s[1], "ELF"))
+		return (close(fd));
+	return (close(fd) + 1);
+	
+}
+
 int		check_command(t_info *info)
 {
 	t_token	*token1;
@@ -155,12 +171,13 @@ int		check_command(t_info *info)
 				dlsttmp1 = fill_gbc(dlsttmp1, info, 0);
 			else
 			{
-				if (!check_exist(chrtmp1))
+				if (!check_exist(chrtmp1) && !check_binaire(chrtmp1))
 				{
 					dlsttmp1 = fill_gbc(dlsttmp1, info, 0);
 				}
-				else if ((chrtmp1[0] == '.' && chrtmp1[1] == '/') || chrtmp1[0] == '/')
+				else if (((chrtmp1[0] == '.' && chrtmp1[1] == '/') || chrtmp1[0] == '/'))
 				{
+					printf("check\n");
 					ft_putstr_fd("bash: ", 2);
 					ft_putstr_fd(chrtmp1, 2);
 					ft_putstr_fd(": No such file or directory\n", 2);

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	next_identical_token(t_dlist **iter, t_dlist *node, t_token *src)
+int		next_identical_token(t_dlist **iter, t_dlist *node, t_token *src)
 {
 	t_token *token;
 	t_token_type type;
@@ -28,7 +28,7 @@ int	next_identical_token(t_dlist **iter, t_dlist *node, t_token *src)
 	return (0);
 }
 
-int is_it_literal(t_info *info, t_dlist *node, t_token *token)
+int		is_it_literal(t_info *info, t_dlist *node, t_token *token)
 {
 	t_dlist *iter;
 
@@ -107,6 +107,33 @@ void	check_pipe(t_info *info)
 
 }
 
+int		check_error_pipe(t_info	*info)
+{
+	t_dlist	*tmp;
+	t_token	*token;
+
+	if (dlstsize(info->cmd) == 1)
+	{
+		ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
+		clear_cmd_lst(&info->cmd);
+		return (1);
+	}
+	tmp = info->cmd;
+	token = tmp->content;
+	if (token->type == pipeline)
+	{
+		tmp = tmp->next;
+		token = tmp->content;
+		if (token->type == pipeline)
+		{
+			ft_putstr_fd("bash: syntax error near unexpected token `||'\n", 2);
+			clear_cmd_lst(&info->cmd);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 void	parse_token(t_info *info)
 {
 	t_dlist *iter;
@@ -141,14 +168,19 @@ void	parse_token(t_info *info)
 	// 		test = test->next;
 	// 	}
 	// }
-	parse_env(info); // gere les $ entre sgle quote
-	parse_quote(info); // concat les quote
+	parse_env(info);
+	parse_quote(info);
 
 
 	//printf("nb de pipe = %d\n", info->nbpipe);
-	 // si pipe => il faut d'abord creer la pipeline de commande puis pipe par pipe expand_env + exec cmd
+	//si pipe => il faut d'abord creer la pipeline de commande puis pipe par pipe expand_env + exec cmd
+	
 	if (info->nbpipe)
+	{
+		if (check_error_pipe(info))
+			return ;
 		check_pipe(info);
+	}
 	if (info->nbpipe)
 	 	create_pipeline(info);
 	else
