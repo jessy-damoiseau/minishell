@@ -93,14 +93,10 @@ void	exec_pipeline(t_dlist *list, t_info *info)
 	int fd1;
 	int fd0;
 	t_dlist *iter;
-	t_dlist	*tmp;
 	int i = 0;
 
 	cfd = -1;
 	iter = list;
-	tmp = list;
-	info->child = 0;
-	(void)tmp;
 	fd1 = dup(1);
 	fd0 = dup(0);
 	while (iter)

@@ -61,6 +61,7 @@ void	check_pipe(t_info *info)
 	t_dlist	*tmp1;
 	int i;
 
+	printf("nbmallion0: %d\n", dlstsize(info->cmd));
 	i = info->nbpipe;
 	tmp1 = info->cmd;
 	while (i)
@@ -82,8 +83,14 @@ void	check_pipe(t_info *info)
 				}
 				if (!tmp || (token->type == pipeline && !tmp->next))
 				{
+					printf("check\n");
 					info->nbpipe--;
-					info->cmd = info->cmd->prev;
+					token = info->cmd->content;
+					while (token->type != literal)
+					{
+						info->cmd = info->cmd->prev;
+						token = info->cmd->content;
+					}
 					clear_cmd_lst(&info->cmd->next);
 					info->cmd->next = 0;
 				}
@@ -104,7 +111,7 @@ void	check_pipe(t_info *info)
 		info->cmd = tmp1;
 		i--;
 	}
-
+	printf("nbmallion1: %d\n", dlstsize(info->cmd));
 }
 
 int		check_error_pipe(t_info	*info)
@@ -126,10 +133,24 @@ int		check_error_pipe(t_info	*info)
 		token = tmp->content;
 		if (token->type == pipeline)
 		{
-			ft_putstr_fd("bash: syntax error near unexpected token `||'\n", 2);
+			ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
 			clear_cmd_lst(&info->cmd);
 			return (1);
 		}
+	}
+	tmp = info->cmd;
+	token = tmp->content;
+	while (tmp && (token->type == space || token->type == pipeline))
+	{
+		tmp = tmp->next;
+		if (tmp)
+			token = tmp->content;
+	}
+	if (!tmp)
+	{
+		ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
+		clear_cmd_lst(&info->cmd);
+		return (1);
 	}
 	return (0);
 }

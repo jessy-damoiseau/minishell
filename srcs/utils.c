@@ -154,3 +154,11 @@ void	tmplstclear(t_dlist **lst)
 	}
 	*lst = 0;
 }
+
+void	init_var(t_info *info)
+{
+	info->dlb_redir_left_str = 0;
+	info->redir_left = 0;
+	info->redir_right = 0;
+	info->child = 0;
+}

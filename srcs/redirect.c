@@ -15,7 +15,6 @@ int		check_redirecterr(t_gbc *allcmd)
 				token = tmp->next->content;
 			if (!tmp->next || (token->type >= 3 && token->type <= 6))
 			{
-				printf("check\n");
 				ft_putstr_fd("bash: syntax error near unexpected token `", 2);
 				ft_putstr_fd((char *)token->value, 2);
 				ft_putstr_fd("'\n", 2);
@@ -34,14 +33,11 @@ int		createfile(t_dlist *allfile, t_info *info)
 	t_dlist *tmp;
 	int fd;
 	char *str;
+	int i;
 	struct stat sb;
 	DIR *check;
 
 	str = 0;
-	int i;
-	info->dlb_redir_left_str = 0;
-	info->redir_left = 0;
-	info->redir_right = 0;
 	i = 1;
 	while (allfile)
 	{
@@ -136,7 +132,6 @@ t_dlist	*clear_struct(t_dlist **lst, t_info *info)
 
 	i = 0;
 	tmp = 0;
-	printf("redir_right: %d, redir_left: %d\n", info->redir_right, info->redir_left);
 	if (info->redir_left)
 	{
 		while (++i < info->redir_left)

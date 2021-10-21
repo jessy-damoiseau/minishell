@@ -43,6 +43,7 @@ void		init_struct(t_info *info)
 	info->path = 0;
 	info->cmd = 0;
 	info->nbpipe = 0;
+	errno = 0;
 	info->evrm = duplst(info->env, info);
 }
 
@@ -95,7 +96,6 @@ int main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	printf("prog lancer\n");
 	if (!envp[0])
 		envp = fill_nullenv(&info);
 	ft_get_env(&info, envp);
@@ -103,7 +103,6 @@ int main(int ac, char **av, char **envp)
 	init_struct(&info);
 	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, SIG_IGN);
-	
 	ft_prompt(&info);
 	ft_exit(0, &info, no_err);
 	return (0);

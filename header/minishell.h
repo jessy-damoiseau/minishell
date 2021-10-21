@@ -31,6 +31,7 @@ char			*strpthjoin(char *s1, char *s2);
 long long int	ft_atoll(char *str, int *error);
 char			*supp_add(char *str, t_info *info);
 void			tmplstclear(t_dlist **lst);
+void			init_var(t_info *info);
 
 /* TOKENIZE */
 t_token_type	ft_define_token(char charset);

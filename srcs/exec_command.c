@@ -314,46 +314,27 @@ char	**dup_env(t_list *env)
 int		check_exec(t_info *info, t_dlist *mcmd)
 {
 	char *tmp;
-	char **cmd;
-	char **envp;
-	int i;
-	int l;
 	pid_t pid;
 
-	cmd = 0;
-	i = 0;
 	if (!mcmd)
 		joincmd(&tmp, (t_dlist *)info->gbc->str);
 	else
 		joincmd(&tmp, (t_dlist *)mcmd);
-	cmd = ft_split(&tmp[i + 1], ' ');
-	envp = dup_env(info->env);
-	if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
+	pid = fork();
+	if (pid == -1)
+		ft_exit(0, info, err_pid);
+	else if (!pid)
 	{
-		pid = fork();
-		if (!pid)
-			execve(tmp, cmd, envp);
+		if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
+			execve(tmp, ft_split(tmp, ' '), dup_env(info->env));
 		else
-			waitpid(pid, &l, 0);
+			execve((char *)info->path->content,
+			ft_split(tmp, ' '), dup_env(info->env));
 	}
 	else
-	{
-		pid = fork();
-		
-		if (!pid)
-		{
-			execve((char *)info->path->content, cmd, envp);
-			exit (errno);
-		}
-		else
-			waitpid(pid, &l, 0);
-	}
-	if (!l)
-			errno = 0;
+		waitpid(pid, &errno, 0);
+	errno = errno % 255;
 	free(tmp);
-	free_dbl(envp);
-	free_dbl(cmd);
-
 	return (0);
 }
 

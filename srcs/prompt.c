@@ -37,13 +37,12 @@ static int	ft_get_path(char **path, char *buff, char *color)
 	return (1);
 }
 
-int			catch_eof_signal(char *line, char *buff, char *path, t_info *info)
+int			catch_eof_signal(char *line, char *path, t_info *info)
 {
 	if (!line)
 	{
-		free(path);
 		free(line);
-		free(buff);
+		free(path);
 		ft_exit(0, info, no_err);
 	}
 	return (1);
@@ -54,57 +53,64 @@ void		ft_sighandler(int signum)
 	if (signum == SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line(); // indique qu'on vient de passer a une nouvelle ligne
-		rl_replace_line("", 0); // modifie le contenu de ce que readline lit par le texte en param
-		rl_redisplay(); // modifie ce qui est indique sur le prompt pour afficher la nouvelle ligne
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
+}
+
+void	refill_pwd(t_info *info)
+{
+	int		i;
+	t_list	*tmp;
+
+	i = 13;
+	while (!info->pwd)
+		info->pwd = getcwd(info->pwd, i++);
+	tmp = info->env;
+	while (tmp && ft_strncmp(tmp->content, "PWD=", 4))
+	tmp = tmp->next;
+	free(tmp->content);
+	tmp->content = ft_strjoin("PWD=", info->pwd);
+}
+
+char	*get_prompt(t_info *info)
+{
+	char	*path;
+	char 	*tmp;
+	char	*ret;
+
+	if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
+		ft_exit(0, info, err_malloc);
+	tmp = readline(path);
+	catch_eof_signal(tmp, path, info);
+	ret = ft_strtrim(tmp, " ");
+	free(tmp);
+	free(path);
+	return (ret);
 }
 
 void		ft_prompt(t_info *info)
 {
 	char	*line;
-	char	*path;
-	char	*buff;
-	int		i;
-	t_list	*tmp;
-	errno = 0;
-	buff = 0;
+	
 	while (1)
 	{
+		init_var(info);
 		info->tmperrno = errno;
-		i = 13;
-		while (!info->pwd)
-			info->pwd = getcwd(info->pwd, i++);
-	 	tmp = info->env;
-		while (tmp && ft_strncmp(tmp->content, "PWD=", 4))
-		tmp = tmp->next;
-		free(tmp->content);
-		tmp->content = ft_strjoin("PWD=", info->pwd);
-		if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
-			ft_exit(0, info, err_malloc);
-		line = readline(path);
-		catch_eof_signal(line, buff, path, info);
+		refill_pwd(info);
+		line = get_prompt(info);
 		errno = info->tmperrno;
 		if (line[0])
 		{
-			i = 0;
-			while (line[i] && line[i] == ' ')
-				i++;
-			if (line[i])
-			{
-				add_history(line);
-				ft_create_token(line, info);
-				if (!info->nbpipe)
-					exec_command(info);
-			}
+			add_history(line);
+			ft_create_token(line, info);
+			if (!info->nbpipe)
+				exec_command(info);
 		}
 		free(line);
-		free(buff);
-		
-		free(path);
 		free(info->pwd);
 		info->pwd = 0;
-		buff = NULL;
 	}
 	return ;
 }
