@@ -195,7 +195,6 @@ int		check_command(t_info *info)
 				}
 				else if (((chrtmp1[0] == '.' && chrtmp1[1] == '/') || chrtmp1[0] == '/'))
 				{
-					printf("check\n");
 					ft_putstr_fd("bash: ", 2);
 					ft_putstr_fd(chrtmp1, 2);
 					ft_putstr_fd(": No such file or directory\n", 2);
@@ -393,5 +392,6 @@ void	exec_command(t_info *info)
 				check_exec(info, 0);
 	}
 	ft_lstclear(&info->path, &ft_memdel);
+
 	gbcclear(&info->gbc);
 }

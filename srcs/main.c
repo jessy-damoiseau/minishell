@@ -43,6 +43,7 @@ void		init_struct(t_info *info)
 	info->path = 0;
 	info->cmd = 0;
 	info->nbpipe = 0;
+	info->cmdpipe = 0;
 	errno = 0;
 	info->evrm = duplst(info->env, info);
 }
@@ -62,7 +63,7 @@ void		change_shlv(t_list **env)
 	free(tmp->content);
 	tmpstr = ft_itoa(i);
 	tmp->content = ft_strjoin("SHLVL=", tmpstr);
-	free(tmpstr); // @ Jessy -> correction ajoutée ici => tu ne cleanes pas la sortie de itoa
+	free(tmpstr);
 }
 
 char		**fill_nullenv(t_info *info)
