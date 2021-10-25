@@ -54,64 +54,43 @@ int		is_it_literal(t_info *info, t_dlist *node, t_token *token)
 	return (0);
 }
 
-void	check_pipe(t_info *info)
+int	check_pipe(t_info *info)
 {
 	t_dlist	*tmp;
 	t_token	*token;
 	t_dlist	*tmp1;
-	int i;
 
-	printf("nbmallion0: %d\n", dlstsize(info->cmd));
-	i = info->nbpipe;
 	tmp1 = info->cmd;
-	while (i)
+	while (tmp1)
 	{
-		tmp1 = info->cmd;
-		while (info->cmd)
+		token = tmp1->content;
+		if (token->type == pipeline)
 		{
-			token = info->cmd->content;
-			if (token->type == pipeline)
+			tmp = tmp1->next;
+			if (tmp)
+				token = tmp->content;
+			while (tmp && token->type != 0 && token->type != literal)
 			{
-				tmp = info->cmd->next;
+				tmp = tmp->next;
 				if (tmp)
 					token = tmp->content;
-				while (tmp && token->type != 0 && token->type != literal)
-				{
-					tmp = tmp->next;
-					if (tmp)
-						token = tmp->content;
-				}
-				if (!tmp || (token->type == pipeline && !tmp->next))
-				{
-					printf("check\n");
-					info->nbpipe--;
-					token = info->cmd->content;
-					while (token->type != literal)
-					{
-						info->cmd = info->cmd->prev;
-						token = info->cmd->content;
-					}
-					clear_cmd_lst(&info->cmd->next);
-					info->cmd->next = 0;
-				}
-				else if (token->type == pipeline)
-				{
-					info->nbpipe--;
-					info->cmd->next->prev = 0;
-					info->cmd->next = tmp->next;
-					tmp->next->prev = info->cmd;
-					tmp->next = 0;
-					while (tmp->prev)
-						tmp = tmp->prev;
-					clear_cmd_lst(&tmp);
-				}
 			}
-			info->cmd = info->cmd->next;
+			if (!tmp || (token->type == pipeline && !tmp->next))
+			{
+				ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
+				clear_cmd_lst(&info->cmd);
+				return (1);
+			}
+			else if (token->type == pipeline)
+			{
+				ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
+				clear_cmd_lst(&info->cmd);
+				return (1);
+			}
 		}
-		info->cmd = tmp1;
-		i--;
+		tmp1 = tmp1->next;
 	}
-	printf("nbmallion1: %d\n", dlstsize(info->cmd));
+	return (0);
 }
 
 int		check_error_pipe(t_info	*info)
@@ -200,7 +179,8 @@ void	parse_token(t_info *info)
 	{
 		if (check_error_pipe(info))
 			return ;
-		check_pipe(info);
+		if (check_pipe(info))
+			return ;
 	}
 	if (info->nbpipe)
 	 	create_pipeline(info);
