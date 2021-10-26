@@ -47,23 +47,23 @@ void	create_pipeline(t_info *info)
 	
 
 // *test* //
-	pipe = info->cmdpipe;
-	int i = 0;
-	while (pipe)
-	{
-		printf("%d ->:\n", i++);
-		t_dlist *tmpm;
-		tmpm = pipe->content;
-		printf("lstsize:|%d|\n", dlstsize(tmpm));
-		while (tmpm)
-		{
-			token = tmpm->content;
-			printf("|%s|\n", (char*)token->value);
-			tmpm = tmpm->next;
-		}
-		pipe = pipe->next;
-	}
-	printf("nbpipe:|%d|\n", info->nbpipe);
+	// pipe = info->cmdpipe;
+	// int i = 0;
+	// while (pipe)
+	// {
+	// 	printf("%d ->:\n", i++);
+	// 	t_dlist *tmpm;
+	// 	tmpm = pipe->content;
+	// 	printf("lstsize:|%d|\n", dlstsize(tmpm));
+	// 	while (tmpm)
+	// 	{
+	// 		token = tmpm->content;
+	// 		printf("|%s|\n", (char*)token->value);
+	// 		tmpm = tmpm->next;
+	// 	}
+	// 	pipe = pipe->next;
+	// }
+	// printf("nbpipe:|%d|\n", info->nbpipe);
 // *end_test* //
 
 	exec_pipeline(info->cmdpipe, info);
@@ -122,10 +122,15 @@ void	exec_pipeline(t_dlist *list, t_info *info)
 	while (list)
 	{
 		iter = list;
+		if (iter->content != 0)
+		{
+			iter = list->content;
+			clear_cmd_lst(&iter);
+			iter = list;
+		}
 		list = list->next;
 		free(iter);
 	}
-	clear_cmd_lst(&info->cmd);
 	info->cmdpipe = 0;
 	dup2(fd1, 1);
 	dup2(fd0, 0);
