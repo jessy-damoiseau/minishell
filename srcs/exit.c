@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void 	clear_token(t_dlist *list, t_token *token)
+void	clear_token(t_dlist *list, t_token *token)
 {
 	ft_memdel(&token->value);
 	ft_memdel(&list->content);
@@ -29,13 +29,13 @@ void	clear_cmd_lst(t_dlist **lst)
 
 void	clear_cmd_node(t_dlist **lst, t_info *info)
 {
-	t_dlist *tmp;
+	t_dlist	*tmp;
 
 	tmp = *lst;
 	if (!(*lst)->prev)
 	{
 		*lst = (*lst)->next;
-		if (*lst) // exception pour cas ou prev et next == NULL
+		if (*lst)
 			(*lst)->prev = NULL;
 		info->cmd = *lst;
 	}
@@ -55,16 +55,13 @@ void	clear_cmd_node(t_dlist **lst, t_info *info)
 
 void	free_dbl(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
 		i++;
-	while(i--)
+	while (i--)
 		free(str[i]);
 	free(str);
 	str = 0;
 }
-
-// cette fonction peut etre amelioree avec un tab msg erreur vs enum code
-// et une fonction qui fait la correspondance comme ft_define_token

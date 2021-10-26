@@ -41,6 +41,7 @@ t_token			*ft_malloc_token(char *input, t_token_type type, int i, int j);
 /* PROMPT */
 void			ft_prompt(t_info *t_info);
 void			ft_sighandler(int signum);
+char			*get_prompt(t_info *info);
 
 /* EXIT */
 void			clear_token(t_dlist *lst, t_token *token);
@@ -96,6 +97,8 @@ void			ft_exit(char *cmd, t_info *info, t_err_code err_code);
 /* QUOTE */
 void			parse_quote(t_info *info);
 int				find_token_type(t_token_type type, t_token *token);
+t_dlist			*clean_sublst(t_dlist *begin, t_dlist *end, t_info *info);
+void			clear_buffer(char *buf, char *tmp, t_info *info);
 
 /* PARSE */
 void			parse_token(t_info *info);
@@ -108,6 +111,10 @@ void			parse_env(t_info *info);
 
 /* EXPAND ENV */
 void			expand_env(t_info *info);
+void			replace_node_value(char *evar, t_dlist **iter);
+int				find_env_var(t_dlist **iter, t_info *info);
+int				find_errno_type(t_dlist *lst);
+void			replace_errno(char *str, t_dlist **lst, t_info *info);
 
 /* REDIRECT */
 void			redirection(t_info *info);

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_token		tab_token[] = 
+t_token		g_tab_token[] =
 {
 	{"|", pipeline},
 	{"$", dollar},
@@ -23,12 +23,12 @@ t_token_type	ft_define_token(char charset)
 
 	i = 0;
 	type = literal;
-	while(tab_token[i].value)
+	while (g_tab_token[i].value)
 	{
-		str = tab_token[i].value;
+		str = g_tab_token[i].value;
 		if (str[0] == charset)
 		{
-			type = tab_token[i].type;
+			type = g_tab_token[i].type;
 			return (type);
 		}
 		i++;
@@ -54,7 +54,7 @@ t_token	*ft_malloc_token(char *input, t_token_type type, int i, int j)
 	}
 	else
 	{
-		if (ft_go_malloc(&s, sizeof(char) * (j - i + 2))) // correction du invalid write & read of size 1
+		if (ft_go_malloc(&s, sizeof(char) * (j - i + 2)))
 			return (0);
 		ft_strncpy(s, input, j - i + 1);
 	}
@@ -80,16 +80,16 @@ int	is_it_double_redir(char *s, int i)
 
 t_token	*ft_find_token(char *s, int *i)
 {
-	t_token *token;
-	int j;
+	t_token	*token;
+	int		j;
 
 	if (literal != ft_define_token(s[*i]))
 	{
 		j = *i;
 		if (is_it_double_redir(s, *i))
 		{
-			token = ft_malloc_token(s + *i, 
-				is_it_double_redir(s, *i), *i, j + 1);
+			token = ft_malloc_token(s + *i,
+					is_it_double_redir(s, *i), *i, j + 1);
 			(*i)++;
 		}
 		else
@@ -98,7 +98,7 @@ t_token	*ft_find_token(char *s, int *i)
 	else
 	{
 		j = *i;
-		while(s[j] && literal == ft_define_token(s[j]))
+		while (s[j] && literal == ft_define_token(s[j]))
 			j++;
 		token = ft_malloc_token(s + *i, ft_define_token(s[*i]), *i, j - 1);
 		*i = j - 1;
@@ -114,7 +114,7 @@ void	ft_create_token(char *s, t_info *info)
 
 	i = 0;
 	info->cmd = NULL;
-	while(s[i])
+	while (s[i])
 	{
 		token = ft_find_token(s, &i);
 		if (!token)
@@ -123,28 +123,6 @@ void	ft_create_token(char *s, t_info *info)
 		dlstadd_back(&info->cmd, new);
 		i++;
 	}
-	parse_token(info); // entree parsing $ et | puis concat quote
-
-	// parse_quote(info);
-	// @Jessy si tu veux tester l'output
-	// t_dlist *test;
-	// test = info->cmd;
-	// t_token *testtok;
-	// if (!test)
-	// 	printf("NULL cmd\n");
-	// if (test)
-	// {
-	// 	while (test)
-	// 	{
-	// 		testtok = test->content;
-	// 		// printf("check token.value %s\n", (char *)testtok->value);
-	// 		printf("check token.value %s\t token.type %d\n", (char *)testtok->value, testtok->type);
-	// 		// printf("check token.type %d\n", testtok->type);
-	// 		test = test->next;
-	// 	}
-	// }
-
-	// ft_exit(info, no_err);
-	//clear_cmd_lst(&info->cmd); // @Jessy -> attention a bien clean apres chaque exec sinon leak ac ptr perdu
+	parse_token(info);
 	return ;
 }

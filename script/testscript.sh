@@ -28,6 +28,8 @@ blt_tests()
 	cd "$path" || exit
 	for src in ${BUILTIN[*]}
 		do
+			echo .................. TEST "$src" .................. 1>> us.log
+			echo .................. TEST "$src" .................. 1>> error_us.log
 			../minishell < "$src".sh 1>> us.log 2>> error_us.log
 			bash < "$src".sh 1>> bash.log 2>> error_bash.log
 	done
@@ -38,6 +40,8 @@ pipe_tests()
 	cd "$path" || exit
 	for src in ${PIPE[*]}
 		do
+			echo .................. TEST "$src" .................. 1>> us.log
+			echo .................. TEST "$src" .................. 1>> error_us.log
 			../minishell < "$src".sh 1>> us.log 2>> error_us.log
 			bash < "$src".sh 1>> bash.log 2>> error_bash.log
 	done
@@ -48,6 +52,8 @@ redir_tests()
 	cd "$path" || exit
 	for src in ${REDIR[*]}
 		do
+			echo .................. TEST "$src" .................. 1>> us.log
+			echo .................. TEST "$src" .................. 1>> error_us.log
 			../minishell < "$src".sh 1>> us.log 2>> error_us.log
 			bash < "$src".sh 1>> bash.log 2>> error_bash.log
 	done
@@ -58,6 +64,8 @@ quote_tests()
 	cd "$path" || exit
 	for src in ${QUOTE[*]}
 		do
+			echo .................. TEST "$src" .................. 1>> us.log
+			echo .................. TEST "$src" .................. 1>> error_us.log
 			../minishell < "$src".sh 1>> us.log 2>> error_us.log
 			bash < "$src".sh 1>> bash.log 2>> error_bash.log
 	done

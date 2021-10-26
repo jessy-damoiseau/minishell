@@ -36,7 +36,7 @@ static void	find_quotes(t_info *info, t_dlist *node)
 	while (iter && iter != node)
 	{
 		if (find_token_type(dble_quote, iter->content))
-			 delete_dble_quotes(&iter, node, info);
+			delete_dble_quotes(&iter, node, info);
 		if (iter)
 			iter = iter->next;
 	}

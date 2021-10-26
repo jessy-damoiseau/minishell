@@ -57,6 +57,6 @@ export TEST+=bonjour
 export | grep TEST
 unset TEST
 
-export TEST=LOL | export TEST+=LOL | echo $TEST | env | sort | grep -v SHLVL | grep -v _= | grep TEST | unset TEST
+export TEST=LOL | export TEST+=LOL | echo $TEST > 0test.log | env | sort >> 0test.log | export | grep -v SHLVL >> 1test.log | env | grep -v 4 > 3test.log | export | grep TEST >> 4test.log | unset TEST
 export TEST="ls       -l     - a" | echo $TEST | $LS |  env | sort | grep -v SHLVL | grep -v _= | grep TEST | unset TEST
 export test=hello | export test | env | grep test | grep -v alien | unset test

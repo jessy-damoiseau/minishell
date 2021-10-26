@@ -90,8 +90,12 @@ cat 0test.log | grep 'USER'
 rm 0test.log
 
 # expected : bash: ../alientest_minishell/test.log: No such file or directory
-echo coucou > ../alientest_minishell/test.log ; ls
-echo coucou >> ../alientest_minishell/test.log ; ls
+echo coucou > ../alientest_minishell/0test.log ; ls
+echo coucou >> ../alientest_minishell/0test.log ; ls
+echo coucou > ../../0test.log | ls
+echo coucou >> ../../0test.log | ls
+cat ../../0test.log
+rm ../../0test.log
 # expected : is a directory
 echo lol > srcs | ls
 echo lol > srcs
@@ -106,28 +110,28 @@ cat 3test.log
 rm 0test.log 3test.log
 
 # create lol and redir echo in it. Output : test lol
-> lol echo test lol; cat lol
-rm lol
+# > lol echo test lol; cat lol
+# rm lol
 
-cat Dockerfile 1> 0test.log
-rm 0test.log
-cat nop.txt 2> error.txt
-rm error.txt
+# cat Dockerfile 1> 0test.log
+# rm 0test.log
+# cat nop.txt 2> error.txt
+# rm error.txt
 
-ls efdjhgdf 2> test.log
-ls efdjhgdf 32> test.log
-ls efdjhgdf 1> test.log
-ls efdjhgdf 0> test.log
-ls efdjhgdf '1'> test.log
-ls efdjhgdf "1"> test.log
-ls efdjhgdf 12> test.log
-ls 2> test.log
-ls 32> test.log
-ls 1> test.log
-ls 0> test.log
-ls '1'> test.log
-ls "1"> test.log
-ls 12> test.log
+# ls efdjhgdf 2> test.log
+# ls efdjhgdf 32> test.log
+# ls efdjhgdf 1> test.log
+# ls efdjhgdf 0> test.log
+# ls efdjhgdf '1'> test.log
+# ls efdjhgdf "1"> test.log
+# ls efdjhgdf 12> test.log
+# ls 2> test.log
+# ls 32> test.log
+# ls 1> test.log
+# ls 0> test.log
+# ls '1'> test.log
+# ls "1"> test.log
+# ls 12> test.log
 
 2> test.log ls sdfsdf
 
