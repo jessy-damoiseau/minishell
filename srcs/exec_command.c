@@ -19,6 +19,7 @@ void	check_end(t_dlist **alst)
 		free(token);
 		free(tmp2);
 		tmp1->next = 0;
+		//printf("check_end\n");
 	}
 }
 
@@ -47,6 +48,7 @@ t_dlist	*fill_gbc(t_dlist *lst, t_info *info, int i)
 		check = 1;
 	tmp = lst;
 	forgbc = tmp;
+
 	if (check)
 	{
 		while (i-- > 1)
@@ -56,6 +58,7 @@ t_dlist	*fill_gbc(t_dlist *lst, t_info *info, int i)
 		check_end((t_dlist **)&forgbc);
 		lstaddback_gbc(&info->gbc, newgbc(TOKEN, -1, (void *)forgbc));
 	}
+
 	return (lst);
 }
 
@@ -174,6 +177,16 @@ int		check_command(t_info *info)
 					i++;
 				}
 			}
+			dlsttmp2 = dlsttmp2->next;
+			if (dlsttmp2)
+				token2 = dlsttmp2->content;
+			while (dlsttmp2 && token2->type == space)
+			{
+				i++;
+				dlsttmp2 = dlsttmp2->next;
+				token2 = dlsttmp2->content;
+			}
+			//printf("check2\n");
 			dlsttmp1 = fill_gbc(dlsttmp1, info, i);
 		}
 		else
@@ -191,6 +204,7 @@ int		check_command(t_info *info)
 			{
 				if (!check_exist(chrtmp1) && !check_binaire(chrtmp1))
 				{
+					//printf("check\n");
 					dlsttmp1 = fill_gbc(dlsttmp1, info, 0);
 				}
 				else if (((chrtmp1[0] == '.' && chrtmp1[1] == '/') || chrtmp1[0] == '/'))
@@ -203,7 +217,10 @@ int		check_command(t_info *info)
 					return (1);
 				}
 				else if (!check_path(chrtmp1, info) || (info->gbc && token1->type != 2))
+				{
+					//printf("check1\n");
 					dlsttmp1 = fill_gbc(dlsttmp1, info, 0);
+				}
 				else if (!ft_strcmp(chrtmp1, " "))
 				{
 					dlsttmp2 = dlsttmp1;
@@ -342,6 +359,7 @@ void	exec_command(t_info *info)
 	t_dlist	*tmp5;
 	t_token	*token;
 
+	//printf("ldtsize(info->cmd): %d\n", dlstsize(info->cmd));
 	if (!check_command(info))
 	{
 		// t_gbc *tmp;

@@ -152,6 +152,7 @@ void	tmplstclear(t_dlist **lst)
 		*lst = (*lst)->next;
 		free(tmp);
 	}
+	free(*lst);
 	*lst = 0;
 }
 

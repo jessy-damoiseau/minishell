@@ -45,7 +45,7 @@ int		createfile(t_dlist *allfile, t_info *info)
 		token = tmp->content;
 		if (token->type != 4 && token->type != 6)
 		{
-			while (tmp)
+			while (tmp && token->type != 9)
 			{
 				token = tmp->content;
 				tmp = tmp->next;
@@ -132,6 +132,7 @@ t_dlist	*clear_struct(t_dlist **lst, t_info *info)
 
 	i = 0;
 	tmp = 0;
+	printf("dlstsize(stockrdrct) : %d\n", dlstsize(*lst));
 	if (info->redir_left)
 	{
 		while (++i < info->redir_left)
@@ -155,6 +156,7 @@ t_dlist	*clear_struct(t_dlist **lst, t_info *info)
 	}
 	while ((*lst)->prev)
 		*lst = (*lst)->prev;
+	printf("dlstsize(stockrdrct) : %d\n", dlstsize(*lst));
 	return (tmp);
 
 }
@@ -167,11 +169,13 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 	int fd0;
 	int	fd[2];
 	t_dlist *tmp;
+	t_dlist	*tmp2;
 	t_token	*token;
 	t_list	*dblrleft;
 
 	fd1 = dup(1);
 	fd0 = dup(0);
+	tmp2 = rdrct;
 	if (dlstsize(rdrct) == 2)
 	{
 		fdin = -1;
@@ -252,7 +256,7 @@ void	go_redirect(t_dlist *rdrct, t_info *info, t_dlist *mcmd)
 	}
 	dup2(fd1, 1);
 	dup2(fd0, 0);
-	tmplstclear(&rdrct);
+	tmplstclear(&tmp2);
 	ft_lstclear(&info->dlb_redir_left_str, &ft_memdel);
 }
 
