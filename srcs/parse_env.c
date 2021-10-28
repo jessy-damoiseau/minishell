@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:23 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/26 23:50:24 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/10/28 18:29:09 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	delete_dble_quotes(t_dlist **iter, t_dlist *node, t_info *info)
+static int	delete_dble_quotes(t_dlist **iter, t_dlist *node)
 {
 	int		flag;
 	t_dlist	*tmp;
@@ -29,8 +29,8 @@ static int	delete_dble_quotes(t_dlist **iter, t_dlist *node, t_info *info)
 			flag = 0;
 		if (token->type == dble_quote && !flag)
 		{
-			clear_cmd_node(iter, info);
-			clear_cmd_node(&tmp, info);
+			clear_cmd_node(iter);
+			clear_cmd_node(&tmp);
 			return (1);
 		}
 		else if (token->type == dble_quote && flag)
@@ -40,29 +40,29 @@ static int	delete_dble_quotes(t_dlist **iter, t_dlist *node, t_info *info)
 	return (0);
 }
 
-static void	find_quotes(t_info *info, t_dlist *node)
+static void	find_quotes(t_dlist *node)
 {
 	t_dlist	*iter;
 
-	iter = info->cmd;
+	iter = info.cmd;
 	while (iter && iter != node)
 	{
 		if (find_token_type(dble_quote, iter->content))
-			delete_dble_quotes(&iter, node, info);
+			delete_dble_quotes(&iter, node);
 		if (iter)
 			iter = iter->next;
 	}
 }
 
-void	parse_env(t_info *info)
+void	parse_env(void)
 {
 	t_dlist	*iter;
 
-	iter = info->cmd;
+	iter = info.cmd;
 	while (iter)
 	{
 		if (find_token_type(dollar, iter->content))
-			find_quotes(info, iter);
+			find_quotes(iter);
 		iter = iter->next;
 	}
 }

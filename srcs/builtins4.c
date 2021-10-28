@@ -6,17 +6,17 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 01:00:24 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/28 01:06:19 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/28 18:29:28 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export1(t_info	*info, int fd)
+void	export1(int fd)
 {
 	t_list	*tmp;
 
-	tmp = info->env;
+	tmp = info.env;
 	while (tmp)
 	{
 		ft_putstr_fd("declare -x ", fd);
@@ -26,7 +26,7 @@ void	export1(t_info	*info, int fd)
 	}
 }
 
-void	export2(char *cmd, int i, t_info *info)
+void	export2(char *cmd, int i)
 {
 	int		j;
 	int		add;
@@ -35,15 +35,15 @@ void	export2(char *cmd, int i, t_info *info)
 
 	add = 0;
 	j = 0;
-	tmp = info->env;
+	tmp = info.env;
 	export3(&i, &j, &add, cmd);
-	str = supp_add(&cmd[i], info);
+	str = supp_add(&cmd[i]);
 	if (add)
 		j--;
 	while (tmp && ft_strncmp(tmp->content, str, j))
 		tmp = tmp->next;
 	if (!tmp)
-		ft_lstadd_back(&info->env, ft_lstnew(str));
+		ft_lstadd_back(&info.env, ft_lstnew(str));
 	else
 	{
 		free(str);

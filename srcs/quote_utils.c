@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:08 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/26 23:50:08 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/10/28 18:28:51 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	clear_sublst(t_dlist *begin, t_dlist *end)
 	clear_token(end, end->content);
 }
 
-t_dlist	*samequote_begin_or_end(t_dlist *begin, t_dlist *end, t_info *info)
+t_dlist	*samequote_begin_or_end(t_dlist *begin, t_dlist *end)
 {
 	t_dlist	*new;
 
@@ -45,7 +45,7 @@ t_dlist	*samequote_begin_or_end(t_dlist *begin, t_dlist *end, t_info *info)
 	{
 		clear_token(begin, begin->content);
 		clear_token(end, end->content);
-		info->cmd = NULL;
+		info.cmd = NULL;
 		return (NULL);
 	}
 	else
@@ -58,17 +58,17 @@ t_dlist	*samequote_begin_or_end(t_dlist *begin, t_dlist *end, t_info *info)
 	}
 }
 
-t_dlist	*clean_sublst(t_dlist *begin, t_dlist *end, t_info *info)
+t_dlist	*clean_sublst(t_dlist *begin, t_dlist *end)
 {
 	t_dlist	*new;
 
 	new = end->next;
 	if (begin->next == end && !end->next)
-		return (samequote_begin_or_end(begin, end, info));
+		return (samequote_begin_or_end(begin, end));
 	if (!begin->prev)
 	{
 		clear_sublst(begin, end);
-		info->cmd = new;
+		info.cmd = new;
 		new->prev = NULL;
 		return (new);
 	}
@@ -78,9 +78,9 @@ t_dlist	*clean_sublst(t_dlist *begin, t_dlist *end, t_info *info)
 	return (new);
 }
 
-void	clear_buffer(char *buf, char *tmp, t_info *info)
+void	clear_buffer(char *buf, char *tmp)
 {
 	ft_memdel((void *)&tmp);
 	ft_memdel((void *)&buf);
-	ft_exit(0, info, err_malloc);
+	ft_exit(0, err_malloc);
 }

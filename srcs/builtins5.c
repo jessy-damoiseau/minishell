@@ -6,13 +6,13 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 01:02:06 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/28 01:02:26 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/28 18:29:25 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_export(char *cmd, t_info *info, int fd)
+void	ft_export(char *cmd,int fd)
 {
 	int	i;
 
@@ -20,7 +20,7 @@ void	ft_export(char *cmd, t_info *info, int fd)
 	while (cmd[i] && cmd[i] == ' ')
 		i++;
 	if (!cmd[i])
-		export1(info, fd);
+		export1(fd);
 	else
-		export2(cmd, i, info);
+		export2(cmd, i);
 }

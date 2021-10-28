@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 23:21:52 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/28 01:02:20 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/28 18:29:44 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ int	exit2bis(char *cmd, int *i, int j)
 	return (nbspace);
 }
 
-int	exit2(char *cmd, int *i, t_info *info, int j)
+int	exit2(char *cmd, int *i, int j)
 {
 	while (cmd[*i] && cmd[*i] == ' ')
 		(*i)++;
 	if (!cmd[*i])
 	{
-		clear_cmd_lst(&info->cmd);
-		ft_lstclear(&info->env, &ft_memdel);
-		if (!info->child)
+		clear_cmd_lst(&info.cmd);
+		ft_lstclear(&info.env, &ft_memdel);
+		if (!info.child)
 			ft_putstr_fd("exit\n", 1);
 		free(cmd);
 		exit(errno);
@@ -70,14 +70,14 @@ int	exit2(char *cmd, int *i, t_info *info, int j)
 	return (exit2bis(cmd, i, j));
 }
 
-int	exit3(char *cmd, int i, t_info *info)
+int	exit3(char *cmd, int i)
 {
 	int	ret;
 	int	error;
 
 	error = 0;
 	ret = ft_atoll(&cmd[i], &error) % 256;
-	if (!info->child)
+	if (!info.child)
 		ft_putstr_fd("exit\n", 1);
 	if (error)
 	{
@@ -89,7 +89,7 @@ int	exit3(char *cmd, int i, t_info *info)
 	return (ret);
 }
 
-void	ft_exit(char *cmd, t_info *info, t_err_code err_code)
+void	ft_exit(char *cmd, t_err_code err_code)
 {
 	int	i;
 	int	ret;
@@ -98,17 +98,17 @@ void	ft_exit(char *cmd, t_info *info, t_err_code err_code)
 	ret = errno;
 	if (cmd)
 	{
-		if (exit2(cmd, &i, info, -1))
+		if (exit2(cmd, &i, -1))
 		{
 			errno = 1;
 			ft_putstr_fd("exit: too many arguments\n", 2);
 			return ;
 		}
-		ret = exit3(cmd, i, info);
+		ret = exit3(cmd, i);
 		free(cmd);
 	}
 	if (error_code(err_code))
 		ret = 1;
-	ft_lstclear(&info->env, &ft_memdel);
+	ft_lstclear(&info.env, &ft_memdel);
 	exit(ret);
 }

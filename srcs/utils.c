@@ -115,7 +115,7 @@ long long int	ft_atoll(char *str, int *error)
 	return (r * s);
 }
 
-char *supp_add(char *str, t_info *info)
+char *supp_add(char *str)
 {
 	int i;
 	int j;
@@ -128,7 +128,7 @@ char *supp_add(char *str, t_info *info)
 	if (str[i] == '+')
 	{
 		if (ft_go_malloc(&ret, (sizeof(char) + ft_strlen(str))))
-			ft_exit(0, info, err_malloc);
+			ft_exit(0, err_malloc);
 		i = 0;
 		while (str[i])
 		{
@@ -156,12 +156,13 @@ void	tmplstclear(t_dlist **lst)
 	*lst = 0;
 }
 
-void	init_var(t_info *info)
+void	init_var(void)
 {
-	info->dlb_redir_left_str = 0;
-	info->redir_left = 0;
-	info->redir_right = 0;
-	info->child = 0;
+	info.dlb_redir_left_str = 0;
+	info.redir_left = 0;
+	info.redir_right = 0;
+	info.child = 0;
+	info.gnl = 0;
 }
 
 size_t ft_strlen_utils(const char *s, char stop)

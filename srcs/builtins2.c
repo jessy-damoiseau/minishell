@@ -6,17 +6,17 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 00:57:23 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/28 00:58:10 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/28 18:29:32 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(t_info *info, char *cmd, int fd)
+void	pwd(char *cmd, int fd)
 {
 	if (!ft_strcmp(cmd, "pwd"))
 	{
-		ft_putstr_fd(info->pwd, fd);
+		ft_putstr_fd(info.pwd, fd);
 		write(fd, "\n", 1);
 		errno = 0;
 	}
@@ -27,17 +27,17 @@ void	pwd(t_info *info, char *cmd, int fd)
 	}
 }
 
-void	oldpwd(t_info *info)
+void	oldpwd(void)
 {
 	char	*str;
 	t_list	*tmp;
 
-	tmp = info->env;
-	str = info->pwd;
+	tmp = info.env;
+	str = info.pwd;
 	while (tmp && ft_strncmp(tmp->content, "OLDPWD=", 7))
 		tmp = tmp->next;
 	if (!tmp)
-		ft_lstadd_back(&info->env, ft_lstnew(ft_strjoin("OLDPWD=", str)));
+		ft_lstadd_back(&info.env, ft_lstnew(ft_strjoin("OLDPWD=", str)));
 	else
 	{
 		free(tmp->content);
@@ -83,7 +83,7 @@ void	cd2(char *cmd, int j, char *str)
 	}
 }
 
-void	cd(char *cmd, t_info *info)
+void	cd(char *cmd)
 {
 	int		i;
 	int		j;
@@ -91,7 +91,7 @@ void	cd(char *cmd, t_info *info)
 
 	i = 2;
 	j = 0;
-	oldpwd(info);
+	oldpwd();
 	str = getenv("HOME");
 	if (cmd[2] != '\0')
 	{

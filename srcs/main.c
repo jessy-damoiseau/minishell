@@ -1,24 +1,26 @@
 #include "minishell.h"
 
-static void	ft_get_env(t_info *info, char **envp)
+t_info info;
+
+static void	ft_get_env(char **envp)
 {
 	int     i;
 	char    *str;
 	t_list  *new;
 
 	i = 0;
-	info->env = NULL;
-	info->cmd = NULL;
+	info.env = NULL;
+	info.cmd = NULL;
 	while(envp[i])
 	{
 		str = ft_strdup(envp[i]);
 		new = ft_lstnew(str);
-		ft_lstadd_back(&info->env, new);
+		ft_lstadd_back(&info.env, new);
 		i++;
 	}
 }
 
-char 		**duplst(t_list *env ,t_info *info)
+char 		**duplst(t_list *env)
 {
 	char **ret;
 	int i;
@@ -26,7 +28,7 @@ char 		**duplst(t_list *env ,t_info *info)
 	i = 0;
 	ret = malloc(sizeof(char *) * (ft_lstsize(env) + 1));
 	if (!ret)
-		ft_exit(0, info, err_malloc);
+		ft_exit(0, err_malloc);
 	while(env)
 	{
 		ret[i++] = ft_strdup(env->content);
@@ -36,17 +38,17 @@ char 		**duplst(t_list *env ,t_info *info)
 	return (ret);
 }
 
-void		init_struct(t_info *info)
+void		init_struct(void)
 {
-	info->pwd = 0;
-	info->gbc = 0;
-	info->path = 0;
-	info->cmd = 0;
-	info->nbpipe = 0;
-	info->cmdpipe = 0;
-	info->gnl = 0;
+	info.pwd = 0;
+	info.gbc = 0;
+	info.path = 0;
+	info.cmd = 0;
+	info.nbpipe = 0;
+	info.cmdpipe = 0;
+	info.gnl = 0;
 	errno = 0;
-	info->evrm = duplst(info->env, info);
+	info.evrm = duplst(info.env);
 }
 
 void		change_shlv(t_list **env)
@@ -67,7 +69,7 @@ void		change_shlv(t_list **env)
 	free(tmpstr);
 }
 
-char		**fill_nullenv(t_info *info)
+char		**fill_nullenv(void)
 {
 	char **ret;
 	char *pwd;
@@ -79,7 +81,7 @@ char		**fill_nullenv(t_info *info)
 	ret = malloc(sizeof(char *) * 8);
 	i = 0;
 	if (!ret)
-		ft_exit(0, info, err_malloc);
+		ft_exit(0, err_malloc);
 	ret[i++] = ft_strdup("LS_COLORS=");
 	ret[i++] = ft_strdup("LESSCLOSE=/usr/bin/lesspipe %s %s");
 	ret[i++] = ft_strjoin("PWD=", pwd);
@@ -94,18 +96,16 @@ char		**fill_nullenv(t_info *info)
 
 int main(int ac, char **av, char **envp)
 {
-	t_info info;
-
 	(void)ac;
 	(void)av;
 	if (!envp[0])
-		envp = fill_nullenv(&info);
-	ft_get_env(&info, envp);
+		envp = fill_nullenv();
+	ft_get_env(envp);
 	change_shlv(&info.env);
-	init_struct(&info);
+	init_struct();
 	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, SIG_IGN);
-	ft_prompt(&info);
-	ft_exit(0, &info, no_err);
+	ft_prompt();
+	ft_exit(0, no_err);
 	return (0);
 }

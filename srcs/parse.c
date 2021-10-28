@@ -28,11 +28,11 @@ int		next_identical_token(t_dlist **iter, t_dlist *node, t_token *src)
 	return (0);
 }
 
-int		is_it_literal(t_info *info, t_dlist *node, t_token *token)
+int		is_it_literal(t_dlist *node, t_token *token)
 {
 	t_dlist *iter;
 
-	iter = info->cmd;
+	iter = info.cmd;
 	while (iter && iter != node)
 	{
 		if (token->type != dollar &&
@@ -54,13 +54,13 @@ int		is_it_literal(t_info *info, t_dlist *node, t_token *token)
 	return (0);
 }
 
-int	check_pipe(t_info *info)
+int	check_pipe(void)
 {
 	t_dlist	*tmp;
 	t_token	*token;
 	t_dlist	*tmp1;
 
-	tmp1 = info->cmd;
+	tmp1 = info.cmd;
 	while (tmp1)
 	{
 		token = tmp1->content;
@@ -79,13 +79,13 @@ int	check_pipe(t_info *info)
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
 				errno = 2;
-				clear_cmd_lst(&info->cmd);
+				clear_cmd_lst(&info.cmd);
 				return (1);
 			}
 			else if (token->type == pipeline)
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
-				clear_cmd_lst(&info->cmd);
+				clear_cmd_lst(&info.cmd);
 				errno = 2;
 				return (1);
 			}
@@ -95,19 +95,19 @@ int	check_pipe(t_info *info)
 	return (0);
 }
 
-int		check_error_pipe(t_info	*info)
+int		check_error_pipe(void)
 {
 	t_dlist	*tmp;
 	t_token	*token;
 
-	if (dlstsize(info->cmd) == 1)
+	if (dlstsize(info.cmd) == 1)
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
-		clear_cmd_lst(&info->cmd);
+		clear_cmd_lst(&info.cmd);
 		errno = 2;
 		return (1);
 	}
-	tmp = info->cmd;
+	tmp = info.cmd;
 	token = tmp->content;
 	if (token->type == pipeline)
 	{
@@ -116,12 +116,12 @@ int		check_error_pipe(t_info	*info)
 		if (token->type == pipeline)
 		{
 			ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
-			clear_cmd_lst(&info->cmd);
+			clear_cmd_lst(&info.cmd);
 			errno = 2;
 			return (1);
 		}
 	}
-	tmp = info->cmd;
+	tmp = info.cmd;
 	token = tmp->content;
 	while (tmp && (token->type == space || token->type == pipeline))
 	{
@@ -132,33 +132,33 @@ int		check_error_pipe(t_info	*info)
 	if (!tmp)
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
-		clear_cmd_lst(&info->cmd);
+		clear_cmd_lst(&info.cmd);
 		errno = 2;
 		return (1);
 	}
 	return (0);
 }
 
-void	parse_token(t_info *info)
+void	parse_token(void)
 {
 	t_dlist *iter;
 
-	iter = info->cmd;
-	info->nbpipe = 0;
+	iter = info.cmd;
+	info.nbpipe = 0;
 	while (iter)
 	{
 		if (find_token_type(pipeline, iter->content))
 		{
-			if (!is_it_literal(info, iter, iter->content))
-				info->nbpipe++;
+			if (!is_it_literal(iter, iter->content))
+				info.nbpipe++;
 		}
 		if (find_token_type(dollar, iter->content))
-			is_it_literal(info, iter, iter->content);
+			is_it_literal(iter, iter->content);
 		iter = iter->next;
 	}
 	//test
 	// t_dlist *test;
-	// test = info->cmd;
+	// test = info.cmd;
 	// t_token *testtok;
 	// if (!test)
 	// 	printf("NULL cmd\n");
@@ -173,23 +173,23 @@ void	parse_token(t_info *info)
 	// 		test = test->next;
 	// 	}
 	// }
-	parse_env(info);
-	parse_quote(info);
+	parse_env();
+	parse_quote();
 
 
-	//printf("nb de pipe = %d\n", info->nbpipe);
+	//printf("nb de pipe = %d\n", info.nbpipe);
 	//si pipe => il faut d'abord creer la pipeline de commande puis pipe par pipe expand_env + exec cmd
 	
-	if (info->nbpipe)
+	if (info.nbpipe)
 	{
-		if (check_error_pipe(info))
+		if (check_error_pipe())
 			return ;
-		if (check_pipe(info))
+		if (check_pipe())
 			return ;
 	}
-	if (info->nbpipe)
-	 	create_pipeline(info);
+	if (info.nbpipe)
+	 	create_pipeline();
 	else
-		expand_env(info); // si pas de pipe => expand directement les valeurs puis exec
+		expand_env(); // si pas de pipe => expand directement les valeurs puis exec
 	return ;
 }

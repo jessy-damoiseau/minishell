@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:17 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 17:13:13 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/28 18:29:01 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,27 @@ static int	ft_get_path(char **path, char *buff, char *color)
 	return (1);
 }
 
-int	catch_eof_signal(char *line, char *path, t_info *info)
+int	catch_eof_signal(char *line, char *path)
 {
 	if (!line)
 	{
 		free(line);
 		free(path);
-		ft_exit(0, info, no_err);
+		ft_exit(0, no_err);
 	}
 	return (1);
 }
 
-char	*get_prompt(t_info *info)
+char	*get_prompt(void)
 {
 	char	*path;
 	char	*tmp;
 	char	*ret;
 
-	if (!ft_get_path(&path, info->pwd, "\033[1;35m|\033[0m"))
-		ft_exit(0, info, err_malloc);
+	if (!ft_get_path(&path, info.pwd, "\033[1;35m|\033[0m"))
+		ft_exit(0, err_malloc);
 	tmp = readline(path);
-	catch_eof_signal(tmp, path, info);
+	catch_eof_signal(tmp, path);
 	ret = ft_strtrim(tmp, " ");
 	free(tmp);
 	free(path);

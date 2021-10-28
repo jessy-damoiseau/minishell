@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:30 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 17:09:35 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/28 18:29:19 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_if_value_in_env(char *envval, char *cmdval)
 	return (0);
 }
 
-int	find_env_var(t_dlist **iter, t_info *info)
+int	find_env_var(t_dlist **iter)
 {
 	t_dlist	*tmp;
 	t_list	*env;
@@ -51,22 +51,22 @@ int	find_env_var(t_dlist **iter, t_info *info)
 	tmp = *iter;
 	*iter = (*iter)->next;
 	token = (*iter)->content;
-	if (info->env)
+	if (info.env)
 	{
-		env = info->env;
+		env = info.env;
 		while (env)
 		{
 			if (check_if_value_in_env(env->content, token->value))
 			{
 				replace_node_value(env->content, iter);
-				clear_cmd_node(&tmp, info);
+				clear_cmd_node(&tmp);
 				return (1);
 			}
 			env = env->next;
 		}
 	}
-	clear_cmd_node(&tmp, info);
-	clear_cmd_node(iter, info);
+	clear_cmd_node(&tmp);
+	clear_cmd_node(iter);
 	return (0);
 }
 
@@ -88,14 +88,14 @@ int	find_errno_type(t_dlist *lst)
 	return (0);
 }
 
-void	replace_errno(char *str, t_dlist **lst, t_info *info)
+void	replace_errno(char *str, t_dlist **lst)
 {
 	t_dlist	*tmp;
 	t_token	*token;
 
 	tmp = (*lst)->next;
 	(*lst)->next = tmp->next;
-	clear_cmd_node(&tmp, info);
+	clear_cmd_node(&tmp);
 	token = (*lst)->content;
 	token->type = literal;
 	free(token->value);

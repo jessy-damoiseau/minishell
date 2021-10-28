@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:04 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/26 23:50:05 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/10/28 18:28:40 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,23 +118,23 @@ t_token	*ft_find_token(char *s, int *i)
 	return (token);
 }
 
-void	ft_create_token(char *s, t_info *info)
+void	ft_create_token(char *s)
 {
 	int		i;
 	t_token	*token;
 	t_dlist	*new;
 
 	i = 0;
-	info->cmd = NULL;
+	info.cmd = NULL;
 	while (s[i])
 	{
 		token = ft_find_token(s, &i);
 		if (!token)
-			ft_exit(0, info, err_malloc);
+			ft_exit(0, err_malloc);
 		new = dlstnew(token);
-		dlstadd_back(&info->cmd, new);
+		dlstadd_back(&info.cmd, new);
 		i++;
 	}
-	parse_token(info);
+	parse_token();
 	return ;
 }

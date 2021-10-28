@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 00:58:37 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/28 17:19:38 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/28 18:29:30 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void	env2(char *cmd)
 	}
 }
 
-void	env(char *cmd, t_info *info, int fd)
+void	env(char *cmd, int fd)
 {
 	t_list		*tmp;
 	int			i;
 
 	i = 3;
-	tmp = info->env;
+	tmp = info.env;
 	while (cmd[i] == ' ')
 		i++;
 	if (ft_strcmp(cmd, "env") && cmd[i])
@@ -57,13 +57,13 @@ void	env(char *cmd, t_info *info, int fd)
 	}
 }
 
-void	unset2(char *cmd, int i, int j, t_info *info)
+void	unset2(char *cmd, int i, int j)
 {
 	t_list	*tmp;
 	t_list	*tmp2;
 	char	*tfchier;
 
-	tmp = info->env;
+	tmp = info.env;
 	while (tmp->next)
 	{
 		tfchier = tmp->next->content;
@@ -80,7 +80,7 @@ void	unset2(char *cmd, int i, int j, t_info *info)
 	}
 }
 
-void	unset(char *cmd, t_info *info)
+void	unset(char *cmd)
 {
 	int	i;
 	int	j;
@@ -100,7 +100,7 @@ void	unset(char *cmd, t_info *info)
 			return ;
 		}
 	}
-	unset2(cmd, i, j, info);
+	unset2(cmd, i, j);
 	errno = 0;
 }
 

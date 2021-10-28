@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:33 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/26 23:50:33 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/10/28 18:29:21 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	clear_cmd_lst(t_dlist **lst)
 	*lst = NULL;
 }
 
-void	clear_cmd_node(t_dlist **lst, t_info *info)
+void	clear_cmd_node(t_dlist **lst)
 {
 	t_dlist	*tmp;
 
@@ -49,7 +49,7 @@ void	clear_cmd_node(t_dlist **lst, t_info *info)
 		*lst = (*lst)->next;
 		if (*lst)
 			(*lst)->prev = NULL;
-		info->cmd = *lst;
+		info.cmd = *lst;
 	}
 	else if (!(*lst)->next)
 	{

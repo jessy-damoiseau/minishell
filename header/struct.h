@@ -57,7 +57,7 @@ typedef struct	s_info
 	int		child;
 	int		stop;
 	int		gnl;
+	char	*killgnl;
 }				t_info;
-
 
 #endif
