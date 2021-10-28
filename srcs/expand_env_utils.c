@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:30 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/26 23:50:30 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/10/28 17:09:35 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,18 @@ void	replace_node_value(char *evar, t_dlist **iter)
 	}
 }
 
+int	check_if_value_in_env(char *envval, char *cmdval)
+{
+	size_t	e;
+	size_t	c;
+	
+	e = ft_strlen_utils(envval, '=');
+	c = ft_strlen(cmdval);
+	if (!ft_strncmp(envval, cmdval, e) && e == c)
+		return (1);
+	return (0);
+}
+
 int	find_env_var(t_dlist **iter, t_info *info)
 {
 	t_dlist	*tmp;
@@ -44,8 +56,7 @@ int	find_env_var(t_dlist **iter, t_info *info)
 		env = info->env;
 		while (env)
 		{
-			if (!ft_strncmp(env->content, token->value,
-					ft_strlen(token->value)))
+			if (check_if_value_in_env(env->content, token->value))
 			{
 				replace_node_value(env->content, iter);
 				clear_cmd_node(&tmp, info);
@@ -63,13 +74,16 @@ int	find_errno_type(t_dlist *lst)
 {
 	t_token	*token;
 
-	token = lst->content;
-	if (token->type == dollar && lst->next)
+	if (lst)
 	{
-		lst = lst->next;
 		token = lst->content;
-		if (!strcmp((char *)token->value, "?"))
-			return (1);
+		if (token->type == dollar && lst->next)
+		{
+			lst = lst->next;
+			token = lst->content;
+			if (!strcmp((char *)token->value, "?"))
+				return (1);
+		}
 	}
 	return (0);
 }

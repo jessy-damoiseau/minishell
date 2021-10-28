@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:13 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/26 23:50:13 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/10/28 17:34:55 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 void	ft_sighandler(int signum)
 {
 	if (signum == SIGINT)
-	{
+	{	
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		return ;
 	}
+	
 }
 
 void	refill_pwd(t_info *info)

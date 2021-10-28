@@ -78,6 +78,7 @@ int	check_pipe(t_info *info)
 			if (!tmp || (token->type == pipeline && !tmp->next))
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
+				errno = 2;
 				clear_cmd_lst(&info->cmd);
 				return (1);
 			}
@@ -85,6 +86,7 @@ int	check_pipe(t_info *info)
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
 				clear_cmd_lst(&info->cmd);
+				errno = 2;
 				return (1);
 			}
 		}
@@ -102,6 +104,7 @@ int		check_error_pipe(t_info	*info)
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
 		clear_cmd_lst(&info->cmd);
+		errno = 2;
 		return (1);
 	}
 	tmp = info->cmd;
@@ -114,6 +117,7 @@ int		check_error_pipe(t_info	*info)
 		{
 			ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
 			clear_cmd_lst(&info->cmd);
+			errno = 2;
 			return (1);
 		}
 	}
@@ -129,6 +133,7 @@ int		check_error_pipe(t_info	*info)
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
 		clear_cmd_lst(&info->cmd);
+		errno = 2;
 		return (1);
 	}
 	return (0);

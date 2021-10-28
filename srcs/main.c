@@ -44,6 +44,7 @@ void		init_struct(t_info *info)
 	info->cmd = 0;
 	info->nbpipe = 0;
 	info->cmdpipe = 0;
+	info->gnl = 0;
 	errno = 0;
 	info->evrm = duplst(info->env, info);
 }
@@ -93,7 +94,7 @@ char		**fill_nullenv(t_info *info)
 
 int main(int ac, char **av, char **envp)
 {
-	t_info	info;
+	t_info info;
 
 	(void)ac;
 	(void)av;

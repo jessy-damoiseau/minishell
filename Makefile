@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
+#    By: jessy <jessy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/21 14:58:12 by pgueugno          #+#    #+#              #
-#    Updated: 2021/10/26 23:41:05 by user42           ###   ########.fr        #
+#    Updated: 2021/10/28 01:28:14 by jessy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ LIB_LIBFT_DIR	= $(LIBS_DIR)/libft.a
 ################################################################################
 
 SRCS_MINISHELL		=	main.c tokenize.c utils.c exit.c exec_command.c\
-						gbcollector.c builtins.c quote.c quote_utils.c parse.c\
+						gbcollector.c builtins.c builtins2.c builtins3.c builtins4.c builtins5.c\
+						quote.c quote_utils.c parse.c\
 						pipeline.c expand_env.c expand_env_utils.c parse_env.c\
 						redirect.c prompt.c prompt_utils.c
 

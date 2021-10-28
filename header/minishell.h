@@ -22,6 +22,45 @@
 # define GBC 3
 # define TOKEN 4
 
+/* BUILTINS NORMER */
+int		error_code(t_err_code err_code);
+int		exit2bis(char *cmd, int *i, int j);
+int		exit2(char *cmd, int *i, t_info *info, int j);
+int		exit3(char *cmd, int i, t_info *info);
+void	ft_exit(char *cmd, t_info *info, t_err_code err_code);
+void	pwd(t_info *info, char *cmd, int fd);
+void	oldpwd(t_info *info);
+int		cd1(char *cmd, int i, int *j);
+void	cd2(char *cmd, int j, char *str);
+void	cd(char *cmd, t_info *info);
+void	env2(char *cmd);
+void	env(char *cmd, t_info *info, int fd);
+void	unset2(char *cmd, int i, int j, t_info *info);
+void	unset(char *cmd, t_info *info);
+void	echo(char *cmd, int fd);
+void	export1(t_info	*info, int fd);
+void	export2(char *cmd, int i, t_info *info);
+void	export3(int *i, int *j, int *add, char *cmd);
+void	export4(t_list	*tmp, char *cmd, int i, int j);
+void	export5(t_list	*tmp, char *cmd, int i);
+void	ft_export(char *cmd, t_info *info, int fd);
+/* END BUILTINS NORMER */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* UTILS */
 int				ft_go_malloc(char **str, int len);
 char			**dbl_chardup(char **envp);
@@ -32,6 +71,7 @@ long long int	ft_atoll(char *str, int *error);
 char			*supp_add(char *str, t_info *info);
 void			tmplstclear(t_dlist **lst);
 void			init_var(t_info *info);
+size_t          ft_strlen_utils(const char *s, char stop);
 
 /* TOKENIZE */
 t_token_type	ft_define_token(char charset);

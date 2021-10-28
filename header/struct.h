@@ -1,6 +1,7 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
+
 typedef struct	s_gbcollector
 {
 	int type;
@@ -54,6 +55,9 @@ typedef struct	s_info
 	int		redir_left;
 	int		redir_right;
 	int		child;
+	int		stop;
+	int		gnl;
 }				t_info;
+
 
 #endif

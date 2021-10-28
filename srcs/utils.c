@@ -163,3 +163,17 @@ void	init_var(t_info *info)
 	info->redir_right = 0;
 	info->child = 0;
 }
+
+size_t ft_strlen_utils(const char *s, char stop)
+{
+	int i;
+	
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == stop)
+			return (i);
+		i++;
+	}
+	return (i);
+}

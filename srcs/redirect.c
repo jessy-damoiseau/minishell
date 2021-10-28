@@ -27,6 +27,40 @@ int		check_redirecterr(t_gbc *allcmd)
 	return (0);
 }
 
+int	check_directory(char *str)
+{
+	char	**dir;
+	int i;
+	int	j;
+
+	j = 0;
+	dir = ft_split(str, '/');
+	while (dir[j])
+		j++;
+	if (j <= 1)
+	{
+		free_dbl(dir);
+		return (0);
+	}
+	i = 0;
+	while (dir[i] && i < j - 1)
+	{
+		if (check_exist(dir[i]))
+		{
+			ft_putstr_fd("bash: ", 2);
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			free_dbl(dir);
+			errno = 1;
+			return (1);
+		}
+		i++;
+
+	}
+	free_dbl(dir);
+	return (0);
+}
+
 int		createfile(t_dlist *allfile, t_info *info)
 {
 	t_token	*token;
@@ -52,11 +86,14 @@ int		createfile(t_dlist *allfile, t_info *info)
 			}
 			if (stat((char *)token->value, &sb))
 				{
+					if (check_directory((char *)token->value))
+						return (1);
 					fd = open((char *)token->value, O_CREAT, 0664);
 					if (fd < 0)
 						ft_exit(0, info, err_fd);
 					close(fd);
 					info->redir_right = 1;
+					
 				}
 			else
 			{
@@ -98,11 +135,15 @@ int		createfile(t_dlist *allfile, t_info *info)
 			while (tmp->next)
 				tmp = tmp->next;
 			token = tmp->content;
+			info->gnl = 0;
 			while (!str || ft_strcmp(str, (char *)token->value))
 			{
-				ft_putstr_fd(">", 1);
+				info->gnl = 1;
+				ft_putstr_fd("> ", 1);
 				get_next_line(1, &str);
 				ft_lstadd_back(&info->dlb_redir_left_str, ft_lstnew(str));
+			//if (g_var)
+			//		ft_lstclear(&info->dlb_redir_left_str, &ft_memdel);
 			}
 			info->redir_left = i;
 		}
@@ -132,7 +173,6 @@ t_dlist	*clear_struct(t_dlist **lst, t_info *info)
 
 	i = 0;
 	tmp = 0;
-	printf("dlstsize(stockrdrct) : %d\n", dlstsize(*lst));
 	if (info->redir_left)
 	{
 		while (++i < info->redir_left)
@@ -156,7 +196,6 @@ t_dlist	*clear_struct(t_dlist **lst, t_info *info)
 	}
 	while ((*lst)->prev)
 		*lst = (*lst)->prev;
-	printf("dlstsize(stockrdrct) : %d\n", dlstsize(*lst));
 	return (tmp);
 
 }
