@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:33 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 18:29:21 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:14:27 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	clear_cmd_node(t_dlist **lst)
 		*lst = (*lst)->next;
 		if (*lst)
 			(*lst)->prev = NULL;
-		info.cmd = *lst;
+		g_info.cmd = *lst;
 	}
 	else if (!(*lst)->next)
 	{

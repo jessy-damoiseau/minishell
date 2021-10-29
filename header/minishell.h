@@ -16,13 +16,9 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-# define STR 0
-# define FD 1
-# define LST 2
-# define GBC 3
 # define TOKEN 4
 
-extern t_info info;
+extern t_info g_info;
 
 /* BUILTINS NORMER */
 int		error_code(t_err_code err_code);
@@ -47,7 +43,77 @@ void	export4(t_list	*tmp, char *cmd, int i, int j);
 void	export5(t_list	*tmp, char *cmd, int i);
 void	ft_export(char *cmd, int fd);
 /* END BUILTINS NORMER */
-
+/* EXEC_COMMAND NORMER */
+int		check_builtins(t_dlist *mcmd);
+char	**dup_env(t_list *env);
+void	check_exec2(char *tmp, char **str);
+int		check_exec(t_dlist *mcmd);
+void	exec_command(void);
+void	check_end(t_dlist **alst);
+void	fill_gbc2(int *i, int *check, t_dlist *tmp);
+t_dlist	*fill_gbc(t_dlist *lst, int i);
+int		check_path2(char **path, char *tmp1);
+int		check_path(char *tmp1);
+int		check_exist(char *str);
+int		check_binaire(char *str);
+void	check_command4(t_dlist **dlsttmp1, int i);
+int		check_command6(char *chrtmp1);
+int		check_command7(char	*chrtmp1);
+int		check_command5(t_dlist	**dlsttmp1, t_token *token1, char *chrtmp1);
+int		check_command8(char *chrtmp1);
+int		heck_command3(t_token *token1, t_dlist *dlsttmp1);
+int		check_command2(t_token *token1, t_dlist *dlsttmp1);
+int		check_command(void);
+void	joincmd(char **cmd, t_dlist *lst);
+void	joincmd2(t_dlist *tmp1, int *i);
+int		check_builtins2(char *cmd, int i);
+/* END EXEC_COMMAND NORMER */
+/* EXIT NORMER */
+void	clear_token(t_dlist *list, t_token *token);
+void	clear_cmd_lst(t_dlist **lst);
+void	clear_cmd_node(t_dlist **lst);
+void	free_dbl(char **str);
+/* END EXIT NORMER */
+/* EXPAND_ENV_UTILS NORMER */
+void	replace_node_value(char *evar, t_dlist **iter);
+int		check_if_value_in_env(char *envval, char *cmdval);
+int		find_env_var(t_dlist **iter);
+int		find_errno_type(t_dlist *lst);
+void	replace_errno(char *str, t_dlist **lst);
+/* END EXPAND_ENV_UTILS NORMER */
+/* EXPAND_ENV NORMER */
+void	concat_node(t_token *atoken, t_token *btoken, t_dlist **iter);
+void	concat_narrow_litvalue(void);
+int		is_env_literal(t_dlist **iter);
+void	expand_env(void);
+/* END EXPAND_ENV NORMER */
+/* GBCOLLECTOR NORMER */
+void	clearmaillon(t_gbc *lst);
+void	gbcclear(t_gbc **alst);
+void	gbcclear_one(t_gbc **alst, int maillon, int size);
+t_gbc	*newgbc(int type, int fd, void *str);
+void	lstaddback_gbc(t_gbc **alst, t_gbc *new);
+/* END GBCOLLECTOR NORMER */
+/* MAIN NORMER */
+char	**duplst(t_list *env);
+void	init_struct(void);
+void	change_shlv(t_list **env);
+char	**fill_nullenv(void);
+int	main(int ac, char **av, char **envp);
+/* END MAIN NORMER */
+/* PARSE_ENV */
+void	parse_env(void);
+/* END PARSE_ENV */
+/* PARSE NORMER */
+int		check_pipe(void);
+int		check_error_pipe2(void);
+int		check_error_pipe(void);
+void	parse_token2(void);
+void	parse_token(void);
+int		next_identical_token(t_dlist **iter, t_dlist *node, t_token *src);
+int		is_it_literal(t_dlist *node, t_token *token);
+int		check_pipe2(t_dlist *tmp, t_token *token);
+/* END PARSE NORMER */
 
 
 
@@ -74,6 +140,7 @@ char			*supp_add(char *str);
 void			tmplstclear(t_dlist **lst);
 void			init_var(void);
 size_t          ft_strlen_utils(const char *s, char stop);
+void	ft_get_env(char **envp);
 
 /* TOKENIZE */
 t_token_type	ft_define_token(char charset);

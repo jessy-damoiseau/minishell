@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:49:52 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 18:28:48 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:17:54 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_dlist	*concate_quoted(t_dlist *sub, t_token_type type)
 		new = dlstnew(ft_malloc_token(buf, literal, 0, ft_strlen(buf)));
 		if (!new)
 			clear_buffer(buf, 0);
-		dlstinsert_node(&info.cmd, sub, new);
+		dlstinsert_node(&g_info.cmd, sub, new);
 	}
 	ft_memdel((void *)&buf);
 	return (clean_sublst(begin, sub));
@@ -66,7 +66,7 @@ void	parse_quote(void)
 {
 	t_dlist	*iter;
 
-	iter = info.cmd;
+	iter = g_info.cmd;
 	while (iter)
 	{
 		if (iter && find_token_type(sgle_quote, iter->content))

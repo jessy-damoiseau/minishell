@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 00:58:37 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/28 18:29:30 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:12:34 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	env(char *cmd, int fd)
 	int			i;
 
 	i = 3;
-	tmp = info.env;
+	tmp = g_info.env;
 	while (cmd[i] == ' ')
 		i++;
 	if (ft_strcmp(cmd, "env") && cmd[i])
@@ -63,7 +63,7 @@ void	unset2(char *cmd, int i, int j)
 	t_list	*tmp2;
 	char	*tfchier;
 
-	tmp = info.env;
+	tmp = g_info.env;
 	while (tmp->next)
 	{
 		tfchier = tmp->next->content;

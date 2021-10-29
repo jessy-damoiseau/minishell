@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:13 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 19:33:16 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:17:37 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_sighandler(int signum)
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
-		info.stop = 130;
+		g_info.stop = 130;
 	}
 }
 
@@ -30,13 +30,13 @@ void	refill_pwd(void)
 	t_list	*tmp;
 
 	i = 13;
-	while (!info.pwd)
-		info.pwd = getcwd(info.pwd, i++);
-	tmp = info.env;
+	while (!g_info.pwd)
+		g_info.pwd = getcwd(g_info.pwd, i++);
+	tmp = g_info.env;
 	while (tmp && ft_strncmp(tmp->content, "PWD=", 4))
 		tmp = tmp->next;
 	free(tmp->content);
-	tmp->content = ft_strjoin("PWD=", info.pwd);
+	tmp->content = ft_strjoin("PWD=", g_info.pwd);
 }
 
 void	ft_prompt(void)
@@ -46,20 +46,20 @@ void	ft_prompt(void)
 	while (1)
 	{
 		init_var();
-		info.tmperrno = errno;
+		g_info.tmperrno = errno;
 		refill_pwd();
 		line = get_prompt();
-		errno = info.tmperrno;
+		errno = g_info.tmperrno;
 		if (line[0])
 		{
 			add_history(line);
 			ft_create_token(line);
-			if (!info.nbpipe)
+			if (!g_info.nbpipe)
 				exec_command();
 		}
 		free(line);
-		free(info.pwd);
-		info.pwd = 0;
+		free(g_info.pwd);
+		g_info.pwd = 0;
 	}
 	return ;
 }

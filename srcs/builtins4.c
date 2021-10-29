@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 01:00:24 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/28 18:29:28 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:12:41 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	export1(int fd)
 {
 	t_list	*tmp;
 
-	tmp = info.env;
+	tmp = g_info.env;
 	while (tmp)
 	{
 		ft_putstr_fd("declare -x ", fd);
@@ -35,7 +35,7 @@ void	export2(char *cmd, int i)
 
 	add = 0;
 	j = 0;
-	tmp = info.env;
+	tmp = g_info.env;
 	export3(&i, &j, &add, cmd);
 	str = supp_add(&cmd[i]);
 	if (add)
@@ -43,7 +43,7 @@ void	export2(char *cmd, int i)
 	while (tmp && ft_strncmp(tmp->content, str, j))
 		tmp = tmp->next;
 	if (!tmp)
-		ft_lstadd_back(&info.env, ft_lstnew(str));
+		ft_lstadd_back(&g_info.env, ft_lstnew(str));
 	else
 	{
 		free(str);

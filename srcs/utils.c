@@ -158,11 +158,11 @@ void	tmplstclear(t_dlist **lst)
 
 void	init_var(void)
 {
-	info.dlb_redir_left_str = 0;
-	info.redir_left = 0;
-	info.redir_right = 0;
-	info.child = 0;
-	info.gnl = 0;
+	g_info.dlb_redir_left_str = 0;
+	g_info.redir_left = 0;
+	g_info.redir_right = 0;
+	g_info.child = 0;
+	g_info.gnl = 0;
 }
 
 size_t ft_strlen_utils(const char *s, char stop)
@@ -177,4 +177,22 @@ size_t ft_strlen_utils(const char *s, char stop)
 		i++;
 	}
 	return (i);
+}
+
+void	ft_get_env(char **envp)
+{
+	int		i;
+	char	*str;
+	t_list	*new;
+
+	i = 0;
+	g_info.env = NULL;
+	g_info.cmd = NULL;
+	while (envp[i])
+	{
+		str = ft_strdup(envp[i]);
+		new = ft_lstnew(str);
+		ft_lstadd_back(&g_info.env, new);
+		i++;
+	}
 }

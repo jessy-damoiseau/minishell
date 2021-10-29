@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:17 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 18:29:01 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:17:17 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*get_prompt(void)
 	char	*tmp;
 	char	*ret;
 
-	if (!ft_get_path(&path, info.pwd, "\033[1;35m|\033[0m"))
+	if (!ft_get_path(&path, g_info.pwd, "\033[1;35m|\033[0m"))
 		ft_exit(0, err_malloc);
 	tmp = readline(path);
 	catch_eof_signal(tmp, path);

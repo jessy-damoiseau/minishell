@@ -1,35 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/29 18:08:59 by jessy             #+#    #+#             */
+/*   Updated: 2021/10/29 18:43:02 by jessy            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-t_info info;
+t_info	g_info;
 
-static void	ft_get_env(char **envp)
+char	**duplst(t_list *env)
 {
-	int     i;
-	char    *str;
-	t_list  *new;
-
-	i = 0;
-	info.env = NULL;
-	info.cmd = NULL;
-	while(envp[i])
-	{
-		str = ft_strdup(envp[i]);
-		new = ft_lstnew(str);
-		ft_lstadd_back(&info.env, new);
-		i++;
-	}
-}
-
-char 		**duplst(t_list *env)
-{
-	char **ret;
-	int i;
+	char	**ret;
+	int		i;
 
 	i = 0;
 	ret = malloc(sizeof(char *) * (ft_lstsize(env) + 1));
 	if (!ret)
 		ft_exit(0, err_malloc);
-	while(env)
+	while (env)
 	{
 		ret[i++] = ft_strdup(env->content);
 		env = env->next;
@@ -38,20 +32,20 @@ char 		**duplst(t_list *env)
 	return (ret);
 }
 
-void		init_struct(void)
+void	init_struct(void)
 {
-	info.pwd = 0;
-	info.gbc = 0;
-	info.path = 0;
-	info.cmd = 0;
-	info.nbpipe = 0;
-	info.cmdpipe = 0;
-	info.gnl = 0;
+	g_info.pwd = 0;
+	g_info.gbc = 0;
+	g_info.path = 0;
+	g_info.cmd = 0;
+	g_info.nbpipe = 0;
+	g_info.cmdpipe = 0;
+	g_info.gnl = 0;
 	errno = 0;
-	info.evrm = duplst(info.env);
+	g_info.evrm = duplst(g_info.env);
 }
 
-void		change_shlv(t_list **env)
+void	change_shlv(t_list **env)
 {
 	t_list	*tmp;
 	char	*str;
@@ -69,11 +63,11 @@ void		change_shlv(t_list **env)
 	free(tmpstr);
 }
 
-char		**fill_nullenv(void)
+char	**fill_nullenv(void)
 {
-	char **ret;
-	char *pwd;
-	int	i;
+	char	**ret;
+	char	*pwd;
+	int		i;
 
 	i = 13;
 	while (!pwd)
@@ -85,7 +79,8 @@ char		**fill_nullenv(void)
 	ret[i++] = ft_strdup("LS_COLORS=");
 	ret[i++] = ft_strdup("LESSCLOSE=/usr/bin/lesspipe %s %s");
 	ret[i++] = ft_strjoin("PWD=", pwd);
-	ret[i++] = ft_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin");
+	ret[i++] = ft_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr\
+	/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin");
 	ret[i++] = ft_strdup("SHLVL=0");
 	ret[i++] = ft_strdup("LESSOPEN=| /usr/bin/lesspipe %s");
 	ret[i++] = ft_strdup("_=/usr/bin/env");
@@ -94,14 +89,14 @@ char		**fill_nullenv(void)
 	return (ret);
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
 	if (!envp[0])
 		envp = fill_nullenv();
 	ft_get_env(envp);
-	change_shlv(&info.env);
+	change_shlv(&g_info.env);
 	init_struct();
 	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, SIG_IGN);

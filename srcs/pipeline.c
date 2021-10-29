@@ -7,7 +7,7 @@ void	create_pipeline(void)
 	t_dlist	*pipe;
 	t_token	*token;
 
-	pipe = info.cmd;
+	pipe = g_info.cmd;
 	while (pipe->next)
 	{
 		token = pipe->content;
@@ -36,18 +36,18 @@ void	create_pipeline(void)
 			lr->next = 0;
 			while (lr->prev)
 				lr = lr->prev;
-			dlstadd_back(&info.cmdpipe, dlstnew(lr));
+			dlstadd_back(&g_info.cmdpipe, dlstnew(lr));
 		}
 		else
 			pipe = pipe->next;
 	}
 	while (pipe->prev)
 		pipe = pipe->prev;
-	dlstadd_back(&info.cmdpipe, dlstnew(pipe));
+	dlstadd_back(&g_info.cmdpipe, dlstnew(pipe));
 	
 
 // *test* //
-	// pipe = info.cmdpipe;
+	// pipe = g_info.cmdpipe;
 	// int i = 0;
 	// while (pipe)
 	// {
@@ -63,10 +63,10 @@ void	create_pipeline(void)
 	// 	}
 	// 	pipe = pipe->next;
 	// }
-	// printf("nbpipe:|%d|\n", info.nbpipe);
+	// printf("nbpipe:|%d|\n", g_info.nbpipe);
 // *end_test* //
 
-	exec_pipeline(info.cmdpipe);
+	exec_pipeline(g_info.cmdpipe);
 }
 
 
@@ -77,7 +77,7 @@ void	exec_child(t_dlist *iter, int *fd, int cfd)
 	if(iter)
 		dup2(fd[1], 1);
 	expand_env();
-	info.child = 1;
+	g_info.child = 1;
 	exec_command();
 	exit (errno);
 }
@@ -112,8 +112,8 @@ void	exec_pipeline(t_dlist *list)
 			close(fd[1]);
 			cfd = dup(fd[0]);
 			iter = iter->next;
-			info.cmdpipe = info.cmdpipe->next;
-			info.child = 0;
+			g_info.cmdpipe = g_info.cmdpipe->next;
+			g_info.child = 0;
 			close(fd[0]);
 			dup2(fd1, 1);
 			dup2(fd0, 0);
@@ -131,7 +131,7 @@ void	exec_pipeline(t_dlist *list)
 		list = list->next;
 		free(iter);
 	}
-	info.cmdpipe = 0;
+	g_info.cmdpipe = 0;
 	dup2(fd1, 1);
 	dup2(fd0, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:30 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 18:29:19 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:15:09 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_if_value_in_env(char *envval, char *cmdval)
 {
 	size_t	e;
 	size_t	c;
-	
+
 	e = ft_strlen_utils(envval, '=');
 	c = ft_strlen(cmdval);
 	if (!ft_strncmp(envval, cmdval, e) && e == c)
@@ -51,9 +51,9 @@ int	find_env_var(t_dlist **iter)
 	tmp = *iter;
 	*iter = (*iter)->next;
 	token = (*iter)->content;
-	if (info.env)
+	if (g_info.env)
 	{
-		env = info.env;
+		env = g_info.env;
 		while (env)
 		{
 			if (check_if_value_in_env(env->content, token->value))

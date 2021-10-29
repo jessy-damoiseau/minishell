@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 00:57:23 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/28 18:29:32 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:12:16 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	pwd(char *cmd, int fd)
 {
 	if (!ft_strcmp(cmd, "pwd"))
 	{
-		ft_putstr_fd(info.pwd, fd);
+		ft_putstr_fd(g_info.pwd, fd);
 		write(fd, "\n", 1);
 		errno = 0;
 	}
@@ -32,12 +32,12 @@ void	oldpwd(void)
 	char	*str;
 	t_list	*tmp;
 
-	tmp = info.env;
-	str = info.pwd;
+	tmp = g_info.env;
+	str = g_info.pwd;
 	while (tmp && ft_strncmp(tmp->content, "OLDPWD=", 7))
 		tmp = tmp->next;
 	if (!tmp)
-		ft_lstadd_back(&info.env, ft_lstnew(ft_strjoin("OLDPWD=", str)));
+		ft_lstadd_back(&g_info.env, ft_lstnew(ft_strjoin("OLDPWD=", str)));
 	else
 	{
 		free(tmp->content);

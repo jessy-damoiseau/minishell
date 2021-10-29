@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:04 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 18:28:40 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:18:50 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,14 +125,14 @@ void	ft_create_token(char *s)
 	t_dlist	*new;
 
 	i = 0;
-	info.cmd = NULL;
+	g_info.cmd = NULL;
 	while (s[i])
 	{
 		token = ft_find_token(s, &i);
 		if (!token)
 			ft_exit(0, err_malloc);
 		new = dlstnew(token);
-		dlstadd_back(&info.cmd, new);
+		dlstadd_back(&g_info.cmd, new);
 		i++;
 	}
 	parse_token();

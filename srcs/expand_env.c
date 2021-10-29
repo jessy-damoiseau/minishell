@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:27 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 18:29:16 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:15:30 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	concat_narrow_litvalue(void)
 	t_dlist	*iter;
 	t_dlist	*tmp;
 
-	if (info.nbpipe)
-		iter = info.cmdpipe->content;
+	if (g_info.nbpipe)
+		iter = g_info.cmdpipe->content;
 	else
-		iter = info.cmd;
+		iter = g_info.cmd;
 	while (iter)
 	{
 		if (iter->next)
@@ -73,10 +73,10 @@ void	expand_env(void)
 {
 	t_dlist	*iter;
 
-	if (info.nbpipe)
-		iter = info.cmdpipe->content;
+	if (g_info.nbpipe)
+		iter = g_info.cmdpipe->content;
 	else
-		iter = info.cmd;
+		iter = g_info.cmd;
 	while (iter)
 	{
 		if (is_env_literal(&iter))

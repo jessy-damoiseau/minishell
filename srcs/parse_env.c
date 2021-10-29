@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:23 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 18:29:09 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:15:51 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	find_quotes(t_dlist *node)
 {
 	t_dlist	*iter;
 
-	iter = info.cmd;
+	iter = g_info.cmd;
 	while (iter && iter != node)
 	{
 		if (find_token_type(dble_quote, iter->content))
@@ -58,7 +58,7 @@ void	parse_env(void)
 {
 	t_dlist	*iter;
 
-	iter = info.cmd;
+	iter = g_info.cmd;
 	while (iter)
 	{
 		if (find_token_type(dollar, iter->content))

@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:08 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/28 18:28:51 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/29 18:17:46 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_dlist	*samequote_begin_or_end(t_dlist *begin, t_dlist *end)
 	{
 		clear_token(begin, begin->content);
 		clear_token(end, end->content);
-		info.cmd = NULL;
+		g_info.cmd = NULL;
 		return (NULL);
 	}
 	else
@@ -68,7 +68,7 @@ t_dlist	*clean_sublst(t_dlist *begin, t_dlist *end)
 	if (!begin->prev)
 	{
 		clear_sublst(begin, end);
-		info.cmd = new;
+		g_info.cmd = new;
 		new->prev = NULL;
 		return (new);
 	}
