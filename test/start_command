@@ -1,3 +1,0 @@
-gcc -lreadline test_prompt.c test_execve.c utils/split.c utils/utils.c
-rm -rf *.o */*.o 
-./a.out

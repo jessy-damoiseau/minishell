@@ -8,7 +8,7 @@ sort < 0test.log
 echo
 echo phase 2 ok
 echo
-grep .sh < 0test.log
+grep Makefile < 0test.log
 echo
 echo phase 3 ok
 echo

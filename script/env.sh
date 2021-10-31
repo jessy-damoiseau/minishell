@@ -9,6 +9,10 @@ echo $SHLVL$?s
 echo $?$?$?
 
 echo $? $SHLVL$?$USER$? $?
+$HOME
+$HOMEs
+
+echo $? $SHLVL$skadhfk$USER$? $?
 
 echo $
 echo $$

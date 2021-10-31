@@ -31,33 +31,17 @@ ls | sort
 echo
 
 echo "7 : expected output : .sh files"
-ls | grep .sh
+ls /header | grep .h
 echo
 
 echo "8 : expected output : sorted .sh files"
-ls | grep .sh | sort
+ls /srcs | grep .c | sort
 echo
 
 echo "9 : expected output : sorted .sh files with $"
-ls | grep .sh | sort | cat -e
+ls /srcs | grep .c | sort | cat -e
 echo
 
 echo "10 : expected output : one ls output"
 ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls 
 echo 
-
-echo "11 : expected output :	bonjour
-			coucou
-			salut
-			salut"
-echo "salut
-coucou
-bonjour
-salut" | sort
-echo
-
-echo "12 : expected output : 
-coucou
-pwd output"
-ls | grep j | cat -e | echo coucou | pwd | env | grep coucou
-echo

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:08:59 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/30 17:43:45 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/31 16:38:01 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ char	**fill_nullenv(void)
 	ret[i++] = ft_strdup("LESSOPEN=| /usr/bin/lesspipe %s");
 	ret[i++] = ft_strdup("_=/usr/bin/env");
 	ret[i] = 0;
-	free(pwd);
 	return (ret);
 }
 

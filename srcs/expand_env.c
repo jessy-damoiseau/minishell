@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:27 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/29 18:15:30 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/31 16:26:24 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ void	expand_env(void)
 			find_env_var(&iter);
 		if (find_errno_type(iter))
 			replace_errno(ft_itoa(errno), &iter);
+		if (iter)
+			if (find_token_type(dollar, iter->content))
+				find_env_var(&iter);
 		if (iter)
 			iter = iter->next;
 	}
