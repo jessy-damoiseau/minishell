@@ -6,26 +6,11 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:04 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/29 18:18:50 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/30 17:59:14 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_token		g_tab_token[] =
-{
-	{"|", pipeline},
-	{"$", dollar},
-	{" ", space},
-	{">", redir_right},
-	{"<", redir_left},
-	{">>", dble_redir_left},
-	{"<<", dble_redir_right},
-	{"\'", sgle_quote},
-	{"\"", dble_quote},
-	{"?", errno_call},
-	{0, 0},
-};
 
 t_token_type	ft_define_token(char charset)
 {
@@ -35,12 +20,12 @@ t_token_type	ft_define_token(char charset)
 
 	i = 0;
 	type = literal;
-	while (g_tab_token[i].value)
+	while (g_info.tab_token[i].value)
 	{
-		str = g_tab_token[i].value;
+		str = g_info.tab_token[i].value;
 		if (str[0] == charset)
 		{
-			type = g_tab_token[i].type;
+			type = g_info.tab_token[i].type;
 			return (type);
 		}
 		i++;

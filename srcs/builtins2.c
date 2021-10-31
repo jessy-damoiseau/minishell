@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 00:57:23 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/29 18:12:16 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/31 02:44:10 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	cd2(char *cmd, int j, char *str)
 			ft_putstr_fd(": No such file or directory\n", 2);
 			errno = 1;
 		}
+		else
+			errno = 0;
 	}
 }
 

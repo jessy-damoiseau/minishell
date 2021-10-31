@@ -6,13 +6,13 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:17 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/29 18:17:17 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/30 18:30:22 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_get_path2(char **path, char *buff, char *color, int i)
+void	ft_get_path2(char **path, char *buff, char *color, int i)
 {
 	int	k;
 	int	j;
@@ -32,7 +32,7 @@ static void	ft_get_path2(char **path, char *buff, char *color, int i)
 	(*path)[j] = '\0';
 }
 
-static int	ft_get_path(char **path, char *buff, char *color)
+int	ft_get_path(char **path, char *buff, char *color)
 {
 	int	i;
 

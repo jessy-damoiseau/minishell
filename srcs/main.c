@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:08:59 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/29 18:43:02 by jessy            ###   ########.fr       */
+/*   Updated: 2021/10/30 17:43:45 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	init_struct(void)
 	g_info.nbpipe = 0;
 	g_info.cmdpipe = 0;
 	g_info.gnl = 0;
+	init_tab_token();
 	errno = 0;
 	g_info.evrm = duplst(g_info.env);
 }
