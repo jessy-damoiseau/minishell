@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:07:36 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/31 15:42:36 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/01 15:37:38 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,5 +192,6 @@ char			*strpthjoin(char *s1, char *s2);
 long long int	ft_atoll(char *str, int *error);
 char			*supp_add(char *str);
 int				ft_strcmp(char *s1, char *s2);
+int				createfilestop(char *str);
 
 #endif

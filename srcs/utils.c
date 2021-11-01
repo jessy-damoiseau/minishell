@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:46:08 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/31 02:57:18 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/01 15:35:53 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	init_var(void)
 	g_info.redir_right = 0;
 	g_info.child = 0;
 	g_info.gnl = 0;
+	g_info.stop = 0;
 }
 
 size_t	ft_strlen_utils(const char *s, char stop)

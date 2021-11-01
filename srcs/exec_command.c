@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 01:09:41 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/29 18:13:20 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/01 15:45:39 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	check_exec(t_dlist *mcmd)
 	else
 		waitpid(pid, &errno, 0);
 	free_dbl(str);
+	if (g_info.stop)
+		errno = 130;
 	errno = errno % 255;
 	free(tmp);
 	return (0);

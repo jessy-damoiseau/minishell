@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:30:46 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/31 16:38:47 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/01 15:37:07 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,7 @@ int	createfile4(t_dlist *tmp, t_token *token, int i)
 		ft_putstr_fd("> ", 1);
 		str = readline("");
 		if (g_info.stop)
-		{
-			ft_lstclear(&g_info.dlb_redir_left_str, &ft_memdel);
-			free(str);
-			return (1);
-		}
+			return (createfilestop(str));
 		ft_lstadd_back(&g_info.dlb_redir_left_str, ft_lstnew(str));
 	}
 	g_info.redir_left = i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:13 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/31 16:38:04 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/01 15:34:32 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	ft_sighandler(int signum)
 		rl_replace_line("", 1);
 		rl_redisplay();
 		g_info.stop = 130;
+		g_info.tmperrno = 130;
+		errno = 130;
 	}
 }
 
@@ -28,10 +30,17 @@ void	refill_pwd(void)
 {
 	int		i;
 	t_list	*tmp;
+	char	*str;
 
 	i = 13;
-	while (!g_info.pwd)
-		g_info.pwd = getcwd(g_info.pwd, i++);
+	str = 0;
+	while (!str && i < 1000)
+		str = getcwd(str, i++);
+	if (str)
+	{
+		free(g_info.pwd);
+		g_info.pwd = str;
+	}
 	tmp = g_info.env;
 	while (tmp && ft_strncmp(tmp->content, "PWD=", 4))
 		tmp = tmp->next;
@@ -58,8 +67,6 @@ void	ft_prompt(void)
 				exec_command();
 		}
 		free(line);
-		free(g_info.pwd);
-		g_info.pwd = 0;
 	}
 	return ;
 }

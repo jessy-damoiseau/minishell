@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:56:42 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/31 02:02:04 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/01 15:36:30 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,13 @@ int	ft_strcmp(char *s1, char *s2)
 		i++;
 	if (s1[i] == s2[i])
 		return (0);
+	return (1);
+}
+
+int	createfilestop(char *str)
+{
+	ft_lstclear(&g_info.dlb_redir_left_str, &ft_memdel);
+	free(str);
+	errno = 130;
 	return (1);
 }
