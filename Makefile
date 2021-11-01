@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jessy <jessy@student.42.fr>                +#+  +:+       +#+         #
+#    By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/21 14:58:12 by pgueugno          #+#    #+#              #
-#    Updated: 2021/10/31 02:15:54 by jessy            ###   ########.fr        #
+#    Updated: 2021/11/01 16:17:46 by pgueugno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,6 @@
 ################################################################################
 
 NAME_MINISHELL		=	minishell
-
-#TEMP A SUPPRIMER ENSUITE
-NAME_J			=	jprog
-NAME_P			=	pprog
 
 ################################################################################
 #                         Sources and objects directories                      #
@@ -43,15 +39,15 @@ SRCS_MINISHELL		=	main.c tokenize.c utils.c utils2.c utils3.c exit.c\
 						builtins5.c quote.c quote_utils.c parse.c parse2.c\
 						pipeline.c pipeline2.c expand_env.c expand_env_utils.c\
 						parse_env.c redirect.c redirect2.c redirect3.c\
-						redirect4.c redirect5.c prompt.c prompt_utils.c\
+						redirect4.c redirect5.c prompt.c prompt_utils.c
 
 ################################################################################
 #                              Commands and arguments                          #
 ################################################################################
 
 CC			=	@gcc
-CFLAGS		=	-Wall -Wextra -Werror -g3 -I$(HEADERS_DIR) -fsanitize=address
-LDFLAGS 	=	-L . $(LIB_LIBFT_DIR) -lreadline -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g3 -I$(HEADERS_DIR) #-fsanitize=address
+LDFLAGS 	=	-L . $(LIB_LIBFT_DIR) -lreadline #-fsanitize=address
 RM			=	@rm -f
 
 ################################################################################
@@ -68,10 +64,6 @@ _CYAN		=	\033[96m
 ################################################################################
 
 OBJS_MINISHELL	=	$(addprefix $(OBJS_DIR)/, $(SRCS_MINISHELL:.c=.o))
-
-#TEMP A SUPPRIMER ENSUITE
-OBJS_J		=	$(addprefix $(OBJS_DIR)/, $(SRCS_J:.c=.o))
-OBJS_P	=	$(addprefix $(OBJS_DIR)/, $(SRCS_P:.c=.o))
 
 all: init_libft init_m $(NAME_MINISHELL)
 
