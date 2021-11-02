@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:36:20 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/29 18:13:38 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/02 18:19:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,14 @@ int	check_path(char *tmp1)
 	tmp = g_info.env;
 	while (tmp && ft_strncmp(tmp->content, "PATH=", 5))
 		tmp = tmp->next;
+	if (!tmp)
+	{
+		ft_putstr_fd("bash: ",2);
+		ft_putstr_fd(tmp1, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		errno = 127;
+		return (2);
+	}
 	env_path = tmp->content;
 	path = ft_split(&env_path[5], ':');
 	if (!check_path2(path, tmp1))

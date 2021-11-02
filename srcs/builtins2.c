@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 00:57:23 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/31 02:44:10 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/02 18:29:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,15 @@ int	cd1(char *cmd, int i, int *j)
 	return (0);
 }
 
-void	cd2(char *cmd, int j, char *str)
+void	cd2(char *cmd, int j)
 {
-	if (!ft_strcmp(&cmd[3], "~") || j != 0)
+	char *dir;
+	
+	if (!ft_strncmp(&cmd[3], "~", 1) || j != 0)
 	{
-		chdir(str);
+		dir = ft_strjoin(getenv("HOME"), &cmd[4]);
+		chdir(dir);
+		free(dir);
 		errno = 0;
 	}
 	else
@@ -99,7 +103,7 @@ void	cd(char *cmd)
 	{
 		if (cd1(cmd, i, &j))
 			return ;
-		cd2(cmd, j, str);
+		cd2(cmd, j);
 	}
 	else
 	{

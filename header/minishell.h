@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:07:36 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/01 15:37:38 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/02 18:29:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void			ft_exit(char *cmd, t_err_code err_code);
 void			pwd(char *cmd, int fd);
 void			oldpwd(void);
 int				cd1(char *cmd, int i, int *j);
-void			cd2(char *cmd, int j, char *str);
+void			cd2(char *cmd, int j);
 void			cd(char *cmd);
 void			env2(char *cmd);
 void			env(char *cmd, int fd);
