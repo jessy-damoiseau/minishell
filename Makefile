@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+         #
+#    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/21 14:58:12 by pgueugno          #+#    #+#              #
-#    Updated: 2021/11/01 16:17:46 by pgueugno         ###   ########.fr        #
+#    Updated: 2021/11/02 15:54:07 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,8 +46,8 @@ SRCS_MINISHELL		=	main.c tokenize.c utils.c utils2.c utils3.c exit.c\
 ################################################################################
 
 CC			=	@gcc
-CFLAGS		=	-Wall -Wextra -Werror -g3 -I$(HEADERS_DIR) #-fsanitize=address
-LDFLAGS 	=	-L . $(LIB_LIBFT_DIR) -lreadline #-fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g3 -I$(HEADERS_DIR) -fsanitize=address
+LDFLAGS 	=	-L . $(LIB_LIBFT_DIR) -lreadline -fsanitize=address
 RM			=	@rm -f
 
 ################################################################################

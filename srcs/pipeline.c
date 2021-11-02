@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 18:03:24 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/30 18:27:29 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/02 15:30:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	exec_pipeline(t_dlist *list)
 	iter = list;
 	fdt[1] = dup(1);
 	fdt[0] = dup(0);
-	while (iter)
+	while (iter && !g_info.stop)
 	{
 		pipe(fd);
 		pid = fork();
@@ -78,6 +78,7 @@ void	exec_pipeline(t_dlist *list)
 		else
 			exec_parent(fd, &cfd, &iter, fdt);
 	}
+	g_info.stop = 0;
 	free_cmdpipe(list);
 	g_info.cmdpipe = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:08:59 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/31 16:38:01 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/02 15:55:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	**fill_nullenv(void)
 {
 	char	**ret;
 	char	*pwd;
+	char	*pth;
 	int		i;
 
 	i = 13;
@@ -77,11 +78,12 @@ char	**fill_nullenv(void)
 	i = 0;
 	if (!ret)
 		ft_exit(0, err_malloc);
+	pth = ft_strjoin("PATH=/usr/local/sbin:/usr/local/bin:/usr",
+			"/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin");
 	ret[i++] = ft_strdup("LS_COLORS=");
 	ret[i++] = ft_strdup("LESSCLOSE=/usr/bin/lesspipe %s %s");
 	ret[i++] = ft_strjoin("PWD=", pwd);
-	ret[i++] = ft_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr\
-	/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin");
+	ret[i++] = pth;
 	ret[i++] = ft_strdup("SHLVL=0");
 	ret[i++] = ft_strdup("LESSOPEN=| /usr/bin/lesspipe %s");
 	ret[i++] = ft_strdup("_=/usr/bin/env");
