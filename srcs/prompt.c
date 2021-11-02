@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:13 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/01 15:53:06 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/02 19:45:05 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ void	refill_pwd(void)
 	tmp = g_info.env;
 	while (tmp && ft_strncmp(tmp->content, "PWD=", 4))
 		tmp = tmp->next;
-	free(tmp->content);
-	tmp->content = ft_strjoin("PWD=", g_info.pwd);
+	if (tmp)
+	{
+		free(tmp->content);
+		tmp->content = ft_strjoin("PWD=", g_info.pwd);
+	}
 }
 
 void	ft_prompt(void)
