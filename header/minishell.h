@@ -86,6 +86,7 @@ int				clear_cmd_node(t_dlist **lst);
 void			free_dbl(char **str);
 /* EXPAND_ENV_UTILS */
 void			replace_node_value(char **evar, t_dlist **iter);
+int				valid_env_char(int c);
 int				find_env_var(t_dlist **iter);
 int				find_errno_type(t_dlist *lst);
 void			replace_errno(char *str, t_dlist **lst);

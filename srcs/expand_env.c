@@ -77,21 +77,6 @@ void	expand_env(void)
 		iter = g_info.cmdpipe->content;
 	else
 		iter = g_info.cmd;
-
-	// test
-	t_dlist *tmp2;
-	tmp2 = iter;
-	t_token *tk2;
-
-	while (tmp2)
-	{
-		tk2 = tmp2->content;
-		printf("check = %s\n", (char*)tk2->value);
-		tmp2 = tmp2->next;
-	}
-
-	//end test
-
 	while (iter)
 	{
 		if (is_env_literal(&iter))

@@ -12,14 +12,6 @@ static int	check_if_value_in_env(char *envval, char *cmdval)
 	return (0);
 }
 
-static int	valid_env_char(int c)
-{
-	if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90)
-		|| (c >= 97 && c <= 122) || c == 95)
-		return (1);
-	return (0);
-}
-
 static char	**get_val_to_expand(t_token	*token)
 {
 	int		i;
@@ -44,6 +36,13 @@ static int	clean_tab(char **tab, int ret)
 	free(tab[1]);
 	free(tab);
 	return (ret);
+}
+
+static int  clean_n_go(char **tab, t_dlist **iter, t_dlist **tmp)
+{
+    clear_cmd_node(tmp);
+    clear_cmd_node(iter);
+    return (clean_tab(tab, 0));
 }
 
 int	find_env_var(t_dlist **iter)
@@ -71,5 +70,5 @@ int	find_env_var(t_dlist **iter)
 			env = env->next;
 		}
 	}
-	return (clean_tab(tab, 0) && clear_cmd_node(&tmp) && clear_cmd_node(iter));
+	return (clean_n_go(tab, iter, &tmp));
 }

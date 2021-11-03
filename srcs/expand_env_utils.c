@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+int	valid_env_char(int c)
+{
+	if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90)
+		|| (c >= 97 && c <= 122) || c == 95)
+		return (1);
+	return (0);
+}
+
 void	replace_node_value(char **evar, t_dlist **iter)
 {
 	t_token	*token;
