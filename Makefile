@@ -39,7 +39,8 @@ SRCS_MINISHELL		=	main.c tokenize.c utils.c utils2.c utils3.c exit.c\
 						builtins5.c quote.c quote_utils.c parse.c parse2.c\
 						pipeline.c pipeline2.c expand_env.c expand_env_utils.c\
 						parse_env.c redirect.c redirect2.c redirect3.c\
-						redirect4.c redirect5.c prompt.c prompt_utils.c
+						redirect4.c redirect5.c prompt.c prompt_utils.c\
+						expand_env_utils2.c
 
 ################################################################################
 #                              Commands and arguments                          #
@@ -69,7 +70,7 @@ all: init_libft init_m $(NAME_MINISHELL)
 
 install_pkg:
 			echo "$(_YELLOW)[Downloading readline function dependancies]";\
-			echo "user42" | sudo -S apt install libreadline-dev >/dev/null 2>&1
+			echo "user42" | sudo -S apt-get install libreadline-dev >/dev/null 2>&1
 			echo "$(_YELLOW)[Readline function dependancies installed]"
 
 init_m:

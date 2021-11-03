@@ -82,11 +82,10 @@ int				check_builtins2(char *cmd, int i);
 /* EXIT */
 void			clear_token(t_dlist *list, t_token *token);
 void			clear_cmd_lst(t_dlist **lst);
-void			clear_cmd_node(t_dlist **lst);
+int				clear_cmd_node(t_dlist **lst);
 void			free_dbl(char **str);
 /* EXPAND_ENV_UTILS */
-void			replace_node_value(char *evar, t_dlist **iter);
-int				check_if_value_in_env(char *envval, char *cmdval);
+void			replace_node_value(char **evar, t_dlist **iter);
 int				find_env_var(t_dlist **iter);
 int				find_errno_type(t_dlist *lst);
 void			replace_errno(char *str, t_dlist **lst);

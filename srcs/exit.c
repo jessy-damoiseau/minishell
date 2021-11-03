@@ -39,7 +39,7 @@ void	clear_cmd_lst(t_dlist **lst)
 	*lst = NULL;
 }
 
-void	clear_cmd_node(t_dlist **lst)
+int	clear_cmd_node(t_dlist **lst)
 {
 	t_dlist	*tmp;
 
@@ -63,6 +63,7 @@ void	clear_cmd_node(t_dlist **lst)
 		tmp->prev->next = *lst;
 	}
 	clear_token(tmp, tmp->content);
+	return (0);
 }
 
 void	free_dbl(char **str)

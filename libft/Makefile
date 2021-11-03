@@ -43,7 +43,7 @@ SRCS		=	ft_atoi.c ft_lst_append.c ft_lstsize.c ft_putchar_fd.c\
 				ft_lstnew.c ft_putchar.c ft_strdup.c ft_strstr.c ft_atol.c\
 				ft_memdel.c ft_strncpy.c dlstend.c dlstnew.c dlstadd_back.c\
 				dlstadd_front.c dlstclear.c dlstdelone.c dlstsize.c\
-				dlstfind_node.c dlstinsert_node.c
+				dlstfind_node.c dlstinsert_node.c ft_strndup.c
 
 ###############################################################################
 #							Commands and arguments						      #
