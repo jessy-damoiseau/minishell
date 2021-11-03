@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 23:21:52 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/29 18:12:05 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/02 23:49:59 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,6 @@ void	ft_exit(char *cmd, t_err_code err_code)
 	if (error_code(err_code))
 		ret = 1;
 	ft_lstclear(&g_info.env, &ft_memdel);
+	write(1, "exit\n", 5);
 	exit(ret);
 }

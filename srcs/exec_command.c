@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 01:09:41 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/01 15:45:39 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/02 23:17:26 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	check_exec(t_dlist *mcmd)
 	char	**str;
 	pid_t	pid;
 
+	signal(SIGINT, SIG_IGN);
 	if (!mcmd)
 		joincmd(&tmp, (t_dlist *)g_info.gbc->str);
 	else

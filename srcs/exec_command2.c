@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:36:20 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/02 18:19:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/11/02 23:10:45 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	fill_gbc2(int *i, int *check, t_dlist *tmp)
 {
 	t_token	*token;
 
+	if (!tmp)
+		return ;
 	token = tmp->content;
 	while (tmp && (!(token->type >= 3 && token->type <= 6)))
 	{

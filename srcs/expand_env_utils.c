@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:30 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/29 18:15:09 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/02 23:42:02 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int	check_if_value_in_env(char *envval, char *cmdval)
 	size_t	e;
 	size_t	c;
 
-	e = ft_strlen_utils(envval, '=');
+	e = ft_strlen_utils(envval, '='); // il faut prendre comme limite au parsing de la var expand les symboles +-=%#@!±§~[]{}/., (tout hors chiffres et lettre en gros) comme en dehors du champ d'en a parser
 	c = ft_strlen(cmdval);
 	if (!ft_strncmp(envval, cmdval, e) && e == c)
 		return (1);
+	// if (!ft_strncmp(envval, cmdval, e)) // plus laxiste, permet de le $a+$b sans le +
+	// 	return (1);
 	return (0);
 }
 
