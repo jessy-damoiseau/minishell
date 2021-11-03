@@ -59,6 +59,7 @@ char	**dup_env(t_list *env)
 
 void	check_exec2(char *tmp, char **str)
 {
+	signal(SIGINT, ft_sighandler);
 	if ((tmp[0] == '.' && tmp[1] == '/') || tmp[0] == '/')
 		execve(str[0], str, dup_env(g_info.env));
 	else
@@ -84,7 +85,10 @@ int	check_exec(t_dlist *mcmd)
 	else if (!pid)
 		check_exec2(tmp, str);
 	else
+	{
 		waitpid(pid, &errno, 0);
+		signal(SIGINT, ft_sighandler);
+	}
 	free_dbl(str);
 	if (g_info.stop)
 		errno = 130;
