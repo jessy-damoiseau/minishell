@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 00:57:23 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/02 20:01:03 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/07 22:48:41 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	cd1(char *cmd, int i, int *j)
 
 void	cd2(char *cmd, int j)
 {
-	char *dir;
-	
+	char	*dir;
+
 	if (!ft_strncmp(&cmd[3], "~", 1) || j != 0)
 	{
 		dir = ft_strjoin(getenv("HOME"), &cmd[4]);

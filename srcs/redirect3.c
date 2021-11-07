@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:30:46 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/07 20:49:55 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/07 22:27:21 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,133 +53,6 @@ int	createfile3(t_dlist *tmp, t_token *token, int i)
 	}
 	g_info.redir_left = i;
 	return (0);
-}
-
-// EN COURS
-char	*concat_multiple_str(char **split, char *last)
-{
-	int i;
-	char *tmp2;
-	char *tmp3;
-
-	i = 0;
-	if (!split || !split[i])
-		return (0);
-	tmp2 = ft_strdup(split[i]);
-	tmp3 = tmp2;
-	printf("check split3 = %s\n", tmp2);
-	i++;
-	while (split[i])
-	{
-		tmp3 = ft_strjoin(tmp2, split[i]);
-		printf("check concat loop = %s\n", tmp3);
-		free(tmp2);
-		tmp2 = tmp3;
-		i++;
-	}
-	printf("check concat = %s\n", tmp2);
-	if (last)
-	{
-		tmp3 = ft_strjoin(tmp2, last);
-		free(tmp2);
-		tmp2 = tmp3;
-	}
-	return (tmp3);
-}
-
-char	**inputval_to_expand(char *str)
-{
-	int		i;
-	char	**tab;
-
-	i = 0;
-	tab = malloc(sizeof(char *) * 2);
-	if (!tab)
-		return (0);
-	while (str[i] && valid_env_char(str[i]))
-		i++;
-	tab[0] = ft_strndup(str, i);
-	tab[1] = ft_strndup(str + i, (ft_strlen(str) - i));
-	return (tab);
-}
-
-int	expand_input_env(char **s)
-{
-	char	**tab;
-	char	*tmp;
-	t_list	*env;
-
-	tmp = *s;
-	tab = inputval_to_expand(*s);
-	if (g_info.env)
-	{
-		env = g_info.env;
-		while (env)
-		{
-			if (check_if_value_in_env(env->content, tab[0]))
-			{
-				printf("check env = %s\n", (char *)env->content);
-				*s = ft_strjoin(env->content +
-					(ft_strlen_utils(env->content, '=') + 1), tab[1]);
-				free(tmp);
-				return (clean_tab(tab, 1));
-			}
-			env = env->next;
-		}
-		*s = ft_strdup("");
-		free(tmp);
-	}
-	return (clean_tab(tab, 0));
-}
-
-void	expand_dlb_left_input(char **str)
-{
-	char	**split;
-	char	*tmp;
-	int		i;
-
-// test
-	{
-		char **tab = ft_split(*str, '$');
-		for(int i = 0; tab[i]; i++)
-			printf("check input = %s\n", tab[i]);
-		for(int i = 0; tab[i]; i++)
-			free(tab[i]);
-		free(tab);
-	}
-	tmp = NULL;
-	i = ft_strlen(*str);
-	if (!ft_strncmp(*str + (i - 1), "$", 1))
-		tmp = "$";
-	split = ft_split(*str, '$');
-	i = 0;
-	char *stmp;
-	while (split[i])
-	{
-		printf("check split = %c\n", *split[i]);
-		if (*split[i] == '?')
-		{
-			stmp =  split[i];
-			char *errvalue = ft_itoa(errno);
-			split[i] = ft_strjoin(errvalue, stmp + 1);
-			printf("check split2 = %s\n", split[i]);
-			free(errvalue);
-			free(stmp);
-		}
-		else
-			expand_input_env(&split[i]);
-		i++;
-	}
-	free(*str); // correction de leak
-	*str = concat_multiple_str(split, tmp);
-	printf("check concat2 = %s\n", *str);
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
 }
 
 int	createfile4(t_dlist *tmp, t_token *token, int i)

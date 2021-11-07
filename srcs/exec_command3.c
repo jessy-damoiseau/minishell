@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:39:06 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/29 18:13:47 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/07 23:04:23 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	check_command6(char *chrtmp1)
 	ft_putstr_fd("bash: ", 2);
 	ft_putstr_fd(chrtmp1, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
-	clear_cmd_lst(&g_info.cmd);
+	clear_cmd_lst(&g_info.cmd); // @jessy cree un double free dans le cas cat << dg $HOME -> ai pas trouvé de solution
 	errno = 127;
 	return (1);
 }

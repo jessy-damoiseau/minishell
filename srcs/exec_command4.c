@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:40:27 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/02 18:18:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/11/07 22:58:34 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_command5(t_dlist	**dlsttmp1,
 	t_token *token1, char *chrtmp1)
 {
 	t_dlist	*dlsttmp2;
-	int	i;
+	int		i;
 
 	if (!check_exist(chrtmp1) && !check_binaire(chrtmp1))
 		*dlsttmp1 = fill_gbc(*dlsttmp1, 0);

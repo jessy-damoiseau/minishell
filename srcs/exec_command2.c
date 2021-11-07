@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:36:20 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/02 23:10:45 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/07 22:57:35 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	check_path(char *tmp1)
 		tmp = tmp->next;
 	if (!tmp)
 	{
-		ft_putstr_fd("bash: ",2);
+		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(tmp1, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		errno = 127;

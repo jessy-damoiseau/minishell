@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 01:09:41 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/02 23:17:26 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/07 22:56:36 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,7 @@ int	check_exec(t_dlist *mcmd)
 	if (g_info.stop)
 		errno = 130;
 	errno = errno % 255;
-	free(tmp);
-	return (0);
+	return (free_ret(tmp, 0));
 }
 
 void	exec_command(void)

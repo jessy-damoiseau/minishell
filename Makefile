@@ -6,7 +6,7 @@
 #    By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/21 14:58:12 by pgueugno          #+#    #+#              #
-#    Updated: 2021/11/07 17:55:17 by pgueugno         ###   ########.fr        #
+#    Updated: 2021/11/07 22:39:49 by pgueugno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRCS_MINISHELL		=	main.c tokenize.c utils.c utils2.c utils3.c exit.c\
 						pipeline.c pipeline2.c expand_env.c expand_env_utils.c\
 						parse_env.c redirect.c redirect2.c redirect3.c\
 						redirect4.c redirect5.c prompt.c prompt_utils.c\
-						expand_env_utils2.c
+						expand_env_utils2.c utils4.c dble_redir_expand.c
 
 ################################################################################
 #                              Commands and arguments                          #

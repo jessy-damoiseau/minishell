@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_env_utils2.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/07 23:02:20 by pgueugno          #+#    #+#             */
+/*   Updated: 2021/11/07 23:02:20 by pgueugno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_if_value_in_env(char *envval, char *cmdval)
@@ -38,7 +50,7 @@ int	clean_tab(char **tab, int ret)
 	return (ret);
 }
 
-static int  clean_n_go(char **tab, t_dlist **iter, t_dlist **tmp)
+static int	clean_n_go(char **tab, t_dlist **iter, t_dlist **tmp)
 {
 	clear_cmd_node(tmp);
 	clear_cmd_node(iter);

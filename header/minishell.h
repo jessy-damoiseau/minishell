@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:07:36 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/07 18:15:36 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/07 22:55:53 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ void			go_redirect2t(t_dlist *tmp, t_dlist *rdrct,
 					t_token *token, int *fdio);
 void			go_redirect2(t_dlist *tmp, t_dlist *rdrct,
 					t_token *token, t_dlist *mcmd);
+void			expand_dlb_left_input(char **str);
 /* TOKENIZE */
 t_token_type	ft_define_token(char charset);
 t_token			*ft_malloc_token(char *input, t_token_type type, int i, int j);
@@ -196,5 +197,7 @@ long long int	ft_atoll(char *str, int *error);
 char			*supp_add(char *str);
 int				ft_strcmp(char *s1, char *s2);
 int				createfilestop(char *str);
+void			clean_split(char **tab);
+int				free_ret(void *p, int ret);
 
 #endif
