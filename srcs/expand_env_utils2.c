@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	check_if_value_in_env(char *envval, char *cmdval)
+int	check_if_value_in_env(char *envval, char *cmdval)
 {
 	size_t	e;
 	size_t	c;
@@ -12,7 +12,7 @@ static int	check_if_value_in_env(char *envval, char *cmdval)
 	return (0);
 }
 
-static char	**get_val_to_expand(t_token	*token)
+char	**get_val_to_expand(t_token	*token)
 {
 	int		i;
 	char	**tab;
@@ -30,7 +30,7 @@ static char	**get_val_to_expand(t_token	*token)
 	return (tab);
 }
 
-static int	clean_tab(char **tab, int ret)
+int	clean_tab(char **tab, int ret)
 {
 	free(tab[0]);
 	free(tab[1]);
@@ -40,9 +40,9 @@ static int	clean_tab(char **tab, int ret)
 
 static int  clean_n_go(char **tab, t_dlist **iter, t_dlist **tmp)
 {
-    clear_cmd_node(tmp);
-    clear_cmd_node(iter);
-    return (clean_tab(tab, 0));
+	clear_cmd_node(tmp);
+	clear_cmd_node(iter);
+	return (clean_tab(tab, 0));
 }
 
 int	find_env_var(t_dlist **iter)

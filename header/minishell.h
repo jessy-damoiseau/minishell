@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:07:36 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/02 18:29:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/11/07 18:15:36 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ int				valid_env_char(int c);
 int				find_env_var(t_dlist **iter);
 int				find_errno_type(t_dlist *lst);
 void			replace_errno(char *str, t_dlist **lst);
+char			**get_val_to_expand(t_token	*token);
+int				check_if_value_in_env(char *envval, char *cmdval);
+int				clean_tab(char **tab, int ret);
 /* EXPAND_ENV */
 void			concat_node(t_token *atoken, t_token *btoken, t_dlist **iter);
 void			concat_narrow_litvalue(void);

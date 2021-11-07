@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:30:46 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/05 23:30:38 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/07 20:49:55 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*concat_multiple_str(char **split, char *last)
 		return (0);
 	tmp2 = ft_strdup(split[i]);
 	tmp3 = tmp2;
-	printf("check split2 = %s\n", tmp2);
+	printf("check split3 = %s\n", tmp2);
 	i++;
 	while (split[i])
 	{
@@ -87,12 +87,56 @@ char	*concat_multiple_str(char **split, char *last)
 	return (tmp3);
 }
 
+char	**inputval_to_expand(char *str)
+{
+	int		i;
+	char	**tab;
+
+	i = 0;
+	tab = malloc(sizeof(char *) * 2);
+	if (!tab)
+		return (0);
+	while (str[i] && valid_env_char(str[i]))
+		i++;
+	tab[0] = ft_strndup(str, i);
+	tab[1] = ft_strndup(str + i, (ft_strlen(str) - i));
+	return (tab);
+}
+
+int	expand_input_env(char **s)
+{
+	char	**tab;
+	char	*tmp;
+	t_list	*env;
+
+	tmp = *s;
+	tab = inputval_to_expand(*s);
+	if (g_info.env)
+	{
+		env = g_info.env;
+		while (env)
+		{
+			if (check_if_value_in_env(env->content, tab[0]))
+			{
+				printf("check env = %s\n", (char *)env->content);
+				*s = ft_strjoin(env->content +
+					(ft_strlen_utils(env->content, '=') + 1), tab[1]);
+				free(tmp);
+				return (clean_tab(tab, 1));
+			}
+			env = env->next;
+		}
+		*s = ft_strdup("");
+		free(tmp);
+	}
+	return (clean_tab(tab, 0));
+}
 
 void	expand_dlb_left_input(char **str)
 {
 	char	**split;
 	char	*tmp;
-	int	i;
+	int		i;
 
 // test
 	{
@@ -103,31 +147,30 @@ void	expand_dlb_left_input(char **str)
 			free(tab[i]);
 		free(tab);
 	}
-
 	tmp = NULL;
 	i = ft_strlen(*str);
-	// printf("check = %s\n", *str);
-	// printf("check tmp = %s\n", *str + (i - 1));
-	// printf("check len = %d\n", i);
 	if (!ft_strncmp(*str + (i - 1), "$", 1))
 		tmp = "$";
-	// printf("check tmp = %s\n", tmp);s
 	split = ft_split(*str, '$');
 	i = 0;
+	char *stmp;
 	while (split[i])
 	{
 		printf("check split = %c\n", *split[i]);
-		if (*split[i] == '?') // rajouter un split ici pour prendre les valeurs apres le ?
+		if (*split[i] == '?')
 		{
-			free(split[i]);
+			stmp =  split[i];
 			char *errvalue = ft_itoa(errno);
-			split[i] = ft_strdup(errvalue);
+			split[i] = ft_strjoin(errvalue, stmp + 1);
 			printf("check split2 = %s\n", split[i]);
 			free(errvalue);
+			free(stmp);
 		}
-		// puis rajouter ici une version modifiée de find_env_var
+		else
+			expand_input_env(&split[i]);
 		i++;
 	}
+	free(*str); // correction de leak
 	*str = concat_multiple_str(split, tmp);
 	printf("check concat2 = %s\n", *str);
 	i = 0;
