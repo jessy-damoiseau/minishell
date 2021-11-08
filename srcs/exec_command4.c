@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:40:27 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/07 22:58:34 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/08 17:44:05 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_command5(t_dlist	**dlsttmp1,
 		*dlsttmp1 = fill_gbc(*dlsttmp1, 0);
 	else if (((chrtmp1[0] == '.' && chrtmp1[1] == '/')
 			|| chrtmp1[0] == '/'))
-		return (check_command6(chrtmp1));
+		return (check_command6(chrtmp1, dlsttmp1));
 	i = check_path(chrtmp1);
 	if (i == 2)
 	{

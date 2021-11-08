@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:07:36 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/08 13:25:36 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/08 17:44:32 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void			export3(int *i, int *j, int *add, char *cmd);
 void			export4(t_list	*tmp, char *cmd, int i, int j);
 void			export5(t_list	*tmp, char *cmd, int i);
 void			ft_export(char *cmd, int fd);
+void			cd3(void);
 /* EXEC_COMMAND */
 int				check_builtins(t_dlist *mcmd);
 char			**dup_env(t_list *env);
@@ -68,7 +69,7 @@ int				check_path(char *tmp1);
 int				check_exist(char *str);
 int				check_binaire(char *str);
 void			check_command4(t_dlist **dlsttmp1, int i);
-int				check_command6(char *chrtmp1);
+int				check_command6(char *chrtmp1, t_dlist **dlsttmp1);
 int				check_command7(char	*chrtmp1);
 int				check_command5(t_dlist	**dlsttmp1, t_token *token1,
 					char *chrtmp1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 00:57:23 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/07 22:48:41 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/08 17:42:17 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	cd(char *cmd)
 	int		i;
 	int		j;
 	char	*str;
-	t_list	*tmp;
 
 	i = 2;
 	j = 0;
@@ -111,10 +110,5 @@ void	cd(char *cmd)
 		chdir(str);
 		errno = 0;
 	}
-	tmp = g_info.env;
-	str = getcwd(str, 1000);
-	while (tmp && ft_strncmp(tmp->content, "PWD=", 4))
-		tmp = tmp->next;
-	if (!tmp)
-		ft_lstadd_back(&g_info.env, ft_lstnew(ft_strjoin("PWD=", str)));
+	cd3();
 }
