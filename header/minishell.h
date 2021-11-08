@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:07:36 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/07 22:55:53 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/08 13:25:36 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void			replace_errno(char *str, t_dlist **lst);
 char			**get_val_to_expand(t_token	*token);
 int				check_if_value_in_env(char *envval, char *cmdval);
 int				clean_tab(char **tab, int ret);
+void			reparse_expanded_value(t_dlist **iter);
 /* EXPAND_ENV */
 void			concat_node(t_token *atoken, t_token *btoken, t_dlist **iter);
 void			concat_narrow_litvalue(void);

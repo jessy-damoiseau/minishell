@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 23:02:20 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/07 23:02:20 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/08 13:26:47 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	find_env_var(t_dlist **iter)
 				str = ft_strjoin(env->content, tab[1]);
 				replace_node_value(&str, iter);
 				clear_cmd_node(&tmp);
+				reparse_expanded_value(iter);
 				return (clean_tab(tab, 1));
 			}
 			env = env->next;

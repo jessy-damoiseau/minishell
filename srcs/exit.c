@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:33 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/29 18:14:27 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/08 13:18:52 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	clear_cmd_node(t_dlist **lst)
 		if (*lst)
 			(*lst)->prev = NULL;
 		g_info.cmd = *lst;
+		if (g_info.nbpipe)
+			g_info.cmdpipe->content = *lst;
 	}
 	else if (!(*lst)->next)
 	{
