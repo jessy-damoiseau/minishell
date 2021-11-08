@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:13 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/02 19:45:05 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/08 18:40:02 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_prompt(void)
 			add_history(line);
 			ft_create_token(line);
 			if (!g_info.nbpipe)
-				exec_command();
+				exec_command(g_info.cmd);
 		}
 		free(line);
 	}

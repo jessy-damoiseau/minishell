@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:40:27 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/08 17:44:05 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/08 18:37:10 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,11 @@ int	check_command8(char *chrtmp1)
 	return (0);
 }
 
-int	check_command3(t_token *token1, t_dlist *dlsttmp1)
+int	check_command3(t_token *token1, t_dlist *dlsttmp1, t_dlist *list)
 {
 	char	*chrtmp1;
 
-	if (g_info.nbpipe)
-		dlsttmp1 = g_info.cmdpipe->content;
-	else
-		dlsttmp1 = g_info.cmd;
+	dlsttmp1 = list;
 	while (dlsttmp1)
 	{
 		token1 = dlsttmp1->content;
@@ -81,7 +78,7 @@ int	check_command3(t_token *token1, t_dlist *dlsttmp1)
 	return (0);
 }
 
-int	check_command2(t_token *token1, t_dlist *dlsttmp1)
+int	check_command2(t_token *token1, t_dlist *dlsttmp1, t_dlist *list)
 {
 	if (token1->type == 2)
 	{
@@ -99,18 +96,15 @@ int	check_command2(t_token *token1, t_dlist *dlsttmp1)
 			return (1);
 		}
 	}
-	return (check_command3(token1, dlsttmp1));
+	return (check_command3(token1, dlsttmp1, list));
 }
 
-int	check_command(void)
+int	check_command(t_dlist *list)
 {
 	t_token	*token1;
 	t_dlist	*dlsttmp1;
 
-	if (g_info.nbpipe)
-		dlsttmp1 = g_info.cmdpipe->content;
-	else
-		dlsttmp1 = g_info.cmd;
+	dlsttmp1 = list;
 	if (!dlsttmp1)
 		return (1);
 	while (dlsttmp1->next)
@@ -123,5 +117,5 @@ int	check_command(void)
 		errno = 1;
 		return (1);
 	}
-	return (check_command2(token1, dlsttmp1));
+	return (check_command2(token1, dlsttmp1, list));
 }

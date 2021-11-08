@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 23:21:52 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/07 21:35:56 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/08 22:06:17 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,12 @@ int	exit2(char *cmd, int *i, int j)
 	return (exit2bis(cmd, i, j));
 }
 
-int	exit3(char *cmd, int i)
+void	exit3(char *cmd, int i)
 {
-	int	ret;
 	int	error;
 
 	error = 0;
-	ret = ft_atoll(&cmd[i], &error) % 256;
+	errno = ft_atoll(&cmd[i], &error) % 256;
 	if (!g_info.child)
 		ft_putstr_fd("exit\n", 1);
 	if (error)
@@ -84,18 +83,15 @@ int	exit3(char *cmd, int i)
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(&cmd[i], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		ret = 2;
+		errno = 2;
 	}
-	return (ret);
 }
 
 void	ft_exit(char *cmd, t_err_code err_code)
 {
 	int	i;
-	int	ret;
 
 	i = 4;
-	ret = errno;
 	if (cmd)
 	{
 		if (exit2(cmd, &i, -1))
@@ -104,12 +100,13 @@ void	ft_exit(char *cmd, t_err_code err_code)
 			ft_putstr_fd("exit: too many arguments\n", 2);
 			return ;
 		}
-		ret = exit3(cmd, i);
+		exit3(cmd, i);
 		free(cmd);
 	}
 	if (error_code(err_code))
-		ret = 1;
+		errno = 1;
 	ft_lstclear(&g_info.env, &ft_memdel);
-	write(1, "exit\n", 5);
-	exit(ret);
+	if (!g_info.child && !cmd)
+		write(1, "exit\n", 5);
+	exit(errno);
 }

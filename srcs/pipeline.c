@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 18:03:24 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/08 13:29:03 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/08 22:11:10 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 void	exec_child(t_dlist *iter, int *fd, int cfd)
 {
-	signal(SIGINT, SIG_IGN);
+	
 	if (cfd >= 0)
 		dup2(cfd, 0);
-	if (iter)
+	if (iter->next)
 		dup2(fd[1], 1);
 	expand_env();
 	g_info.child = 1;
-	exec_command();
-	exit (errno);
+	exec_command(iter->content);
+	close(fd[1]);
+	close(fd[0]);
+	exit(errno);
 }
 
 void	free_cmdpipe(t_dlist *list)
@@ -45,11 +47,10 @@ void	free_cmdpipe(t_dlist *list)
 
 void	exec_parent(int *fd, int *cfd, t_dlist **iter, int *fdt)
 {
-	wait(0);
+	signal(SIGINT, SIG_IGN);
 	close(fd[1]);
 	(*cfd) = dup(fd[0]);
 	(*iter) = (*iter)->next;
-	g_info.cmdpipe = g_info.cmdpipe->next;
 	g_info.child = 0;
 	close(fd[0]);
 	dup2(fdt[1], 1);
@@ -62,23 +63,34 @@ void	exec_pipeline(t_dlist *list)
 	int		fdt[2];
 	int		pid;
 	int		cfd;
+	int		*tabpid;
 	t_dlist	*iter;
+	int i;
 
 	cfd = -1;
+	i = 0;
 	iter = list;
 	fdt[1] = dup(1);
 	fdt[0] = dup(0);
+	tabpid = malloc(sizeof(int)* dlstsize(iter));
+	if (!tabpid)
+		ft_exit(0, err_malloc);
 	while (iter && !g_info.stop)
 	{
 		pipe(fd);
 		pid = fork();
+		tabpid[i++] = pid;
 		if (pid == -1)
 			ft_exit(0, err_pid);
 		else if (pid == 0)
-			exec_child(iter->next, fd, cfd);
+			exec_child(iter, fd, cfd);
 		else
 			exec_parent(fd, &cfd, &iter, fdt);
 	}
+	i--;
+	while (i >= 0)
+		waitpid(tabpid[i--], &cfd, WUNTRACED);
+	free(tabpid);
 	g_info.stop = 0;
 	free_cmdpipe(list);
 	g_info.cmdpipe = 0;

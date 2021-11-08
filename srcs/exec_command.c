@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 01:09:41 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/07 22:56:36 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/08 21:54:18 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,13 @@ int	check_exec(t_dlist *mcmd)
 	return (free_ret(tmp, 0));
 }
 
-void	exec_command(void)
+void	exec_command(t_dlist *list)
 {
 	t_dlist	*tmp5;
 	t_token	*token;
 
-	if (!check_command())
+	g_info.tmperrno = 0;
+	if (!check_command(list))
 	{
 		tmp5 = g_info.gbc->str;
 		token = tmp5->content;

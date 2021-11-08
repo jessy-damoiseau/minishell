@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:39:06 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/08 17:44:20 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/08 21:31:10 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	check_command6(char *chrtmp1, t_dlist **dlsttmp1)
 	ft_putstr_fd(chrtmp1, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
 	clear_cmd_lst(dlsttmp1);
-	errno = 127;
+	errno = 126;
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:07:36 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/08 17:44:32 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/08 22:06:28 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ extern t_info	g_info;
 int				error_code(t_err_code err_code);
 int				exit2bis(char *cmd, int *i, int j);
 int				exit2(char *cmd, int *i, int j);
-int				exit3(char *cmd, int i);
+void				exit3(char *cmd, int i);
 void			ft_exit(char *cmd, t_err_code err_code);
 void			pwd(char *cmd, int fd);
 void			oldpwd(void);
@@ -60,7 +60,7 @@ int				check_builtins(t_dlist *mcmd);
 char			**dup_env(t_list *env);
 void			check_exec2(char *tmp, char **str);
 int				check_exec(t_dlist *mcmd);
-void			exec_command(void);
+void			exec_command(t_dlist *list);
 void			check_end(t_dlist **alst);
 void			fill_gbc2(int *i, int *check, t_dlist *tmp);
 t_dlist			*fill_gbc(t_dlist *lst, int i);
@@ -74,9 +74,9 @@ int				check_command7(char	*chrtmp1);
 int				check_command5(t_dlist	**dlsttmp1, t_token *token1,
 					char *chrtmp1);
 int				check_command8(char *chrtmp1);
-int				heck_command3(t_token *token1, t_dlist *dlsttmp1);
-int				check_command2(t_token *token1, t_dlist *dlsttmp1);
-int				check_command(void);
+int				check_command3(t_token *token1, t_dlist *dlsttmp1, t_dlist *list);
+int				check_command2(t_token *token1, t_dlist *dlsttmp1, t_dlist *list);
+int				check_command(t_dlist *list);
 void			joincmd(char **cmd, t_dlist *lst);
 void			joincmd2(t_dlist *tmp1, int *i);
 int				check_builtins2(char *cmd, int i);
