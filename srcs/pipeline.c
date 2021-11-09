@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 18:03:24 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/09 22:34:34 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/10 00:24:55 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	exec_child(t_dlist *iter, int *fd, int cfd)
 		dup2(cfd, 0);
 	if (iter->next)
 		dup2(fd[1], 1);
-	expand_env();
 	g_info.child = 1;
 	exec_command(iter->content);
 	close(fd[1]);

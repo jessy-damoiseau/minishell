@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 18:26:49 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/09 22:31:34 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/10 00:29:16 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,13 @@ void	create_pipeline(void)
 	while (pipe->prev)
 		pipe = pipe->prev;
 	dlstadd_back(&g_info.cmdpipe, dlstnew(pipe));
+	pipe = g_info.cmdpipe;
+	while (g_info.cmdpipe)
+	{
+		expand_env();
+		g_info.cmdpipe = g_info.cmdpipe->next;
+	}
+	g_info.cmdpipe = pipe;
 	exec_pipeline(g_info.cmdpipe, 0, 0, -1);
 }
 
@@ -77,6 +84,8 @@ void	check_if_exit(t_dlist *list)
 	while (list->next)
 		list = list->next;
 	tmp = list->content;
+	if (!tmp)
+		return ;
 	token = tmp->content;
 	if (!strcmp((char *)token->value, "exit"))
 	{
@@ -104,7 +113,7 @@ void	check_if_exit2(t_dlist	*tmp)
 			while (ft_isdigit(str[i]))
 				i++;
 			if (!str[i])
-				errno = ft_atoi(str);
+				errno = ft_atoi(str) % 256;
 		}
 	}
 }

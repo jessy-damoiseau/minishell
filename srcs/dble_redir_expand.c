@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 23:01:47 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/07 23:03:07 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/10 00:57:09 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void	expand_dlb_left_input(char **str)
 		tmp = "$";
 	split = ft_split(*str, '$');
 	i = 0;
+	if (*str[0] != '$')
+		i++;
 	while (split[i])
 	{
 		if (*split[i] == '?')
