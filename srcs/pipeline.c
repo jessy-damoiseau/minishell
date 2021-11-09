@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 18:03:24 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/08 22:11:10 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/09 22:34:34 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	exec_child(t_dlist *iter, int *fd, int cfd)
 {
-	
 	if (cfd >= 0)
 		dup2(cfd, 0);
 	if (iter->next)
@@ -27,10 +26,17 @@ void	exec_child(t_dlist *iter, int *fd, int cfd)
 	exit(errno);
 }
 
-void	free_cmdpipe(t_dlist *list)
+void	free_cmdpipe(t_dlist *list, int i, int *tabpid)
 {
 	t_dlist	*iter;
+	int		status;
 
+	status = 0;
+	while (i >= 0)
+		waitpid(tabpid[i--], &status, WUNTRACED);
+	free(tabpid);
+	check_if_exit(g_info.cmdpipe);
+	g_info.stop = 0;
 	while (list)
 	{
 		iter = list;
@@ -43,6 +49,7 @@ void	free_cmdpipe(t_dlist *list)
 		list = list->next;
 		free(iter);
 	}
+	g_info.cmdpipe = 0;
 }
 
 void	exec_parent(int *fd, int *cfd, t_dlist **iter, int *fdt)
@@ -57,57 +64,15 @@ void	exec_parent(int *fd, int *cfd, t_dlist **iter, int *fdt)
 	dup2(fdt[0], 0);
 }
 
-void	check_if_exit(t_dlist *list)
-{
-	t_dlist *tmp;
-	t_token *token;
-	int i;
-	char *str;
-
-	i = 0;
-	while (list->next)
-		list = list->next;
-	tmp = list->content;
-	token = tmp->content;
-	if (!strcmp((char *)token->value, "exit"))
-	{
-		tmp = tmp->next;
-		if (tmp)
-		{
-			token = tmp->content;
-			if (token->type == space)
-			{
-				tmp = tmp->next;
-				if (tmp)
-				{
-					token = tmp->content;
-					str = token->value;
-					while (ft_isdigit(str[i]))
-						i++;
-					if (!str[i])
-						errno = ft_atoi(str);
-				}
-			}
-		}
-	}
-}
-
-void	exec_pipeline(t_dlist *list)
+void	exec_pipeline(t_dlist *iter, int *tabpid, int i, int cfd)
 {
 	int		fd[2];
 	int		fdt[2];
-	pid_t		pid;
-	int		cfd;
-	int		*tabpid;
-	t_dlist	*iter;
-	int i;
+	pid_t	pid;
 
-	cfd = -1;
-	i = 0;
-	iter = list;
 	fdt[1] = dup(1);
 	fdt[0] = dup(0);
-	tabpid = malloc(sizeof(int)* dlstsize(iter));
+	tabpid = malloc(sizeof(int) * dlstsize(iter));
 	if (!tabpid)
 		ft_exit(0, err_malloc);
 	while (iter && !g_info.stop)
@@ -122,12 +87,5 @@ void	exec_pipeline(t_dlist *list)
 		else
 			exec_parent(fd, &cfd, &iter, fdt);
 	}
-	i--;
-	while (i >= 0)
-		waitpid(tabpid[i--], &cfd, WUNTRACED);
-	free(tabpid);
-	check_if_exit(list);
-	g_info.stop = 0;
-	free_cmdpipe(list);
-	g_info.cmdpipe = 0;
+	free_cmdpipe(g_info.cmdpipe, (i - 1), tabpid);
 }

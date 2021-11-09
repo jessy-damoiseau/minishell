@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 18:26:49 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/08 20:23:56 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/09 22:31:34 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,45 @@ void	create_pipeline(void)
 	while (pipe->prev)
 		pipe = pipe->prev;
 	dlstadd_back(&g_info.cmdpipe, dlstnew(pipe));
-	exec_pipeline(g_info.cmdpipe);
+	exec_pipeline(g_info.cmdpipe, 0, 0, -1);
+}
+
+void	check_if_exit(t_dlist *list)
+{
+	t_dlist	*tmp;
+	t_token	*token;
+
+	while (list->next)
+		list = list->next;
+	tmp = list->content;
+	token = tmp->content;
+	if (!strcmp((char *)token->value, "exit"))
+	{
+		tmp = tmp->next;
+		if (tmp)
+			check_if_exit2(tmp);
+	}
+}
+
+void	check_if_exit2(t_dlist	*tmp)
+{
+	char	*str;
+	t_token	*token;
+	int		i;
+
+	i = 0;
+	token = tmp->content;
+	if (token->type == space)
+	{
+		tmp = tmp->next;
+		if (tmp)
+		{
+			token = tmp->content;
+			str = token->value;
+			while (ft_isdigit(str[i]))
+				i++;
+			if (!str[i])
+				errno = ft_atoi(str);
+		}
+	}
 }

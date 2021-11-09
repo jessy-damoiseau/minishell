@@ -6,7 +6,7 @@
 /*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:07:36 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/08 22:06:28 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/09 22:32:57 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ extern t_info	g_info;
 int				error_code(t_err_code err_code);
 int				exit2bis(char *cmd, int *i, int j);
 int				exit2(char *cmd, int *i, int j);
-void				exit3(char *cmd, int i);
+void			exit3(char *cmd, int i);
 void			ft_exit(char *cmd, t_err_code err_code);
 void			pwd(char *cmd, int fd);
 void			oldpwd(void);
@@ -74,8 +74,10 @@ int				check_command7(char	*chrtmp1);
 int				check_command5(t_dlist	**dlsttmp1, t_token *token1,
 					char *chrtmp1);
 int				check_command8(char *chrtmp1);
-int				check_command3(t_token *token1, t_dlist *dlsttmp1, t_dlist *list);
-int				check_command2(t_token *token1, t_dlist *dlsttmp1, t_dlist *list);
+int				check_command3(t_token *token1, t_dlist *dlsttmp1,
+					t_dlist *list);
+int				check_command2(t_token *token1, t_dlist *dlsttmp1,
+					t_dlist *list);
 int				check_command(t_dlist *list);
 void			joincmd(char **cmd, t_dlist *lst);
 void			joincmd2(t_dlist *tmp1, int *i);
@@ -126,12 +128,14 @@ int				is_it_literal(t_dlist *node, t_token *token);
 int				check_pipe2(t_dlist *tmp, t_token *token);
 /* PIPELINE */
 void			exec_child(t_dlist *iter, int *fd, int cfd);
-void			free_cmdpipe(t_dlist *list);
+void			free_cmdpipe(t_dlist *list, int i, int *tabpid);
 void			exec_parent(int *fd, int *cfd, t_dlist **iter, int *fdt);
-void			exec_pipeline(t_dlist *list);
+void			exec_pipeline(t_dlist *list, int *tabpid, int i, int cfd);
 void			create_pipe3(t_dlist **tmp, t_dlist **lr, t_dlist **pipe);
 void			create_pipe2(t_dlist **pipe);
 void			create_pipeline(void);
+void			check_if_exit(t_dlist *list);
+void			check_if_exit2(t_dlist	*tmp);
 /* PROMPT_UTILS */
 void			ft_get_path2(char **path, char *buff, char *color, int i);
 int				ft_get_path(char **path, char *buff, char *color);
