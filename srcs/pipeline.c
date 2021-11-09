@@ -57,11 +57,46 @@ void	exec_parent(int *fd, int *cfd, t_dlist **iter, int *fdt)
 	dup2(fdt[0], 0);
 }
 
+void	check_if_exit(t_dlist *list)
+{
+	t_dlist *tmp;
+	t_token *token;
+	int i;
+	char *str;
+
+	i = 0;
+	while (list->next)
+		list = list->next;
+	tmp = list->content;
+	token = tmp->content;
+	if (!strcmp((char *)token->value, "exit"))
+	{
+		tmp = tmp->next;
+		if (tmp)
+		{
+			token = tmp->content;
+			if (token->type == space)
+			{
+				tmp = tmp->next;
+				if (tmp)
+				{
+					token = tmp->content;
+					str = token->value;
+					while (ft_isdigit(str[i]))
+						i++;
+					if (!str[i])
+						errno = ft_atoi(str);
+				}
+			}
+		}
+	}
+}
+
 void	exec_pipeline(t_dlist *list)
 {
 	int		fd[2];
 	int		fdt[2];
-	int		pid;
+	pid_t		pid;
 	int		cfd;
 	int		*tabpid;
 	t_dlist	*iter;
@@ -91,6 +126,7 @@ void	exec_pipeline(t_dlist *list)
 	while (i >= 0)
 		waitpid(tabpid[i--], &cfd, WUNTRACED);
 	free(tabpid);
+	check_if_exit(list);
 	g_info.stop = 0;
 	free_cmdpipe(list);
 	g_info.cmdpipe = 0;
