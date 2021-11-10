@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:56:42 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/01 15:36:30 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/10 17:15:03 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	change_sign_polarity(int *s, int *i)
+{
+	*s *= -1;
+	(*i)++;
+}
 
 long long int	ft_atoll(char *str, int *error)
 {
@@ -24,10 +30,7 @@ long long int	ft_atoll(char *str, int *error)
 	while (str[i] && ((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
 		i++;
 	if (str[i] == '-')
-	{
-		s *= -1;
-		i++;
-	}
+		change_sign_polarity(&s, &i);
 	else if (str[i] == '+')
 		i++;
 	while (str[i] && (str[i] >= 48 && str[i] <= 57))
