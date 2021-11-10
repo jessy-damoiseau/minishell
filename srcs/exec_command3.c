@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:39:06 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/08 21:31:10 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/10 11:31:23 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	check_command4(t_dlist **dlsttmp1, int i)
 	{
 		i++;
 		dlsttmp2 = dlsttmp2->next;
-		token2 = dlsttmp2->content;
+		if (dlsttmp2)
+			token2 = dlsttmp2->content;
 	}
 	(*dlsttmp1) = fill_gbc((*dlsttmp1), i);
 }
