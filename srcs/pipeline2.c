@@ -115,10 +115,7 @@ void	check_if_exit2(t_dlist	*tmp)
 			if (!str[i])
 				errno = ft_atoll(str, &i) % 256;
 			else
-			{
-				printf("check\n");
 				errno = 2;
-			}
 			if (tmp->next)
 				errno = 1;
 		}
