@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 18:26:49 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/10 00:29:16 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/10 01:16:51 by jessy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,12 @@ void	check_if_exit2(t_dlist	*tmp)
 			str = token->value;
 			while (ft_isdigit(str[i]))
 				i++;
-			if (!str[i])
+			if (!str[i] == '\0')
 				errno = ft_atoi(str) % 256;
+			else
+				errno = 2;
+			if (tmp->next)
+				errno = 1;
 		}
 	}
 }
