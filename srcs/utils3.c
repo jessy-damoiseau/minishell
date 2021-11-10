@@ -14,9 +14,9 @@
 
 long long int	ft_atoll(char *str, int *error)
 {
-	int				i;
-	int				s;
-	long long int	r;
+	int						i;
+	int						s;
+	long long int			r;
 
 	i = 0;
 	s = 1;
@@ -36,7 +36,10 @@ long long int	ft_atoll(char *str, int *error)
 		i++;
 	}
 	if (r < 0 || str[i])
+	{
 		*error = 1;
+		return (2);
+	}
 	return (r * s);
 }
 
