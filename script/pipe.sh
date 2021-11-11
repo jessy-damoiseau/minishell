@@ -31,15 +31,15 @@ ls | sort
 echo
 
 echo "7 : expected output : .sh files"
-ls /header | grep .h
+ls header/ | grep .h
 echo
 
 echo "8 : expected output : sorted .sh files"
-ls /srcs | grep .c | sort
+ls srcs/ | grep .c | sort
 echo
 
 echo "9 : expected output : sorted .sh files with $"
-ls /srcs | grep .c | sort | cat -e
+ls srcs/ | grep .c | sort | cat -e
 echo
 
 echo "10 : expected output : one ls output"

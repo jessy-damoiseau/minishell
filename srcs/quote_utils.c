@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:08 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/29 18:17:46 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/11 16:05:35 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	clear_sublst(t_dlist *begin, t_dlist *end)
 		iter = iter->next;
 		clear_token(tmp, tmp->content);
 	}
-	clear_token(end, end->content);
+	if (end)
+		clear_token(end, end->content);
 }
 
 t_dlist	*samequote_begin_or_end(t_dlist *begin, t_dlist *end)

@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 13:24:40 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/08 15:42:51 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/12 00:43:38 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,55 +31,56 @@ void	insert_node_in_pipe(t_dlist **tmp, t_dlist *new)
 	dlstinsert_node(&iter, *tmp, new);
 }
 
-static void	add_new_lit_node(t_dlist **tmp, char *str, int *i)
+void	adjust_position(t_dlist **begin, t_dlist *end)
 {
-	int		j;
-	char	*s;
-	t_dlist	*new;
+	t_dlist	*iter;
 
-	j = *i;
-	while (str[j] != ' ' && str[j] != '\0')
-		j++;
-	s = ft_strndup(str + *i, j);
-	new = dlstnew(ft_malloc_token(s, literal, 0, ft_strlen(s)));
-	if (g_info.nbpipe)
-		insert_node_in_pipe(tmp, new);
-	else
-		dlstinsert_node(&g_info.cmd, *tmp, new);
-	*tmp = (*tmp)->next;
-	*i = j;
-	free(s);
+	iter = *begin;
+	while (iter->next)
+	{
+		iter = iter->next;
+	}
+	iter->next = end;
+}
+
+void	add_space_node(t_dlist **iter, t_dlist *new)
+{
+	new = dlstnew(ft_malloc_token(" ", space, 0, 1));
+	dlstadd_back(iter, new);
 }
 
 static void	retokenize_rest(t_dlist **iter, char *str, int i)
 {
-	t_dlist	*tmp;
+	char	**split;
 	t_dlist	*new;
+	t_dlist	*tmp;
+	int		j;
 
-	tmp = *iter;
-	tmp = tmp->next;
-	if (str[i + 1] != '\0')
-		i++;
-	while (str[i])
+	tmp = (*iter)->next;
+	(*iter)->next = NULL;
+	new = dlstnew(ft_malloc_token(" ", space, 0, 1));
+	dlstadd_back(iter, new);
+	str = ft_strchr(str, ' ');
+	split = ft_split(str, ' ');
+	j = 0;
+	while (split[j])
+		j++;
+	while (split[i])
 	{
-		if (str[i] == ' ')
-		{
-			new = dlstnew(ft_malloc_token(" ", space, 0, 1));
-			dlstinsert_node(&g_info.cmd, tmp, new);
-			tmp = tmp->next;
-		}
-		else if (str[i] != i)
-			add_new_lit_node(&tmp, str, &i);
-		if (str[i] != '\0')
-			i++;
+		new = dlstnew(ft_malloc_token(split[i], literal, 0, ft_strlen(str)));
+		dlstadd_back(iter, new);
+		if (i < j - 1)
+			add_space_node(iter, new);
+		i++;
 	}
+	adjust_position(iter, tmp);
+	clean_split(split);
 }
 
 void	reparse_expanded_value(t_dlist **iter)
 {
 	char	*str;
 	t_token	*token;
-	t_dlist	*new;
 	int		i;
 
 	i = 0;
@@ -94,11 +95,7 @@ void	reparse_expanded_value(t_dlist **iter)
 			i++;
 		}
 		token->value = ft_strndup(str, i);
-		new = dlstnew(ft_malloc_token(" ", space, 0, 1));
-		if (g_info.nbpipe)
-			insert_node_in_pipe(iter, new);
-		else
-			dlstinsert_node(&g_info.cmd, *iter, new);
+		i = 0;
 		retokenize_rest(iter, str, i);
 		free(str);
 	}
