@@ -75,7 +75,10 @@ void	exit3(char *cmd, int i)
 	int	error;
 
 	error = 0;
-	errno = ft_atoll(&cmd[i], &error) % 256;
+	errno = ft_atoll(&cmd[i], &error);
+	if (errno < 0)
+		errno += 256;
+	errno %= 256;
 	if (!g_info.child)
 		ft_putstr_fd("exit\n", 1);
 	if (error)

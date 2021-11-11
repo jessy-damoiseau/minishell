@@ -130,7 +130,7 @@ int				check_pipe2(t_dlist *tmp, t_token *token);
 /* PIPELINE */
 void			exec_child(t_dlist *iter, int *fd, int cfd);
 void			free_cmdpipe(t_dlist *list, int i, int *tabpid);
-void			exec_parent(int *fd, int *cfd, t_dlist **iter, int *fdt);
+void			exec_parent(int *fd, int *cfd, t_dlist **iter);
 void			exec_pipeline(t_dlist *list, int *tabpid, int i, int cfd);
 void			create_pipe3(t_dlist **tmp, t_dlist **lr, t_dlist **pipe);
 void			create_pipe2(t_dlist **pipe);

@@ -44,13 +44,13 @@ char	**dup_env(t_list *env)
 	char	**ret;
 	int		i;
 
-	ret = malloc(sizeof(char *) * ft_lstsize(env));
-	i = -1;
+	ret = malloc(sizeof(char *) * (ft_lstsize(env) + 1));
+	i = 0;
 	if (!ret)
 		return (0);
 	while (env)
 	{
-		ret[++i] = ft_strdup((char *)env->content);
+		ret[i++] = ft_strdup((char *)env->content);
 		env = env->next;
 	}
 	ret[i] = 0;
@@ -111,6 +111,7 @@ void	exec_command(t_dlist *list)
 		else if (check_builtins(0))
 			check_exec(0);
 	}
+	g_info.tmperrno = errno;
 	ft_lstclear(&g_info.path, &ft_memdel);
 	gbcclear(&g_info.gbc);
 }

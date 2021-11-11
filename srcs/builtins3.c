@@ -113,12 +113,15 @@ void	echo(char *cmd, int fd)
 	returnendline = 0;
 	while (cmd[i] == ' ')
 		i++;
-	if (cmd[i] == '-' && cmd[i + 1] == 'n' && cmd[i + 2] == ' ')
+	if (cmd[i] == '-' && cmd[i + 1] == 'n' && (!cmd[i + 2] || cmd[i + 2] == ' '))
 	{
-		i += 3;
+		if (!cmd[i + 2])
+			i += 2;
+		else
+			i += 3;
 		returnendline = 1;
 	}
-	while (cmd[i] == ' ')
+	while (cmd[i] && cmd[i] == ' ')
 		i++;
 	ft_putstr_fd(&cmd[i], fd);
 	if (!returnendline)

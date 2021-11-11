@@ -110,10 +110,17 @@ void	check_if_exit2(t_dlist	*tmp)
 		{
 			token = tmp->content;
 			str = token->value;
+			if (str[i] == '-')
+				i++;
 			while (ft_isdigit(str[i]))
 				i++;
 			if (!str[i])
-				errno = ft_atoll(str, &i) % 256;
+			{
+				errno = ft_atoll(str, &i);
+				if (errno < 0)
+					errno += 256;
+				errno %= 256;
+			}
 			else
 				errno = 2;
 			if (tmp->next)

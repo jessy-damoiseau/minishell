@@ -16,23 +16,29 @@ void	exec_child(t_dlist *iter, int *fd, int cfd)
 {
 	if (cfd >= 0)
 		dup2(cfd, 0);
+	close(cfd);
 	if (iter->next)
 		dup2(fd[1], 1);
 	g_info.child = 1;
-	exec_command(iter->content);
 	close(fd[1]);
 	close(fd[0]);
-	exit(errno);
+	exec_command(iter->content);
+	close(1);
+	close(0);
+	exit(g_info.tmperrno);
 }
 
 void	free_cmdpipe(t_dlist *list, int i, int *tabpid)
 {
 	t_dlist	*iter;
 	int		status;
+	int		c;
 
 	status = 0;
-	while (i >= 0)
-		waitpid(tabpid[i--], &status, WUNTRACED);
+	c = 0;
+	while (i >= c)
+		waitpid(tabpid[c++], &status, WUNTRACED);
+	errno = status % 255;
 	free(tabpid);
 	check_if_exit(g_info.cmdpipe);
 	g_info.stop = 0;
@@ -51,26 +57,22 @@ void	free_cmdpipe(t_dlist *list, int i, int *tabpid)
 	g_info.cmdpipe = 0;
 }
 
-void	exec_parent(int *fd, int *cfd, t_dlist **iter, int *fdt)
+void	exec_parent(int *fd, int *cfd, t_dlist **iter)
 {
 	signal(SIGINT, SIG_IGN);
 	close(fd[1]);
+	close(*cfd);
 	(*cfd) = dup(fd[0]);
 	(*iter) = (*iter)->next;
 	g_info.child = 0;
 	close(fd[0]);
-	dup2(fdt[1], 1);
-	dup2(fdt[0], 0);
 }
 
 void	exec_pipeline(t_dlist *iter, int *tabpid, int i, int cfd)
 {
 	int		fd[2];
-	int		fdt[2];
 	pid_t	pid;
 
-	fdt[1] = dup(1);
-	fdt[0] = dup(0);
 	tabpid = malloc(sizeof(int) * dlstsize(iter));
 	if (!tabpid)
 		ft_exit(0, err_malloc);
@@ -84,7 +86,7 @@ void	exec_pipeline(t_dlist *iter, int *tabpid, int i, int cfd)
 		else if (pid == 0)
 			exec_child(iter, fd, cfd);
 		else
-			exec_parent(fd, &cfd, &iter, fdt);
+			exec_parent(fd, &cfd, &iter);
 	}
 	free_cmdpipe(g_info.cmdpipe, (i - 1), tabpid);
 }

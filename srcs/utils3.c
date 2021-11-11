@@ -38,7 +38,7 @@ long long int	ft_atoll(char *str, int *error)
 		r = r * 10 + str[i] - 48;
 		i++;
 	}
-	if (r < 0 || str[i])
+	if (r < 0 || str[i] || ft_strlen(str) > 20)
 	{
 		*error = 1;
 		return (2);

@@ -26,7 +26,7 @@ int	check_command5(t_dlist	**dlsttmp1,
 	i = check_path(chrtmp1);
 	if (i == 2)
 	{
-		clear_cmd_lst(&g_info.cmd);
+		clear_cmd_lst(dlsttmp1);
 		return (1);
 	}
 	if (!i || (g_info.gbc && token1->type != 2))

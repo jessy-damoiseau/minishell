@@ -35,7 +35,10 @@ void	oldpwd(void)
 	tmp = g_info.env;
 	str = g_info.pwd;
 	while (tmp && ft_strncmp(tmp->content, "OLDPWD=", 7))
+	{
+		printf("check\n");
 		tmp = tmp->next;
+	}
 	if (!tmp)
 		ft_lstadd_back(&g_info.env, ft_lstnew(ft_strjoin("OLDPWD=", str)));
 	else

@@ -37,6 +37,11 @@ int	ft_get_path(char **path, char *buff, char *color)
 	int	i;
 
 	i = 0;
+	if (!buff)
+	{
+		*path = ft_strdup("\033[1;35m?>>\033[0m");
+		return (1);
+	}
 	while (buff[i])
 		i++;
 	while (i > 0 && buff[i] != '/')
@@ -53,6 +58,8 @@ int	catch_eof_signal(char *line, char *path)
 {
 	if (!line)
 	{
+		if (g_info.tmperrno)
+			errno = g_info.tmperrno;
 		free(line);
 		free(path);
 		ft_exit(0, no_err);
