@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:30 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/02 23:42:02 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/11 11:02:54 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,19 @@ void	replace_node_value(char **evar, t_dlist **iter)
 {
 	t_token	*token;
 	char	*tmp;
+	int		f;
 
+	f = 0;
 	tmp = *evar;
 	token = (*iter)->content;
 	ft_memdel(&token->value);
 	while (*tmp)
 	{
-		if (*tmp == '=')
+		if (*tmp == '=' && !f)
 		{
 			tmp++;
 			token->value = ft_strdup(tmp);
+			f = 1;
 		}
 		if (*tmp != '\0')
 			tmp++;

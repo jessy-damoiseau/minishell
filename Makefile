@@ -6,7 +6,7 @@
 #    By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/21 14:58:12 by pgueugno          #+#    #+#              #
-#    Updated: 2021/11/08 13:26:01 by pgueugno         ###   ########.fr        #
+#    Updated: 2021/11/11 10:58:45 by pgueugno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,8 +48,8 @@ SRCS_MINISHELL		=	main.c tokenize.c utils.c utils2.c utils3.c exit.c\
 ################################################################################
 
 CC			=	@gcc
-CFLAGS		=	-Wall -Wextra -Werror -g3 -I$(HEADERS_DIR) #-fsanitize=address
-LDFLAGS 	=	-L . $(LIB_LIBFT_DIR) -lreadline #-fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g3 -I$(HEADERS_DIR) -fsanitize=address
+LDFLAGS 	=	-L . $(LIB_LIBFT_DIR) -lreadline -fsanitize=address
 RM			=	@rm -f
 
 ################################################################################
