@@ -127,18 +127,27 @@ void	echo(char *cmd, int fd)
 {
 	int	i;
 	int	returnendline;
+	int j;
 
 	i = 4;
+	j = 0;
 	returnendline = 0;
 	while (cmd[i] == ' ')
 		i++;
-	if (cmd[i] == '-' && cmd[i + 1] == 'n' && (!cmd[i + 2] || cmd[i + 2] == ' '))
+	if (cmd[i] == '-' && cmd[i + 1] == 'n')
 	{
-		if (!cmd[i + 2])
-			i += 2;
-		else
-			i += 3;
-		returnendline = 1;
+		i++;
+		while (cmd[i + j] && cmd[i + j] != ' ')
+		{
+			if (cmd[i + j] != 'n')
+				break ;
+			j++;
+		}
+		if (!cmd[i +j] || cmd[i + j] == ' ')
+		{
+			returnendline = 1;
+			i += j;
+		}
 	}
 	while (cmd[i] && cmd[i] == ' ')
 		i++;
