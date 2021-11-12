@@ -57,51 +57,70 @@ void	env(char *cmd, int fd)
 	}
 }
 
-void	unset2(char *cmd, int i, int j)
+void	unset2(char *cmd, int j)
 {
 	t_list	*tmp;
 	t_list	*tmp2;
 	char	*tfchier;
+	int		i;
 
 	tmp = g_info.env;
-	while (tmp->next)
+	i = 0;
+	while (tmp)
 	{
-		tfchier = tmp->next->content;
-		if (!ft_strncmp(tmp->next->content, &cmd[i], j)
+		tfchier = tmp->content;
+		if (!ft_strncmp(tmp->content, cmd, j)
 			&& (tfchier[j] == '=' || !tfchier[j]))
 		{
-			tmp2 = tmp->next->next;
-			free(tmp->next->content);
-			free(tmp->next);
-			tmp->next = tmp2;
+			tmp2 = tmp->next;
+			free(tmp->content);
+			free(tmp);
+			if(i)
+			{
+				tmp = g_info.env;
+				while (i - 1)
+					{
+						tmp = tmp->next;
+						i--;
+					}
+				tmp->next = tmp2;
+			}
+			else
+				g_info.env = tmp2;
 			break ;
 		}
 		tmp = tmp->next;
+		i++;
 	}
 }
 
 void	unset(char *cmd)
 {
-	int	i;
-	int	j;
+	int		j;
+	int		k;
+	char	**cmdsplit;
 
-	i = 5;
-	j = -1;
-	while (cmd[i] == ' ')
-		i++;
-	while (cmd[i + ++j])
+	k = 1;
+	cmdsplit = ft_split(cmd, ' ');
+	while (cmdsplit[k])
 	{
-		if (!ft_isalnum(cmd[i + j]) && cmd[i + j] != ' ' && cmd[i + j] != '_')
+		j = -1;
+		while (cmdsplit[k][++j])
 		{
-			ft_putstr_fd("unset: '", 2);
-			ft_putstr_fd(&cmd[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			errno = 1;
-			return ;
+			if (!ft_isalnum(cmdsplit[k][j]) && cmdsplit[k][j] != '_')
+			{
+				ft_putstr_fd("unset: '", 2);
+				ft_putstr_fd(cmdsplit[k], 2);
+				ft_putstr_fd("': not a valid identifier\n", 2);
+				errno = 1;
+				return ;
+			}
 		}
+		unset2(cmdsplit[k], j);
+		errno = 0;
+		k++;
 	}
-	unset2(cmd, i, j);
-	errno = 0;
+	free_dbl(cmdsplit);
 }
 
 void	echo(char *cmd, int fd)

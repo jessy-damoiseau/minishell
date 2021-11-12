@@ -46,7 +46,7 @@ void			cd2(char *cmd, int j);
 void			cd(char *cmd);
 void			env2(char *cmd);
 void			env(char *cmd, int fd);
-void			unset2(char *cmd, int i, int j);
+void			unset2(char *cmd, int j);
 void			unset(char *cmd);
 void			echo(char *cmd, int fd);
 void			export1(int fd);
