@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 13:24:40 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/12 00:43:38 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/12 18:47:16 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	adjust_position(t_dlist **begin, t_dlist *end)
 		iter = iter->next;
 	}
 	iter->next = end;
+	if (end)
+		end->prev = iter;
 }
 
 void	add_space_node(t_dlist **iter, t_dlist *new)
