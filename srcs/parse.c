@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:29:26 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/29 18:49:19 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/12 21:57:36 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ void	parse_token(void)
 		}
 		if (find_token_type(dollar, iter->content))
 			is_it_literal(iter, iter->content);
+		if (find_token_type(dollar, iter->content))
+			check_if_quoted(iter, iter->content);
 		iter = iter->next;
 	}
 	parse_token2();

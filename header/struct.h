@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:13:05 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/31 02:14:08 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/12 21:35:44 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef enum e_token_type
 	dble_quote,
 	literal,
 	errno_call,
+	env_quoted,
+	lit_quoted,
 }				t_token_type;
 
 typedef enum e_error_code
@@ -48,6 +50,7 @@ typedef struct s_token
 {
 	void			*value;
 	t_token_type	type;
+	t_token_type	qstat;
 }				t_token;
 
 typedef struct s_info

@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:33 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/12 18:45:25 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/12 21:50:29 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	clear_cmd_node(t_dlist **lst)
 		if (*lst)
 			(*lst)->prev = NULL;
 		g_info.cmd = *lst;
-		if (g_info.nbpipe)
+		if (g_info.nbpipe && g_info.cmdpipe)
 			g_info.cmdpipe->content = *lst;
 	}
 	else if (!(*lst)->next)

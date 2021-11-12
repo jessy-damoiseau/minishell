@@ -1,27 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_env_utils3.c                                :+:      :+:    :+:   */
+/*   reparse_expanded_env.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 13:24:40 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/12 18:47:16 by pgueugno         ###   ########.fr       */
+/*   Created: 2021/11/12 22:10:28 by pgueugno          #+#    #+#             */
+/*   Updated: 2021/11/12 22:13:50 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	is_there_a_space(char *str)
-{
-	while (*str)
-	{
-		if (*str == ' ')
-			return (1);
-		str++;
-	}
-	return (0);
-}
 
 void	insert_node_in_pipe(t_dlist **tmp, t_dlist *new)
 {
@@ -87,6 +76,8 @@ void	reparse_expanded_value(t_dlist **iter)
 
 	i = 0;
 	token = (*iter)->content;
+	if (token->qstat == env_quoted)
+		return ;
 	str = token->value;
 	if (is_there_a_space(token->value))
 	{

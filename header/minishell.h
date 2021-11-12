@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:07:36 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/09 22:32:57 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/12 22:13:45 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,13 @@ char			**get_val_to_expand(t_token	*token);
 int				check_if_value_in_env(char *envval, char *cmdval);
 int				clean_tab(char **tab, int ret);
 void			reparse_expanded_value(t_dlist **iter);
+int				is_there_a_space(char *str);
 /* EXPAND_ENV */
 void			concat_node(t_token *atoken, t_token *btoken, t_dlist **iter);
 void			concat_narrow_litvalue(void);
 int				is_env_literal(t_dlist **iter);
 void			expand_env(void);
+void			concat_narrow_litvalue(void);
 /* GBCOLLECTOR */
 void			clearmaillon(t_gbc *lst);
 void			gbcclear(t_gbc **alst);
@@ -127,6 +129,7 @@ int				next_identical_token(t_dlist **iter,
 					t_dlist *node, t_token *src);
 int				is_it_literal(t_dlist *node, t_token *token);
 int				check_pipe2(t_dlist *tmp, t_token *token);
+int				check_if_quoted(t_dlist *node, t_token *token);
 /* PIPELINE */
 void			exec_child(t_dlist *iter, int *fd, int cfd);
 void			free_cmdpipe(t_dlist *list, int i, int *tabpid);

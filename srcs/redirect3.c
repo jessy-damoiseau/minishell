@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:30:46 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/07 22:27:21 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/12 21:51:55 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	createfile4(t_dlist *tmp, t_token *token, int i)
 		str = readline("");
 		if (g_info.stop)
 			return (createfilestop(str));
-		if (ft_strrchr(str, '$'))
+		if (ft_strrchr(str, '$') && token->qstat != lit_quoted)
 			expand_dlb_left_input(&str);
 		ft_lstadd_back(&g_info.dlb_redir_left_str, ft_lstnew(str));
 	}

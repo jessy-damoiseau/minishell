@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:49:52 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/12 00:31:19 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/12 21:55:01 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_dlist	*concate_quoted(t_dlist *sub, t_token_type type)
 	char	*buf;
 	t_dlist	*begin;
 	t_dlist	*new;
+	t_token	*token;
 
 	begin = sub;
 	sub = sub->next;
@@ -56,6 +57,8 @@ t_dlist	*concate_quoted(t_dlist *sub, t_token_type type)
 		new = dlstnew(ft_malloc_token(buf, literal, 0, ft_strlen(buf)));
 		if (!new)
 			clear_buffer(buf, 0);
+		token = new->content;
+		token->qstat = lit_quoted;
 		dlstinsert_node(&g_info.cmd, sub, new);
 	}
 	ft_memdel((void *)&buf);

@@ -6,11 +6,22 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:30 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/11 11:02:54 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/12 22:13:59 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_there_a_space(char *str)
+{
+	while (*str)
+	{
+		if (*str == ' ')
+			return (1);
+		str++;
+	}
+	return (0);
+}
 
 int	valid_env_char(int c)
 {
