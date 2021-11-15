@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 22:09:23 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/12 22:09:25 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/15 15:22:48 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,21 @@ int	check_if_quoted(t_dlist *node, t_token *token)
 	t_dlist	*iter;
 	t_token	*access;
 
-	access = node->next->content;
-	iter = g_info.cmd;
-	while (iter && iter != node)
+	if (node->next)
 	{
-		if ((token->type == dollar)
-			&& find_token_type(dble_quote, iter->content))
+		access = node->next->content;
+		iter = g_info.cmd;
+		while (iter && iter != node)
 		{
-			if (next_is_quoted(&iter, node, node->content))
-				access->qstat = env_quoted;
+			if ((token->type == dollar)
+				&& find_token_type(dble_quote, iter->content))
+			{
+				if (next_is_quoted(&iter, node, node->content))
+					access->qstat = env_quoted;
+			}
+			if (iter)
+				iter = iter->next;
 		}
-		if (iter)
-			iter = iter->next;
 	}
 	return (0);
 }

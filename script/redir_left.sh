@@ -1,5 +1,8 @@
 echo "--- TEST REDIR LEFT ---"
-#A completer avec double redir left
+#0test.log << cat Makefile -> fait planter le programme
+#sort -n << FIN > 0test.log
+#cat << dg
+#cat << "dg"
 
 ls > 0test.log
 echo phase 1 ok
@@ -19,16 +22,13 @@ echo bonjour.sh >> 0test.log
 echo salut.sh >> 0test.log
 echo hello.sh >> 0test.log
 
-#0test.log << cat Makefile -> fait planter le programme
-#sort -n << FIN > testnb.txt -> a test manuellement
-
 echo phase 1 ok
-echo
+echo ls /srcs > 0test.log
 sort < 0test.log
 echo
 echo phase 2 ok
 echo
-grep .sh < 0test.log
+grep .c < 0test.log
 echo
 echo phase 3 ok
 echo

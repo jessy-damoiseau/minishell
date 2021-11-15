@@ -5,10 +5,11 @@
 #########################################################################
 
 path="script"
-BUILTIN=( echo ls cd cat ) #env exit export -> a ajouter que qd pipe et env regle
+BUILTIN=( echo ls cd cat env exit export )
 PIPE=( pipe )
 REDIR=( redir_left redir_right )
 QUOTE=( quote )
+ALL=( echo ls cd cat env exit export pipe redir_left redir_right quote)
 LOGS=( bash us error_us error_bash diff diff_error )
 
 cd ..
@@ -21,6 +22,18 @@ clean_logs()
 			rm "$path"/"$log".log 2> /dev/null
 	done
 	exit 0
+}
+
+all_tests()
+{
+	cd "$path" || exit
+	for src in ${ALL[*]}
+		do
+			echo .................. TEST "$src" .................. 1>> us.log
+			echo .................. TEST "$src" .................. 1>> error_us.log
+			../minishell < "$src".sh 1>> us.log 2>> error_us.log
+			bash < "$src".sh 1>> bash.log 2>> error_bash.log
+	done
 }
 
 blt_tests()
@@ -88,6 +101,9 @@ test_check()
 	elif [[ "$1" = quote ]]
 		then
 			quote_tests
+	elif [[ "$1" = all ]]
+		then
+			all_tests
 	fi
 }
 
@@ -114,6 +130,7 @@ read -r -p 'Choose which tests you want to do ?
 - For pipe tests, type "pipe"
 - For redirection tests, type "redir"
 - For quote parsing tests, type "quote"
+- To do all tests, type "all"
 > ' test
 
 if [ -z "$1" ]

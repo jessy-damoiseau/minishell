@@ -19,3 +19,15 @@ echo $$
 echo $<
 echo $>
 echo $ 
+
+echo
+unset PATH
+ls
+/bin/ls
+echo ça marche
+echo
+
+echo
+$sdkfjh$sdjkg
+$sdkfjh $sdjkg
+echo

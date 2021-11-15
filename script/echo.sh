@@ -12,9 +12,12 @@ echo
 echo $
 
 echo -nabc coucou
-
+echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnna
+echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn a
+echo -n n
 echo -n -n coucou
 
 
 "echo"
-"echo -la"
+"echo ls -la"

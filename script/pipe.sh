@@ -45,3 +45,14 @@ echo
 echo "10 : expected output : one ls output"
 ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls 
 echo 
+
+echo
+cat a | < b cat | cat > c | cat
+ls | grep c
+echo
+
+echo
+"$HOME" | "$HOME"
+"$HOME" | '$HOME'
+$HOME | $HOME
+echo
