@@ -19,8 +19,16 @@ int	createfile2(t_dlist *tmp, t_token *token)
 
 	while (tmp && token->type != 9)
 	{
-		token = tmp->content;
 		tmp = tmp->next;
+		token = tmp->content;
+	}
+	if (token->qstat == dollar)
+	{
+			ft_putstr_fd("bash:", 2);
+			ft_putstr_fd((char *)token->value, 2);
+			ft_putstr_fd(": ambiguous redirect\n", 2);
+			errno = 1;
+			return (1);
 	}
 	if (stat((char *)token->value, &sb))
 	{
