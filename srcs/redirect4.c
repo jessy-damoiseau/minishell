@@ -92,6 +92,7 @@ void	go_redirect2b(void)
 	}
 	dup2(fd[0], 0);
 	close(fd[1]);
+	close(fd[0]);
 }
 
 void	go_redirect2t(t_dlist *tmp, t_dlist *rdrct, t_token *token, int *fdio)

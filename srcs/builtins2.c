@@ -36,7 +36,6 @@ void	oldpwd(void)
 	str = g_info.pwd;
 	while (tmp && ft_strncmp(tmp->content, "OLDPWD=", 7))
 	{
-		printf("check\n");
 		tmp = tmp->next;
 	}
 	if (!tmp)

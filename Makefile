@@ -48,8 +48,8 @@ SRCS_MINISHELL		=	main.c tokenize.c utils.c utils2.c utils3.c exit.c\
 ################################################################################
 
 CC			=	@gcc
-CFLAGS		=	-Wall -Wextra -Werror -g3 -I$(HEADERS_DIR) -fsanitize=address
-LDFLAGS 	=	-L . $(LIB_LIBFT_DIR) -lreadline -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g3 -I$(HEADERS_DIR) #-fsanitize=address
+LDFLAGS 	=	-L . $(LIB_LIBFT_DIR) -lreadline #-fsanitize=address
 RM			=	@rm -f
 
 ################################################################################

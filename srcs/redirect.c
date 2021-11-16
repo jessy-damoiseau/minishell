@@ -35,6 +35,7 @@ void	go_redirect3b(t_dlist *tmp, t_token *token, t_dlist *mcmd)
 	if (mcmd)
 		if (check_builtins(mcmd))
 			check_exec(mcmd->content);
+	close(fdio);
 }
 
 void	go_redirect3(t_dlist *tmp, t_dlist *rdrct,
@@ -71,8 +72,12 @@ void	go_redirect(t_dlist *rdrct, t_dlist *mcmd)
 		go_redirect2(0, rdrct, 0, mcmd);
 	else
 		go_redirect3(0, rdrct, 0, mcmd);
+	close(0);
+	close(1);
 	dup2(fdt[1], 1);
 	dup2(fdt[0], 0);
+	close(fdt[0]);
+	close(fdt[1]);
 	tmplstclear(&rdrct);
 	ft_lstclear(&g_info.dlb_redir_left_str, &ft_memdel);
 }

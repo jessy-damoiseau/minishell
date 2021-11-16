@@ -35,4 +35,6 @@ void	go_redirect2(t_dlist *tmp, t_dlist *rdrct,
 		dup2(fdio[1], 1);
 	if (check_builtins(mcmd))
 		check_exec(mcmd->content);
+	close(fdio[0]);
+	close(fdio[1]);
 }
