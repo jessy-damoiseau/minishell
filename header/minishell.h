@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:07:36 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/12 22:13:45 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/17 18:29:35 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ void			go_redirect2t(t_dlist *tmp, t_dlist *rdrct,
 void			go_redirect2(t_dlist *tmp, t_dlist *rdrct,
 					t_token *token, t_dlist *mcmd);
 void			expand_dlb_left_input(char **str);
+void			ambiguous_redirect_msg(t_token	*token);
 /* TOKENIZE */
 t_token_type	ft_define_token(char charset);
 t_token			*ft_malloc_token(char *input, t_token_type type, int i, int j);

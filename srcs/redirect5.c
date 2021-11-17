@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   redirect5.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:33:40 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/31 02:38:06 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/17 18:28:43 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ambiguous_redirect_msg(t_token	*token)
+{
+	ft_putstr_fd("bash:", 2);
+	ft_putstr_fd((char *)token->value, 2);
+	ft_putstr_fd(": ambiguous redirect\n", 2);
+	errno = 1;
+}
 
 void	go_redirect2(t_dlist *tmp, t_dlist *rdrct,
 	t_token *token, t_dlist *mcmd)

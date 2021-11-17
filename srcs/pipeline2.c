@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 18:26:49 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/10 01:16:51 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/17 19:00:00 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,57 +74,4 @@ void	create_pipeline(void)
 	}
 	g_info.cmdpipe = pipe;
 	exec_pipeline(g_info.cmdpipe, 0, 0, -1);
-}
-
-void	check_if_exit(t_dlist *list)
-{
-	t_dlist	*tmp;
-	t_token	*token;
-
-	while (list->next)
-		list = list->next;
-	tmp = list->content;
-	if (!tmp)
-		return ;
-	token = tmp->content;
-	if (!strcmp((char *)token->value, "exit"))
-	{
-		tmp = tmp->next;
-		if (tmp)
-			check_if_exit2(tmp);
-	}
-}
-
-void	check_if_exit2(t_dlist	*tmp)
-{
-	char	*str;
-	t_token	*token;
-	int		i;
-
-	i = 0;
-	token = tmp->content;
-	if (token->type == space)
-	{
-		tmp = tmp->next;
-		if (tmp)
-		{
-			token = tmp->content;
-			str = token->value;
-			if (str[i] == '-')
-				i++;
-			while (ft_isdigit(str[i]))
-				i++;
-			if (!str[i])
-			{
-				errno = ft_atoll(str, &i);
-				if (errno < 0)
-					errno += 256;
-				errno %= 256;
-			}
-			else
-				errno = 2;
-			if (tmp->next)
-				errno = 1;
-		}
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:40:27 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/17 13:14:47 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/17 18:19:08 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,88 +71,13 @@ int	check_command3(t_token *token1, t_dlist *dlsttmp1, t_dlist *list)
 			if (check_command8(chrtmp1))
 				dlsttmp1 = fill_gbc(dlsttmp1, 0);
 			else
+			{
 				if (check_command5(&dlsttmp1, token1, chrtmp1))
 					return (1);
+			}
 		}
 	}
 	return (0);
-}
-
-void	check_not_only_void_before(t_token *token1, t_dlist *dlsttmp1, t_dlist **list)
-{
-	t_dlist	*tmp;
-	t_dlist	*iter;
-	// {
-	// 		t_token	*tok;
-	// 	t_dlist	*iter2 = dlsttmp1;
-	// 	while (iter2)
-	// 	{
-	// 		tok = iter2->content;
-	// 		iter2 = iter2->prev;
-	// 		printf("|%s|%d|\n", (char *)tok->value, tok->type);
-	// 	}	
-	// }
-	iter = dlsttmp1;
-	if (iter->prev)
-	{
-		iter = iter->prev;
-		token1 = iter->content;
-		tmp = iter;
-		while (iter)
-		{
-			token1 = iter->content;
-			if (token1->type != 2)
-				return ;
-			if (!iter->prev)
-				break ;
-			iter = iter->prev;
-		}
-		// printf("|%s|\n", (char *)token1->value);
-		// printf("%p\n", iter);
-		// token1 = tmp->content;
-		// printf("|%s|\n", (char *)token1->value);
-		// printf("%p\n", tmp);
-		clear_sublst(iter, tmp);
-		// tmp = list;
-		// token1 = tmp->content;
-		*list = dlsttmp1;
-	}
-}
-
-int	check_command2(t_token *token1, t_dlist *dlsttmp1, t_dlist *list)
-{
-	t_dlist	*tmp;
-
-	tmp = dlsttmp1;
-	// token1 = dlsttmp1->content;
-	// printf("|%s|\n", (char *)token1->value);
-	if (token1->type != 2)
-		check_not_only_void_before(token1, dlsttmp1, &list);
-	if (token1->type == 2)
-	{
-		while (token1->type == 2)
-		{
-			if (!dlsttmp1->prev)
-			{
-				clear_sublst(dlsttmp1, tmp);
-				return (1);
-			}
-			else
-				dlsttmp1 = dlsttmp1->prev;
-			token1 = dlsttmp1->content;
-		}
-		if (token1->type >= 3 && token1->type <= 6)
-		{
-			ft_putstr_fd("bash: syntax error near ", 2);
-			ft_putstr_fd("unexpected token `newline'\n", 2);
-			clear_cmd_lst(&g_info.cmd);
-			errno = 1;
-			return (1);
-		}
-	}
-	// token1 = dlsttmp1->content;
-	// printf("|%s|\n", (char *)token1->value);
-	return (check_command3(token1, dlsttmp1, list));
 }
 
 int	check_command(t_dlist *list)

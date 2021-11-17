@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:50:04 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/10/30 17:59:14 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/17 20:24:24 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	ft_create_token(char *s)
 		if (!token)
 			ft_exit(0, err_malloc);
 		new = dlstnew(token);
+		token->qstat = 0;
 		dlstadd_back(&g_info.cmd, new);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 22:10:28 by pgueugno          #+#    #+#             */
-/*   Updated: 2021/11/15 15:50:14 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/17 18:22:07 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,6 @@ void	reparse_expanded_value(t_dlist **iter)
 		retokenize_rest(iter, str, i);
 		free(str);
 		if (dlstsize(*iter) > 2)
-			token->qstat =  dollar;
+			token->qstat = dollar;
 	}
 }

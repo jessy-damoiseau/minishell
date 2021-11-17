@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 02:30:46 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/12 21:51:55 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/17 18:28:39 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,8 @@ int	createfile2(t_dlist *tmp, t_token *token)
 	}
 	if (token->qstat == dollar)
 	{
-			ft_putstr_fd("bash:", 2);
-			ft_putstr_fd((char *)token->value, 2);
-			ft_putstr_fd(": ambiguous redirect\n", 2);
-			errno = 1;
-			return (1);
+		ambiguous_redirect_msg(token);
+		return (1);
 	}
 	if (stat((char *)token->value, &sb))
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jessy <jessy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 18:34:01 by jessy             #+#    #+#             */
-/*   Updated: 2021/10/31 02:33:32 by jessy            ###   ########.fr       */
+/*   Updated: 2021/11/17 20:20:25 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	go_redirect3(t_dlist *tmp, t_dlist *rdrct,
 		}
 		dup2(fd[0], 0);
 		close(fd[1]);
+		close(fd[0]);
 	}
 	go_redirect3b(tmp, token, mcmd);
 }

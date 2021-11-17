@@ -6,7 +6,7 @@
 #    By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/21 14:58:12 by pgueugno          #+#    #+#              #
-#    Updated: 2021/11/17 10:43:15 by pgueugno         ###   ########.fr        #
+#    Updated: 2021/11/17 20:39:35 by pgueugno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,9 @@ SRCS_MINISHELL		=	main.c tokenize.c utils.c utils2.c utils3.c exit.c\
 						parse_env.c redirect.c redirect2.c redirect3.c\
 						redirect4.c redirect5.c prompt.c prompt_utils.c\
 						expand_env_utils2.c utils4.c dble_redir_expand.c\
-						reparse_expanded_env.c quoted_env.c expand_concat.c
+						reparse_expanded_env.c quoted_env.c expand_concat.c\
+						exec_command_manage_spaces.c builtin_unset.c\
+						pipeline_exit_errno.c
 
 ################################################################################
 #                              Commands and arguments                          #
