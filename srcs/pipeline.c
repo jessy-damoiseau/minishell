@@ -6,7 +6,7 @@
 /*   By: pgueugno <pgueugno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 18:03:24 by jessy             #+#    #+#             */
-/*   Updated: 2021/11/17 21:43:22 by pgueugno         ###   ########.fr       */
+/*   Updated: 2021/11/20 12:04:35 by pgueugno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	exec_parent(int *fd, int *cfd, t_dlist **iter)
 	(*iter) = (*iter)->next;
 	g_info.child = 0;
 	close(fd[0]);
-	close(*cfd);
 }
 
 void	exec_pipeline(t_dlist *iter, int *tabpid, int i, int cfd)
